@@ -181,7 +181,7 @@ p { margin: 0; }
 .reach-stage {
   position: relative;
   width: 100%;
-  min-height: 640px;
+  min-height: 720px;
   border-radius: 24px;
   overflow: hidden;
   background: #111;
@@ -202,7 +202,7 @@ p { margin: 0; }
 .reach-phone {
   position: relative;
   z-index: 1;
-  width: min(340px, 46%);
+  width: min(300px, 36%);
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 24px 40px rgba(0,0,0,0.45));
