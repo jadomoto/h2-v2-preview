@@ -128,7 +128,7 @@ p { margin: 0; }
 }
 .cta.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
 
-.pillars { background: var(--white); padding: clamp(56px, 8vw, 96px) 0; }
+.pillars { background: var(--gray); padding: clamp(56px, 8vw, 96px) 0; }
 .pillar-list {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -147,30 +147,41 @@ p { margin: 0; }
 .pillar-list b { display: block; font-size: 18px; margin-bottom: 6px; }
 .pillar-list span { display: block; color: var(--muted); font-size: 15px; max-width: 36rem; }
 
-.reach { background: var(--paper); padding: clamp(64px, 9vw, 108px) 0; }
-.reach-layout {
+.reach { background: var(--white); padding: clamp(64px, 9vw, 108px) 0; }
+.reach-layout { display: block; }
+.reach-nav {
   display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 20px;
-  align-items: stretch;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 14px;
 }
-.reach-nav { display: flex; flex-direction: column; gap: 8px; }
 .reach-nav button {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 10px;
+  align-items: center;
   text-align: left;
-  padding: 14px 16px;
+  padding: 10px;
   border-radius: 16px;
   border: 1px solid var(--line);
-  background: var(--white);
+  background: var(--gray);
   cursor: pointer;
 }
-.reach-nav button b { display: block; font-size: 16px; }
-.reach-nav button span { display: block; margin-top: 4px; color: var(--muted); font-size: 14px; }
-.reach-nav button.is-on { background: var(--ink); color: #fff; border-color: var(--ink); }
-.reach-nav button.is-on span { color: rgba(255,255,255,0.72); }
+.reach-nav button img {
+  width: 64px;
+  height: 86px;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 8px;
+  background: #111;
+}
+.reach-nav button b { display: block; font-size: 15px; }
+.reach-nav button em { display: block; margin-top: 4px; color: var(--muted); font-size: 13px; font-style: normal; }
+.reach-nav button.is-on { background: var(--white); border-color: var(--ink); }
 .reach-stage {
   position: relative;
   width: 100%;
-  min-height: 560px;
+  min-height: 640px;
   border-radius: 24px;
   overflow: hidden;
   background: #111;
@@ -191,7 +202,7 @@ p { margin: 0; }
 .reach-phone {
   position: relative;
   z-index: 1;
-  width: min(250px, 38%);
+  width: min(340px, 46%);
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 24px 40px rgba(0,0,0,0.45));
@@ -203,28 +214,33 @@ p { margin: 0; }
 .park-hero, .park-second { margin: 0; }
 .park-hero img, .park-second img {
   width: 100%;
-  height: min(62vh, 560px);
   object-fit: cover;
   border-radius: 22px;
 }
+.park-hero img { height: min(74vh, 720px); }
+.park-lower {
+  display: grid;
+  grid-template-columns: 1.35fr 0.75fr;
+  gap: 28px;
+  align-items: start;
+  margin-top: 22px;
+}
 .steps {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
-  margin: 22px 0;
+  gap: 18px;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 .steps b { display: block; margin-bottom: 6px; }
 .steps p { color: rgba(244,241,235,0.72); font-size: 15px; }
-.park-second { margin-top: 8px; }
-.park-second img { height: 320px; }
+.park-second img { height: 210px; }
 .park-second figcaption { margin-top: 10px; font-size: 14px; }
 
-.views { background: var(--white); padding: clamp(64px, 9vw, 108px) 0; }
+.views { background: var(--warm); padding: clamp(64px, 9vw, 108px) 0; }
 .channel-stage {
   position: relative;
-  height: min(68vh, 640px);
+  height: min(76vh, 760px);
   border-radius: 24px;
   overflow: hidden;
   background: #111;
@@ -263,7 +279,7 @@ p { margin: 0; }
   object-fit: cover;
   background: #111;
 }
-.day-film video { height: min(64vh, 640px); border-radius: 22px; object-position: center 32%; transform: scale(1.18); }
+.day-film video { height: min(46vh, 440px); border-radius: 22px; object-position: center 32%; transform: scale(1.18); }
 .day-film figcaption, .night-pair figcaption, .cabin-film figcaption {
   position: relative;
   z-index: 1;
@@ -273,14 +289,14 @@ p { margin: 0; }
   color: var(--muted);
   font-size: 13px;
 }
-.cabin-film figcaption { background: var(--warm); }
+.cabin-film figcaption { background: var(--white); }
 .night-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
-.night-pair video { height: 260px; border-radius: 18px; }
+.night-pair video { height: 200px; border-radius: 18px; }
 
 .lock { background: var(--paper); padding: clamp(64px, 9vw, 108px) 0; }
 .lock-grid {
   display: grid;
-  grid-template-columns: 0.72fr 1.28fr;
+  grid-template-columns: 0.48fr 1.52fr;
   gap: 32px;
   align-items: center;
 }
@@ -290,7 +306,7 @@ p { margin: 0; }
 .lock-stage video { height: min(56vh, 480px); border-radius: 22px; object-position: center 32%; transform: scale(1.18); }
 .lock .lede { margin-top: 14px; }
 
-.privacy { background: var(--warm); padding: clamp(64px, 9vw, 108px) 0; }
+.privacy { background: var(--white); padding: clamp(64px, 9vw, 108px) 0; }
 .privacy-layout {
   display: grid;
   grid-template-columns: 0.78fr 1.22fr;
@@ -298,10 +314,10 @@ p { margin: 0; }
   align-items: center;
 }
 .switcher { display: flex; gap: 8px; margin: 18px 0 14px; }
-.macro { margin: 0 0 10px; border-radius: 20px; overflow: hidden; background: #161616; max-width: 420px; }
+.macro { margin: 0 0 10px; border-radius: 20px; overflow: hidden; background: #161616; max-width: 300px; }
 .macro img {
   width: 100%;
-  height: 320px;
+  height: 220px;
   object-fit: cover;
   transform: scale(1.25);
 }
@@ -317,7 +333,8 @@ p { margin: 0; }
 .together { background: var(--gray); padding: clamp(64px, 9vw, 108px) 0; }
 .story { display: grid; grid-template-columns: 1.15fr 1.15fr 0.7fr; gap: 14px; margin-top: 24px; }
 .story figure { margin: 0; }
-.story img { width: 100%; height: 380px; object-fit: cover; border-radius: 18px; background: #fff; }
+.story img { width: 100%; height: 300px; object-fit: cover; border-radius: 18px; background: #fff; }
+.story figure:first-child img, .story-phone img { height: 420px; }
 .story-phone img { object-fit: contain; object-position: center bottom; background: var(--white); }
 .story figcaption { margin-top: 10px; color: var(--muted); font-size: 15px; }
 .story figcaption b { display: block; color: var(--ink); margin-bottom: 4px; }
@@ -331,13 +348,14 @@ p { margin: 0; }
 }
 .inside .lede { margin: 14px 0; }
 .inside img {
-  width: 100%;
-  max-height: 760px;
+  width: min(100%, 420px);
+  margin-left: auto;
+  max-height: 520px;
   object-fit: contain;
   border-radius: 20px;
 }
 
-.essentials { background: var(--paper); padding: clamp(56px, 8vw, 96px) 0; }
+.essentials { background: var(--warm); padding: clamp(56px, 8vw, 96px) 0; }
 .essentials-grid {
   display: grid;
   grid-template-columns: 0.85fr 1.15fr;
@@ -398,7 +416,7 @@ p { margin: 0; }
 .sticky { display: none; }
 
 @media (max-width: 980px) {
-  .kicker, .buy-panel, .pillar-list, .reach-layout, .steps, .night-pair,
+  .kicker, .buy-panel, .pillar-list, .park-lower, .steps, .night-pair,
   .lock-grid, .privacy-layout, .story, .inside-grid, .essentials-grid,
   .spec-grid, .closing {
     grid-template-columns: 1fr;
@@ -406,11 +424,17 @@ p { margin: 0; }
   .kicker .lede { justify-self: start; }
   .hero-stage img { width: 100%; max-height: 420px; }
   .reach-stage { min-height: 0; height: auto; aspect-ratio: 4 / 5; }
-  .reach-phone { width: 148px; }
-  .reach-layout, .reach-nav, .channel-stage, .story { min-width: 0; max-width: 100%; }
-  .park-hero img, .day-film video, .cabin-film video, .lock-stage video { height: 240px; }
-  .park-second img, .story img, .night-pair video { height: 200px; }
-  .channel-stage { height: 240px; }
+  .reach-phone { width: 168px; }
+  .reach-nav { grid-template-columns: 1fr 1fr; min-width: 0; max-width: 100%; }
+  .park-hero img { height: 340px; }
+  .park-second img { height: 180px; }
+  .channel-stage { height: 280px; min-width: 0; max-width: 100%; }
+  .day-film video, .lock-stage video { height: 210px; }
+  .cabin-film video { height: 240px; }
+  .night-pair video { height: 140px; }
+  .story { min-width: 0; max-width: 100%; }
+  .story img, .story figure:first-child img, .story-phone img { height: 220px; }
+  .inside img { width: min(100%, 320px); margin-left: 0; }
   .macro { max-width: none; }
   .macro img { height: 280px; }
   .spec-row { grid-template-columns: 96px 1fr; }
