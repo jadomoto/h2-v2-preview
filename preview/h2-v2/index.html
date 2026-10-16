@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@430;520;650&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../assets/preview-h2-v2.css?v=20261016k">
+  <link rel="stylesheet" href="../../assets/preview-h2-v2.css?v=20261016m">
 </head>
 <body>
   <div class="preview-bar">
@@ -166,9 +166,18 @@
           <img data-cam-media="rear" src="../../assets/h2-library/h2-studio-road-facing-34.png" alt="Road-facing side of the H2 body">
         </div>
         <div class="channel-tabs" role="tablist" aria-label="Camera channel">
-          <button type="button" class="is-on" data-cam="front" role="tab" aria-selected="true">Front · 2.5K</button>
-          <button type="button" data-cam="cabin" role="tab" aria-selected="false">Cabin · 1080P</button>
-          <button type="button" data-cam="rear" role="tab" aria-selected="false">Rear · 1080P</button>
+          <button type="button" class="is-on" data-cam="front" role="tab" aria-selected="true">
+            <img src="../../assets/h2-road-test-film-v2-poster-20260729.jpg" alt="">
+            <span><b>Front</b><em>2.5K · the road ahead</em></span>
+          </button>
+          <button type="button" data-cam="cabin" role="tab" aria-selected="false">
+            <img src="../../assets/h2-privacy-cabin-poster-20260815.jpg" alt="">
+            <span><b>Cabin</b><em>1080P · inside the car</em></span>
+          </button>
+          <button type="button" data-cam="rear" role="tab" aria-selected="false">
+            <img src="../../assets/h2-library/h2-studio-road-facing-34.png" alt="">
+            <span><b>Rear</b><em>1080P · the road behind</em></span>
+          </button>
         </div>
       </div>
     </div>
@@ -179,6 +188,8 @@
       <p class="eyebrow">Image</p>
       <h2>2.5K on the road.</h2>
       <p class="lede">The front camera records 2560×1440 at 30fps, F1.55. Day first, then the two existing night films.</p>
+    </div>
+    <div class="clarity-wide">
       <figure class="day-film">
         <video autoplay muted loop playsinline preload="metadata" poster="../../assets/h2-road-test-film-v2-poster-20260729.jpg">
           <source src="../../assets/h2-road-test-film-v2-20260729.mp4" type="video/mp4">
@@ -213,6 +224,7 @@
           <button type="button" class="is-on" data-when="during">During</button>
           <button type="button" data-when="after">After</button>
         </div>
+        <p class="lock-status" data-lock-status>Showing the middle of this clip.</p>
       </div>
       <figure class="lock-stage">
         <video data-lock-film muted playsinline preload="metadata" poster="../../assets/h2-road-test-film-v2-poster-20260729.jpg">
@@ -222,7 +234,7 @@
     </div>
   </section>
 
-  <section class="privacy" id="privacy">
+  <section class="privacy" id="privacy" data-cover="open">
     <div class="wrap privacy-layout">
       <div>
         <p class="eyebrow">Privacy</p>
@@ -250,19 +262,19 @@
   <section class="together" id="together">
     <div class="wrap">
       <p class="eyebrow">4G and AOV</p>
-      <h2>From the parking spot to the phone.</h2>
+      <h2>Parked, watched, notified.</h2>
       <div class="story">
         <figure>
           <img src="../../assets/day-h2-scene05-night-v2.jpg" alt="A parked car at night">
-          <figcaption><b>Leave</b> You walk away. The car stays where you left it.</figcaption>
+          <figcaption><b>Leave</b> The car stays parked.</figcaption>
         </figure>
         <figure>
           <img src="../../assets/day-h2-scene01-garage.jpg" alt="Inside a parking garage at dusk">
-          <figcaption><b>Watch</b> AOV keeps a low-power watch on hardwire power.</figcaption>
+          <figcaption><b>Watch</b> AOV stays on hardwire power.</figcaption>
         </figure>
         <figure class="story-phone">
           <img src="../../assets/h2-reach-alerts-app-20260829v1.png" alt="Existing app image of an event notice">
-          <figcaption><b>Notice</b> With a plan and coverage, the phone can receive an event notice.</figcaption>
+          <figcaption><b>Notice</b> The phone can receive it.</figcaption>
         </figure>
       </div>
     </div>
@@ -389,6 +401,6 @@
     </div>
     <a class="cta" data-cart href="https://jadocam.myshopify.com/cart/45546997743795:1">Add to Cart</a>
   </div>
-  <script src="../../assets/preview-h2-v2.js?v=20261016j"></script>
+  <script src="../../assets/preview-h2-v2.js?v=20261016m"></script>
 </body>
 </html>

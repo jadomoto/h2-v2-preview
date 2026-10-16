@@ -55,6 +55,8 @@
       if (macro && shots[key]) {
         macro.src = shots[key].src;
         macro.closest(".macro").classList.toggle("is-closed", key === "closed");
+        var privacy = document.querySelector(".privacy");
+        if (privacy) privacy.setAttribute("data-cover", key);
         if (macroCap) macroCap.textContent = shots[key].label;
       }
     });
@@ -92,6 +94,13 @@
       document.querySelectorAll("[data-when]").forEach(function (b) {
         b.classList.toggle("is-on", b === btn);
       });
+      var status = document.querySelector("[data-lock-status]");
+      var lines = {
+        before: "Showing the earlier part of this clip.",
+        during: "Showing the middle of this clip.",
+        after: "Showing the later part of this clip."
+      };
+      if (status) status.textContent = lines[key] || lines.during;
       if (!film) return;
       var go = function () {
         var ratio = marks[key] || 0.5;
