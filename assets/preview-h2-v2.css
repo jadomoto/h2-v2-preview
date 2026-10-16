@@ -19,6 +19,7 @@
 html { scroll-behavior: smooth; }
 body {
   margin: 0;
+  overflow-x: hidden;
   background: var(--paper);
   color: var(--ink);
   font-family: var(--sans);
@@ -150,39 +151,35 @@ p { margin: 0; }
 
 .reach { background: var(--white); padding: clamp(64px, 9vw, 108px) 0; }
 .reach-layout { display: block; }
-.reach-nav {
+.reach-aside {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  margin-top: 14px;
-}
-.reach-nav button {
-  display: grid;
-  grid-template-columns: 44px 1fr;
-  gap: 8px;
+  grid-template-columns: auto repeat(3, 1fr);
+  gap: 16px;
   align-items: center;
-  text-align: left;
-  padding: 8px;
-  border-radius: var(--radius);
-  border: 1px solid var(--line);
-  background: var(--paper);
-  cursor: pointer;
+  margin-top: 16px;
 }
-.reach-nav button img {
-  width: 44px;
-  height: 58px;
+.reach-aside > p {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.reach-aside figure { display: grid; grid-template-columns: 36px 1fr; gap: 10px; align-items: center; margin: 0; }
+.reach-aside img {
+  width: 36px;
+  height: 48px;
   object-fit: cover;
   object-position: top center;
-  border-radius: 10px;
+  border-radius: 8px;
   background: #111;
 }
-.reach-nav button b { display: block; font-size: 15px; }
-.reach-nav button em { display: block; margin-top: 4px; color: var(--muted); font-size: 13px; font-style: normal; }
-.reach-nav button.is-on { background: var(--white); border-color: var(--ink); }
+.reach-aside figcaption { color: var(--muted); font-size: 13px; }
+.reach-aside figcaption b { display: block; color: var(--ink); font-size: 14px; }
 .reach-stage {
   position: relative;
   width: 100%;
-  min-height: 720px;
+  min-height: 760px;
   border-radius: var(--radius);
   overflow: hidden;
   background: #111;
@@ -203,7 +200,7 @@ p { margin: 0; }
 .reach-phone {
   position: relative;
   z-index: 1;
-  width: min(300px, 36%);
+  width: min(320px, 38%);
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 24px 40px rgba(0,0,0,0.45));
@@ -213,17 +210,20 @@ p { margin: 0; }
 .parking .lede, .parking .eyebrow, .parking figcaption { color: rgba(244,241,235,0.72); }
 .park-lede { margin: 16px 0 22px; max-width: 40rem; }
 .park-hero, .park-second { margin: 0; }
+.park-hero {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+}
 .park-hero img, .park-second img {
   width: 100%;
   object-fit: cover;
-  border-radius: 22px;
 }
-.park-hero img { height: min(86vh, 860px); border-radius: var(--radius); }
+.park-hero img { height: min(92vh, 960px); border-radius: 0; }
 .park-lower {
   display: grid;
-  grid-template-columns: 1.7fr 0.5fr;
+  grid-template-columns: 1fr 220px;
   gap: 28px;
-  align-items: start;
+  align-items: end;
   margin-top: 22px;
 }
 .steps {
@@ -235,7 +235,7 @@ p { margin: 0; }
 }
 .steps b { display: block; margin-bottom: 6px; }
 .steps p { color: rgba(244,241,235,0.72); font-size: 15px; }
-.park-second img { height: 140px; border-radius: var(--radius); }
+.park-second img { height: 110px; border-radius: 12px; }
 .park-second figcaption { margin-top: 10px; font-size: 14px; }
 
 .views { background: var(--warm); padding: clamp(64px, 9vw, 108px) 0; }
@@ -375,14 +375,9 @@ p { margin: 0; }
 .cabin-film { margin: 0; }
 .cabin-film video { height: min(56vh, 520px); border-radius: var(--radius); }
 
-.together { background: var(--gray); padding: 36px 0 32px; }
-.together h2 { font-size: clamp(28px, 3vw, 40px); }
-.story { display: grid; grid-template-columns: 1.15fr 1.15fr 0.7fr; gap: 12px; margin-top: 16px; }
-.story figure { margin: 0; }
-.story img, .story figure:first-child img, .story-phone img { width: 100%; height: 148px; object-fit: cover; border-radius: var(--radius); background: #fff; }
-.story-phone img { object-fit: contain; object-position: center bottom; background: var(--white); }
-.story figcaption { margin-top: 10px; color: var(--muted); font-size: 15px; }
-.story figcaption b { display: block; color: var(--ink); margin-bottom: 4px; }
+.together { background: var(--gray); padding: 22px 0; }
+.together-line p { max-width: 46rem; color: var(--muted); font-size: 16px; }
+.together-line b { color: var(--ink); font-weight: 650; }
 
 .inside { background: var(--white); padding: clamp(64px, 9vw, 108px) 0; }
 .inside-grid {
@@ -470,9 +465,10 @@ p { margin: 0; }
   .hero-stage img { width: 100%; max-height: 420px; }
   .reach-stage { min-height: 0; height: auto; aspect-ratio: 4 / 5; }
   .reach-phone { width: 168px; }
-  .reach-nav { grid-template-columns: 1fr 1fr; min-width: 0; max-width: 100%; }
-  .park-hero img { height: 420px; }
-  .park-second img { height: 140px; }
+  .reach-aside { grid-template-columns: 1fr; gap: 10px; }
+  .park-hero { width: 100vw; margin-left: calc(50% - 50vw); }
+  .park-hero img { height: 460px; }
+  .park-second img { height: 96px; }
   .channel-stage { height: 240px; min-width: 0; max-width: 100%; }
   .channel-tabs { grid-template-columns: 1fr; }
   .day-film video { height: 280px; }
