@@ -416,7 +416,7 @@ p { margin: 0; }
 .reach-nav button span { display: block; margin-top: 4px; color: rgba(246,243,238,0.62); font-size: 14px; }
 .reach-nav button.is-on { background: #f6f3ee; color: #171614; }
 .reach-nav button.is-on span { color: #5c574f; }
-.reach-stage { position: relative; min-height: 640px; border-radius: 28px; overflow: hidden; background: #0c0c0c; }
+.reach-stage { position: relative; width: 100%; max-width: 100%; min-height: 640px; border-radius: 28px; overflow: hidden; background: #0c0c0c; }
 .reach-shot {
   position: absolute;
   inset: 0;
@@ -500,3 +500,10 @@ p { margin: 0; }
 .cabin-film { margin-top: 28px; }
 .cabin-film video { height: min(52vh, 460px); }
 .cabin-film .fine { margin-top: 10px; }
+
+@media (max-width: 980px) {
+  .reach-stage { min-height: 0; height: auto; aspect-ratio: 4 / 5; }
+  .reach-phone { width: 148px; }
+  .reach-grid, .reach-nav, .channel-stage { min-width: 0; max-width: 100%; }
+  .aov-pair img { height: 220px; }
+}
