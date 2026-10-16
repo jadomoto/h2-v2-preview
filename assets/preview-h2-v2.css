@@ -457,7 +457,7 @@ p { margin: 0; }
 .lock { background: #121417; color: #f4f1eb; }
 .lock .lede, .lock .eyebrow { color: rgba(244,241,235,0.72); }
 .lock-stage { overflow: hidden; border-radius: 20px; }
-.lock-stage video { height: min(62vh, 560px); object-position: center 40%; transform: scale(1.08); }
+.lock-stage video { height: min(62vh, 560px); object-position: center 32%; transform: scale(1.18); }
 .lock-nav { display: flex; gap: 8px; margin-top: 16px; }
 .lock-nav button, .channel-tabs button {
   min-height: 42px;
@@ -486,7 +486,7 @@ p { margin: 0; }
 }
 .channel[data-channel="rear"] .channel-stage { background: #eceae4; }
 .channel[data-channel="rear"] .channel-stage img { object-fit: contain; padding: 24px; }
-.channel[data-channel="front"] [data-cam-media="front"] { object-position: center 40%; transform: scale(1.08); }
+.channel[data-channel="front"] [data-cam-media="front"] { object-position: center 32%; transform: scale(1.18); }
 .channel[data-channel="front"] [data-cam-media="front"],
 .channel[data-channel="cabin"] [data-cam-media="cabin"],
 .channel[data-channel="rear"] [data-cam-media="rear"] { opacity: 1; }
@@ -494,7 +494,7 @@ p { margin: 0; }
 .channel-tabs button { border-color: var(--line); }
 .channel-tabs button.is-on { background: var(--ink); color: #fff; border-color: var(--ink); }
 .day-film { overflow: hidden; }
-.day-film video { height: min(62vh, 620px); object-position: center 40%; transform: scale(1.08); }
+.day-film video { height: min(62vh, 620px); object-position: center 32%; transform: scale(1.18); }
 .night-pair { margin-top: 12px; }
 .night-pair video { height: 280px; }
 .views { background: var(--paper); color: var(--ink); }
