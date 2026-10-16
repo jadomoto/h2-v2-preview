@@ -121,6 +121,15 @@
     });
   });
 
+  document.querySelectorAll("video[autoplay]").forEach(function (clip) {
+    var start = function () {
+      if (clip.currentTime < 0.2 && clip.duration) clip.currentTime = Math.min(1, clip.duration * 0.2);
+      clip.play().catch(function () {});
+    };
+    if (clip.readyState >= 1) start();
+    else clip.addEventListener("loadedmetadata", start, {once: true});
+  });
+
   var sticky = document.querySelector(".sticky");
   var buy = document.querySelector("#buy");
   if (sticky && buy && "IntersectionObserver" in window) {
