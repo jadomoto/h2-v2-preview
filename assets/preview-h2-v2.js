@@ -60,6 +60,67 @@
     });
   });
 
+  document.querySelectorAll("[data-view]").forEach(function (btn) {
+    if (!btn.getAttribute("data-view") || btn.classList.contains("reach")) return;
+    btn.addEventListener("click", function () {
+      var key = btn.getAttribute("data-view");
+      var root = btn.closest(".reach");
+      if (!root) return;
+      root.querySelectorAll("[data-view]").forEach(function (b) {
+        if (b === root) return;
+        var on = b.getAttribute("data-view") === key;
+        b.classList.toggle("is-on", on);
+        b.setAttribute("aria-selected", on ? "true" : "false");
+      });
+      root.querySelectorAll("[data-shot]").forEach(function (shot) {
+        shot.classList.toggle("is-on", shot.getAttribute("data-shot") === key);
+      });
+    });
+  });
+
+  var film = document.querySelector("[data-lock-film]");
+  var marks = {before: 0.12, during: 0.48, after: 0.8};
+  if (film) {
+    film.addEventListener("loadedmetadata", function () {
+      film.currentTime = (film.duration || 0) * marks.during;
+      film.pause();
+    });
+  }
+  document.querySelectorAll("[data-when]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var key = btn.getAttribute("data-when");
+      document.querySelectorAll("[data-when]").forEach(function (b) {
+        b.classList.toggle("is-on", b === btn);
+      });
+      if (!film) return;
+      var go = function () {
+        var ratio = marks[key] || 0.5;
+        film.currentTime = (film.duration || 0) * ratio;
+        film.pause();
+      };
+      if (film.readyState >= 1) go();
+      else film.addEventListener("loadedmetadata", go, {once: true});
+    });
+  });
+
+  var channel = document.querySelector(".channel");
+  document.querySelectorAll("[data-cam]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var key = btn.getAttribute("data-cam");
+      if (channel) channel.setAttribute("data-channel", key);
+      document.querySelectorAll("[data-cam]").forEach(function (b) {
+        var on = b === btn;
+        b.classList.toggle("is-on", on);
+        b.setAttribute("aria-selected", on ? "true" : "false");
+      });
+      document.querySelectorAll("[data-cam-media]").forEach(function (media) {
+        if (media.tagName !== "VIDEO") return;
+        if (media.getAttribute("data-cam-media") === key) media.play().catch(function () {});
+        else media.pause();
+      });
+    });
+  });
+
   var sticky = document.querySelector(".sticky");
   var buy = document.querySelector("#buy");
   if (sticky && buy && "IntersectionObserver" in window) {

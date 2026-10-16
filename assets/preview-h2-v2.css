@@ -387,4 +387,116 @@ p { margin: 0; }
   .sticky .cta { min-height: 44px; padding: 0 16px; }
   body { padding-bottom: 92px; }
   .preview-bar { align-items: flex-start; }
+  .reach-grid, .aov-pair, .night-pair { grid-template-columns: 1fr; }
+  .reach-stage { min-height: 0; height: auto; aspect-ratio: 3 / 2; }
+  .reach-phone { width: min(176px, 38%); }
+  .channel-stage { height: min(62vw, 280px); }
+  .day-film video { height: 280px; }
+  .night-pair video { height: 180px; }
+  .cabin-film video { height: 280px; }
+  .lock-stage video { height: 240px; }
+  .reach-nav { flex-direction: row; overflow-x: auto; }
+  .reach-nav button { min-width: 180px; }
 }
+
+.reach { padding: clamp(64px, 9vw, 112px) 0; background: #171614; color: #f6f3ee; }
+.reach .lede, .reach .eyebrow { color: rgba(246, 243, 238, 0.7); }
+.reach-grid { display: grid; grid-template-columns: 0.82fr 1.18fr; gap: 36px; align-items: center; }
+.reach-nav { display: flex; flex-direction: column; gap: 8px; margin-top: 28px; }
+.reach-nav button {
+  text-align: left;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.reach-nav button b { display: block; font-size: 16px; }
+.reach-nav button span { display: block; margin-top: 4px; color: rgba(246,243,238,0.62); font-size: 14px; }
+.reach-nav button.is-on { background: #f6f3ee; color: #171614; }
+.reach-nav button.is-on span { color: #5c574f; }
+.reach-stage { position: relative; min-height: 640px; border-radius: 28px; overflow: hidden; background: #0c0c0c; }
+.reach-shot {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 24px 6% 24px 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+.reach-shot.is-on { opacity: 1; pointer-events: auto; }
+.reach-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.reach-phone {
+  position: relative;
+  z-index: 1;
+  width: min(280px, 42%);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 28px 56px rgba(0,0,0,0.55));
+}
+
+.aov-pair, .night-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.aov-pair figure, .night-pair figure, .day-film, .lock-stage, .cabin-film { margin: 0; }
+.aov-pair img, .day-film video, .night-pair video, .lock-stage video, .cabin-film video {
+  width: 100%;
+  border-radius: 20px;
+  background: #111;
+  object-fit: cover;
+}
+.aov-pair img { height: 360px; }
+.aov-pair figcaption, .day-film figcaption, .night-pair figcaption {
+  margin-top: 10px;
+  color: var(--faint);
+  font-size: 13px;
+}
+.lock { background: #121417; color: #f4f1eb; }
+.lock .lede, .lock .eyebrow { color: rgba(244,241,235,0.72); }
+.lock-stage video { height: min(62vh, 560px); }
+.lock-nav { display: flex; gap: 8px; margin-top: 16px; }
+.lock-nav button, .channel-tabs button {
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.lock-nav button.is-on { background: #f4f1eb; color: #121417; border-color: #f4f1eb; }
+.channel-stage {
+  position: relative;
+  height: min(68vh, 640px);
+  border-radius: 24px;
+  overflow: hidden;
+  background: #111;
+}
+.channel-stage video, .channel-stage img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+}
+.channel[data-channel="rear"] .channel-stage { background: #eceae4; }
+.channel[data-channel="rear"] .channel-stage img { object-fit: contain; padding: 24px; }
+.channel[data-channel="front"] [data-cam-media="front"],
+.channel[data-channel="cabin"] [data-cam-media="cabin"],
+.channel[data-channel="rear"] [data-cam-media="rear"] { opacity: 1; }
+.channel-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.channel-tabs button { border-color: var(--line); }
+.channel-tabs button.is-on { background: var(--ink); color: #fff; border-color: var(--ink); }
+.day-film video { height: min(62vh, 620px); }
+.night-pair { margin-top: 12px; }
+.night-pair video { height: 280px; }
+.views { background: var(--paper); color: var(--ink); }
+.views .lede { color: var(--muted); }
+.views .eyebrow { color: var(--faint); }
+.cabin-film { margin-top: 28px; }
+.cabin-film video { height: min(52vh, 460px); }
+.cabin-film .fine { margin-top: 10px; }

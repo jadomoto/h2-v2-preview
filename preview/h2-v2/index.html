@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@430;520;650&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../assets/preview-h2-v2.css?v=20261016c">
+  <link rel="stylesheet" href="../../assets/preview-h2-v2.css?v=20261016d">
 </head>
 <body>
   <div class="preview-bar">
@@ -66,31 +66,37 @@
     </div>
   </section>
 
-  <section class="scene" id="connected" style="background-image:url('../../assets/day-h2-scene05-night-v2.jpg')">
-    <div class="veil"></div>
-    <div class="wrap">
+  <section class="reach" id="connected" data-view="live">
+    <div class="wrap reach-grid">
       <div>
         <p class="eyebrow">4G</p>
         <h2>Your Car. Always Within Reach.</h2>
-        <p class="lede">Leave the car. Where there is coverage and an eligible plan, H2 can still show a live view and send an event notice.</p>
+        <p class="lede">Leave the car. With coverage and an eligible plan, the AIDOVID app can still show the vehicle, a notice, and a saved clip.</p>
+        <div class="reach-nav" role="tablist" aria-label="Connected features">
+          <button type="button" class="is-on" data-view="live" role="tab" aria-selected="true"><b>Live view</b><span>See the vehicle while it is parked.</span></button>
+          <button type="button" data-view="location" role="tab" aria-selected="false"><b>Location</b><span>Place the car on the map when connected.</span></button>
+          <button type="button" data-view="alerts" role="tab" aria-selected="false"><b>Notices</b><span>An event can send a notice to the phone.</span></button>
+          <button type="button" data-view="playback" role="tab" aria-selected="false"><b>Playback</b><span>Review a saved clip without going back to the car.</span></button>
+        </div>
       </div>
-      <img class="phone" src="../../assets/h2-reach-live-app-20260828v1.png" alt="Phone showing a vehicle live view and map in the existing H2 app image">
-    </div>
-  </section>
-  <section class="section" style="padding-top:36px">
-    <div class="wrap capabilities">
-      <article>
-        <h3>Remote Live View</h3>
-        <p>See the vehicle from the AIDOVID app when the plan and signal allow it.</p>
-      </article>
-      <article>
-        <h3>Event Notifications</h3>
-        <p>A notice can reach your phone after H2 records an event.</p>
-      </article>
-      <article>
-        <h3>Built-in eSIM</h3>
-        <p>No SIM tray. The data plan is activated in the app.</p>
-      </article>
+      <div class="reach-stage">
+        <figure class="reach-shot is-on" data-shot="live">
+          <img class="reach-bg" src="../../assets/h2-reach-live-bg-20260828v1.jpg" alt="A street scene used behind the live-view phone">
+          <img class="reach-phone" src="../../assets/h2-reach-live-app-20260828v1.png" alt="Existing AIDOVID image showing a live view and a map">
+        </figure>
+        <figure class="reach-shot" data-shot="location">
+          <img class="reach-bg" src="../../assets/h2-reach-location-bg-20260828v6.jpg" alt="">
+          <img class="reach-phone" src="../../assets/h2-reach-location-app-20260828v9.png" alt="Existing app image showing the vehicle on a map">
+        </figure>
+        <figure class="reach-shot" data-shot="alerts">
+          <img class="reach-bg" src="../../assets/h2-reach-alerts-bg-20260829v1.jpg" alt="">
+          <img class="reach-phone" src="../../assets/h2-reach-alerts-app-20260829v1.png" alt="Existing app image showing an event notice">
+        </figure>
+        <figure class="reach-shot" data-shot="playback">
+          <img class="reach-bg" src="../../assets/h2-reach-playback-bg-20260828v1.jpg" alt="">
+          <img class="reach-phone" src="../../assets/h2-reach-playback-app-20260828v1.png" alt="Existing app image showing clip playback">
+        </figure>
+      </div>
     </div>
   </section>
 
@@ -103,57 +109,46 @@
         </div>
         <p class="lede">After you walk away, AOV keeps a low-power watch. It is not continuous 2.5K recording.</p>
       </div>
-      <figure class="park-photo">
-        <img src="../../assets/day-h2-scene05-night-wide.jpg" alt="A car parked in an open lot at night">
-        <figcaption>Parked</figcaption>
-      </figure>
+      <div class="aov-pair">
+        <figure>
+          <img src="../../assets/day-h2-scene01-garage-wide.jpg" alt="A car parked in a garage">
+          <figcaption>At the garage</figcaption>
+        </figure>
+        <figure>
+          <img src="../../assets/day-h2-scene05-night-wide.jpg" alt="A car parked in an open lot at night">
+          <figcaption>After dark</figcaption>
+        </figure>
+      </div>
       <div class="stages">
         <div><strong>1 · Parked</strong><p>You leave the vehicle. Parking watch needs the hardwire setup. A lighter socket is for driving.</p></div>
         <div><strong>2 · Monitoring</strong><p>AOV draws less power than time-lapse, so the watch can last longer.</p></div>
-        <div><strong>3 · Event Response</strong><p>On an impact, or other activity it is set to answer, H2 switches to full-frame recording.</p></div>
+        <div><strong>3 · Event response</strong><p>On an impact, or other activity it is set to answer, H2 switches to full-frame recording.</p></div>
       </div>
       <details class="more">
         <summary>Power and plan conditions</summary>
-        <p>Parking watch uses vehicle 12–24V through Type-C hardwire. The device runs at DC 5V 3A. A remote notice also needs an eligible 4G plan and coverage. Delivery is not guaranteed in every location.</p>
+        <p>Parking watch uses vehicle 12–24V through Type-C hardwire. The device runs at DC 5V 3A. A remote notice also needs an eligible 4G plan and coverage.</p>
       </details>
     </div>
   </section>
 
-  <section class="section" id="together" style="padding-top:0">
+  <section class="section lock" id="lock">
     <div class="wrap">
       <div class="kicker">
         <div>
-          <p class="eyebrow">4G + AOV</p>
-          <h2>When Something Happens, Stay Informed.</h2>
+          <p class="eyebrow">Collision lock</p>
+          <h2>The moments around an impact stay.</h2>
         </div>
-        <p class="lede">AOV decides what to keep. 4G is how that clip can reach you.</p>
+        <p class="lede">A collision keeps footage from before, during, and after. Move through one existing front-camera film.</p>
       </div>
-      <div class="story">
-        <figure>
-          <div class="frame"><img src="../../assets/day-h2-scene05-night-v2.jpg" alt="A car left in a lot at night"></div>
-          <figcaption>
-            <h3>You leave the car.</h3>
-            <p>AOV stays on watch after the engine is off, with the hardwire setup in place.</p>
-          </figcaption>
-        </figure>
-        <figure>
-          <div class="frame">
-            <video autoplay muted loop playsinline preload="metadata" poster="../../assets/h2-road-test-film-v2-poster-20260729.jpg">
-              <source src="../../assets/h2-road-test-film-v2-20260729.mp4" type="video/mp4">
-            </video>
-          </div>
-          <figcaption>
-            <h3>A clip is kept.</h3>
-            <p>Around an impact, H2 keeps footage from before, during, and after.</p>
-          </figcaption>
-        </figure>
-        <figure>
-          <div class="frame phone-frame"><img src="../../assets/h2-reach-live-app-20260828v1.png" alt="The same app image, showing a live view and a map"></div>
-          <figcaption>
-            <h3>Your phone can know.</h3>
-            <p>With a plan and signal, the notice and playback can reach the app.</p>
-          </figcaption>
-        </figure>
+      <figure class="lock-stage">
+        <video data-lock-film muted playsinline preload="metadata" poster="../../assets/h2-road-test-film-v2-poster-20260729.jpg">
+          <source src="../../assets/h2-road-test-film-v2-20260729.mp4" type="video/mp4">
+        </video>
+      </figure>
+      <div class="lock-nav" role="tablist" aria-label="Moments in the saved clip">
+        <button type="button" data-when="before">Before</button>
+        <button type="button" class="is-on" data-when="during">During</button>
+        <button type="button" data-when="after">After</button>
       </div>
     </div>
   </section>
@@ -165,24 +160,22 @@
           <p class="eyebrow">3-channel</p>
           <h2>Three Views. One Complete Picture.</h2>
         </div>
-        <p class="lede">The road ahead, the cabin, and the road behind record together. The front camera is 2.5K. Cabin and rear are 1080P.</p>
+        <p class="lede">Front, cabin, and rear record together. The front camera is 2.5K. Cabin and rear are 1080P.</p>
       </div>
-      <div class="view-stage">
-        <figure class="view-main">
-          <video autoplay muted loop playsinline preload="metadata" poster="../../assets/h2-road-test-film-v2-poster-20260729.jpg">
+      <div class="channel" data-channel="front">
+        <div class="channel-stage">
+          <video data-cam-media="front" autoplay muted loop playsinline preload="metadata" poster="../../assets/h2-road-test-film-v2-poster-20260729.jpg">
             <source src="../../assets/h2-road-test-film-v2-20260729.mp4" type="video/mp4">
           </video>
-          <figcaption>Front · 2.5K · 30fps</figcaption>
-        </figure>
-        <div class="view-side">
-          <figure>
-            <img src="../../assets/h2-privacy-slide-open.jpg" alt="Close-up of the H2 cabin lens">
-            <figcaption>Cabin · 1080P</figcaption>
-          </figure>
-          <figure>
-            <img src="../../assets/h2-library/h2-studio-road-facing-34.png" alt="Road-facing side of the H2 body">
-            <figcaption>Rear · 1080P</figcaption>
-          </figure>
+          <video data-cam-media="cabin" muted loop playsinline preload="none" poster="../../assets/h2-privacy-cabin-poster-20260815.jpg">
+            <source src="../../assets/h2-privacy-cabin-20260815.mp4" type="video/mp4">
+          </video>
+          <img data-cam-media="rear" src="../../assets/h2-library/h2-studio-road-facing-34.png" alt="Road-facing side of the H2 body">
+        </div>
+        <div class="channel-tabs" role="tablist" aria-label="Camera channel">
+          <button type="button" class="is-on" data-cam="front" role="tab" aria-selected="true">Front · 2.5K</button>
+          <button type="button" data-cam="cabin" role="tab" aria-selected="false">Cabin · 1080P</button>
+          <button type="button" data-cam="rear" role="tab" aria-selected="false">Rear · 1080P</button>
         </div>
       </div>
     </div>
@@ -195,20 +188,26 @@
           <p class="eyebrow">Image</p>
           <h2>Clarity Where It Matters.</h2>
         </div>
-        <p class="lede">The front camera records 2.5K at 30fps. These are existing H2 road films, day and night.</p>
+        <p class="lede">The front camera records 2.5K at 30fps. Day road, then the two existing night films.</p>
       </div>
-      <div class="film">
-        <figure>
-          <video autoplay muted loop playsinline preload="metadata" poster="../../assets/h2-road-test-film-v2-poster-20260729.jpg">
-            <source src="../../assets/h2-road-test-film-v2-20260729.mp4" type="video/mp4">
-          </video>
-          <figcaption>Day road</figcaption>
-        </figure>
+      <figure class="day-film">
+        <video autoplay muted loop playsinline preload="metadata" poster="../../assets/h2-road-test-film-v2-poster-20260729.jpg">
+          <source src="../../assets/h2-road-test-film-v2-20260729.mp4" type="video/mp4">
+        </video>
+        <figcaption>Day road · 2.5K</figcaption>
+      </figure>
+      <div class="night-pair">
         <figure>
           <video autoplay muted loop playsinline preload="metadata" poster="../../assets/h2-night-standard-v3-poster-20260729.jpg">
             <source src="../../assets/h2-night-standard-v3-20260729.mp4" type="video/mp4">
           </video>
-          <figcaption>Night road</figcaption>
+          <figcaption>Night</figcaption>
+        </figure>
+        <figure>
+          <video autoplay muted loop playsinline preload="metadata" poster="../../assets/h2-night-enhanced-v3-poster-20260729.jpg">
+            <source src="../../assets/h2-night-enhanced-v3-20260729.mp4" type="video/mp4">
+          </video>
+          <figcaption>Night, enhanced</figcaption>
         </figure>
       </div>
     </div>
@@ -231,6 +230,12 @@
         <figcaption data-macro-cap>Open — cabin lens uncovered</figcaption>
       </figure>
     </div>
+    <div class="wrap cabin-film">
+      <video autoplay muted loop playsinline preload="metadata" poster="../../assets/h2-privacy-cabin-poster-20260815.jpg">
+        <source src="../../assets/h2-privacy-cabin-20260815.mp4" type="video/mp4">
+      </video>
+      <p class="fine">The cover sits on the cabin camera, next to the screen.</p>
+    </div>
   </section>
 
   <section class="section" id="essentials" style="padding-top:0">
@@ -251,12 +256,12 @@
           <p>GPS, GLONASS, Galileo, BDS, and QZSS, with A-GPS, recorded with the clip.</p>
         </article>
         <article>
-          <h3>Collision lock</h3>
-          <p>Keeps footage from before, during, and after an impact.</p>
-        </article>
-        <article>
           <h3>3-inch display</h3>
           <p>Status at the windshield, including recording and 4G.</p>
+        </article>
+        <article>
+          <h3>eSIM</h3>
+          <p>Built in. No SIM tray. The plan is activated in the app.</p>
         </article>
       </div>
     </div>
@@ -289,7 +294,7 @@
           <h3>Conditions</h3>
           <div class="spec-row"><span>Operating</span><b>−20°C to 60°C</b></div>
           <div class="spec-row"><span>Storage temp.</span><b>−30°C to 70°C</b></div>
-          <div class="spec-row"><span>4G plan</span><b>Needed for remote view, cloud events, and 4G alerts. Not for driving record or Wi-Fi.</b></div>
+          <div class="spec-row"><span>4G plan</span><b>Needed for remote view, notices, and playback. Not for driving record or Wi-Fi.</b></div>
         </div>
       </div>
     </div>
@@ -302,7 +307,7 @@
       <div class="faq" style="margin-top:8px">
         <details open>
           <summary>Does H2 require a 4G subscription?</summary>
-          <p>Remote live view, cloud events, and 4G alerts need an eligible plan. Driving recording and Wi-Fi work without one. Price, trial, and coverage are shown at activation.</p>
+          <p>Remote live view, notices, and playback need an eligible plan. Driving recording and Wi-Fi work without one. Price, trial, and coverage are shown at activation.</p>
         </details>
         <details>
           <summary>How does the built-in eSIM work?</summary>
@@ -310,7 +315,7 @@
         </details>
         <details>
           <summary>Can I use H2 without a 4G plan?</summary>
-          <p>Yes for recording while you drive, and for Wi-Fi. Remote viewing, cloud clips, and 4G alerts wait until a plan is active.</p>
+          <p>Yes for recording while you drive, and for Wi-Fi. Remote viewing and 4G notices wait until a plan is active.</p>
         </details>
         <details>
           <summary>How does AOV parking mode work?</summary>
@@ -318,7 +323,7 @@
         </details>
         <details>
           <summary>Does parking mode require a hardwire kit?</summary>
-          <p>Yes. Parking watch needs vehicle 12–24V through Type-C hardwire. The device runs at DC 5V 3A. A lighter socket is for normal driving.</p>
+          <p>Yes. Parking watch needs vehicle 12–24V through Type-C hardwire. The device runs at DC 5V 3A.</p>
         </details>
         <details>
           <summary>Can all three cameras record at once?</summary>
@@ -329,7 +334,6 @@
           <p>Slide the cover to block the cabin lens. A Hall sensor reads the open or closed position.</p>
         </details>
       </div>
-
       <div class="closing">
         <div>
           <p class="eyebrow">JADO H2</p>
@@ -352,6 +356,6 @@
     </div>
     <a class="cta" data-cart href="https://jadocam.myshopify.com/cart/45546997743795:1">Add to Cart</a>
   </div>
-  <script src="../../assets/preview-h2-v2.js?v=20261016a"></script>
+  <script src="../../assets/preview-h2-v2.js?v=20261016d"></script>
 </body>
 </html>
