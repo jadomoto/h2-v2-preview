@@ -254,7 +254,7 @@ p { margin: 0; }
   object-fit: cover;
   opacity: 0;
 }
-.channel[data-channel="front"] [data-cam-media="front"] { object-position: center 32%; transform: scale(1.18); }
+.channel[data-channel="front"] [data-cam-media="front"] { object-position: center 26%; transform: scale(1.28); }
 .channel[data-channel="rear"] .channel-stage { background: var(--warm); }
 .channel[data-channel="rear"] .channel-stage img { object-fit: contain; padding: 28px; }
 .channel[data-channel="front"] [data-cam-media="front"],
