@@ -121,9 +121,21 @@
     });
   });
 
+  function isCabinReel(clip) {
+    var source = clip.querySelector("source");
+    var src = source ? source.getAttribute("src") : "";
+    return src.indexOf("h2-privacy-cabin") !== -1;
+  }
+  document.querySelectorAll("video").forEach(function (clip) {
+    if (!isCabinReel(clip)) return;
+    clip.addEventListener("timeupdate", function () {
+      if (clip.currentTime > 2.15) clip.currentTime = 1.05;
+    });
+  });
   document.querySelectorAll("video[autoplay]").forEach(function (clip) {
     var start = function () {
-      if (clip.currentTime < 0.2 && clip.duration) clip.currentTime = Math.min(1, clip.duration * 0.2);
+      if (isCabinReel(clip)) clip.currentTime = 1.05;
+      else if (clip.currentTime < 0.2 && clip.duration) clip.currentTime = Math.min(1, clip.duration * 0.2);
       clip.play().catch(function () {});
     };
     if (clip.readyState >= 1) start();
