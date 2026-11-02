@@ -421,22 +421,171 @@ html.h2-light:not(#h2l) .h2-aov-stats span {
   background: var(--h2l-bg-alt) !important;
   border-color: var(--h2l-line) !important;
 }
-html.h2-light:not(#h2l) .h2-redo-aov article:has(> .h2-aov-step-copy) {
-  background: #fff !important;
-  border-color: var(--h2l-line) !important;
-  box-shadow: 0 1px 2px rgba(23, 36, 54, 0.04) !important;
+/* How AOV works: five light step cards (2 + 3), copy above the image,
+   same card language as the core functions bento. */
+html.h2-light:not(#h2l) .h2-aov-flow-head {
+  max-width: 760px !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+}
+html.h2-light:not(#h2l) .h2-aov-flow-head .h2-redo-eyebrow {
+  justify-content: center;
+}
+html.h2-light:not(#h2l) .h2-aov-flow-head h3 {
+  font-size: clamp(28px, 3vw, 40px) !important;
+  line-height: 1.12 !important;
+  letter-spacing: -0.015em;
+}
+html.h2-light:not(#h2l) .h2-aov-flow-head p {
+  max-width: 600px !important;
+  margin: 14px auto 0 !important;
+  font-size: 17px !important;
+}
+@media (min-width: 1024px) {
+  html.h2-light:not(#h2l) .h2-redo-aov .h2-aov-wrap {
+    width: calc(100% - 120px) !important;
+    max-width: 1320px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+html.h2-light:not(#h2l) .h2-redo-flow.h2-aov-flow {
+  width: 100% !important;
+  display: grid !important;
+  grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  gap: 16px !important;
+  max-width: none !important;
+  margin: 48px 0 0 !important;
+  padding: 0 !important;
+}
+html.h2-light:not(#h2l) .h2-redo-flow.h2-aov-flow::before,
+html.h2-light:not(#h2l) .h2-redo-flow.h2-aov-flow::after,
+html.h2-light:not(#h2l) .h2-aov-flow article::before,
+html.h2-light:not(#h2l) .h2-aov-flow article::after,
+html.h2-light:not(#h2l) .h2-aov-flow figure::before,
+html.h2-light:not(#h2l) .h2-aov-flow figure::after {
+  display: none !important;
+  content: none !important;
+}
+html.h2-light:not(#h2l) .h2-aov-flow article {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  grid-column: span 2 !important;
+  grid-row: auto !important;
+  min-height: 0 !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  border-radius: 24px !important;
+  background: #f4f5f7 !important;
+  box-shadow: none !important;
+}
+html.h2-light:not(#h2l) .h2-aov-flow article:nth-child(-n+2) {
+  grid-column: span 3 !important;
 }
 html.h2-light:not(#h2l) .h2-aov-step-copy {
-  background: #fff !important;
+  order: 0 !important;
+  position: relative !important;
+  inset: auto !important;
+  width: auto !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 28px 28px 24px !important;
+  background: none !important;
+  text-align: left !important;
+  display: block !important;
 }
 html.h2-light:not(#h2l) .h2-aov-step-copy > span {
+  display: block !important;
+  margin: 0 0 10px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
   color: var(--h2l-accent) !important;
 }
 html.h2-light:not(#h2l) .h2-aov-step-copy h4 {
+  margin: 0 !important;
+  font-size: 24px !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
   color: var(--h2l-title) !important;
 }
 html.h2-light:not(#h2l) .h2-aov-step-copy p {
+  max-width: 420px !important;
+  margin: 8px 0 0 !important;
+  font-size: 15px !important;
+  line-height: 1.5 !important;
   color: var(--h2l-text) !important;
+}
+html.h2-light:not(#h2l) .h2-aov-flow figure {
+  order: 1 !important;
+  position: relative !important;
+  inset: auto !important;
+  width: auto !important;
+  height: auto !important;
+  aspect-ratio: 16 / 10 !important;
+  margin: auto 10px 10px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  border-radius: 16px !important;
+  background: #0b0d10 !important;
+  box-shadow: none !important;
+}
+html.h2-light:not(#h2l) .h2-aov-flow article:nth-child(-n+2) figure {
+  aspect-ratio: 16 / 9 !important;
+}
+html.h2-light:not(#h2l) .h2-aov-flow figure img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  transform: none;
+  filter: none !important;
+  opacity: 1 !important;
+  transition: transform 0.6s cubic-bezier(0.2, 0, 0, 1);
+}
+@media (hover: hover) {
+  html.h2-light:not(#h2l) .h2-aov-flow article:hover figure img { transform: scale(1.03); }
+}
+@media (max-width: 1023px) {
+  html.h2-light:not(#h2l) .h2-redo-flow.h2-aov-flow { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  html.h2-light:not(#h2l) .h2-aov-flow article,
+  html.h2-light:not(#h2l) .h2-aov-flow article:nth-child(-n+2) { grid-column: span 1 !important; }
+  html.h2-light:not(#h2l) .h2-aov-flow article:nth-child(5) { grid-column: span 2 !important; }
+  html.h2-light:not(#h2l) .h2-aov-flow article:nth-child(5) figure { aspect-ratio: 21 / 9 !important; }
+}
+@media (max-width: 767px) {
+  html.h2-light:not(#h2l) .h2-redo-flow.h2-aov-flow {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 12px !important;
+    margin-top: 32px !important;
+  }
+  html.h2-light:not(#h2l) .h2-aov-flow article,
+  html.h2-light:not(#h2l) .h2-aov-flow article:nth-child(-n+2),
+  html.h2-light:not(#h2l) .h2-aov-flow article:nth-child(5) { grid-column: auto !important; border-radius: 20px !important; }
+  html.h2-light:not(#h2l) .h2-aov-step-copy { padding: 24px 24px 0 !important; }
+  html.h2-light:not(#h2l) .h2-aov-step-copy h4 { font-size: 22px !important; }
+  html.h2-light:not(#h2l) .h2-aov-flow figure,
+  html.h2-light:not(#h2l) .h2-aov-flow article:nth-child(-n+2) figure,
+  html.h2-light:not(#h2l) .h2-aov-flow article:nth-child(5) figure {
+    aspect-ratio: 16 / 10 !important;
+    margin: 0 8px 8px !important;
+    border-radius: 14px !important;
+  }
+  html.h2-light:not(#h2l) .h2-aov-step-copy { padding-bottom: 20px !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html.h2-light:not(#h2l) .h2-aov-flow figure img { transition: none; }
+  html.h2-light:not(#h2l) .h2-aov-flow article:hover figure img { transform: none; }
 }
 
 /* ---------- Image quality ---------- */
