@@ -1,0 +1,373 @@
+/*
+ * JADO H2 PDP — Premium Light theme (phase 1)
+ *
+ * Scope: only pages whose <html> carries the `h2-light` class (H2 PDP).
+ * `:not(#h2l)` lifts specificity above the existing H2 `body:has(...)` rules
+ * without touching them. Original images/videos are never restyled: their
+ * dark stage containers are kept as-is ("background follows the asset").
+ */
+
+html.h2-light {
+  --h2l-bg: #ffffff;
+  --h2l-bg-alt: #f7f8fa;
+  --h2l-surface: #edeff2;
+  --h2l-title: #172436;
+  --h2l-text: #475569;
+  --h2l-muted: #64748b;
+  --h2l-accent: #1769e0;
+  --h2l-line: #e2e6ec;
+  --h2l-line-strong: #d3d9e1;
+  --h2l-media: #0b1218;
+}
+
+/* ---------- Page canvas ---------- */
+html.h2-light:not(#h2l),
+html.h2-light:not(#h2l) body {
+  background: var(--h2l-bg) !important;
+}
+html.h2-light:not(#h2l) .h2-product-page {
+  color: var(--h2l-title);
+}
+
+/* Full-bleed section beds (same technique the page already uses for .pdp-section) */
+html.h2-light:not(#h2l) .h2-product-page > .pdp,
+html.h2-light:not(#h2l) .h2-product-page .h2pdp > .h2-redo-section {
+  position: relative;
+  isolation: isolate;
+  background: transparent !important;
+}
+html.h2-light:not(#h2l) .h2-product-page > .pdp::before,
+html.h2-light:not(#h2l) .h2-product-page .h2pdp > .h2-redo-section::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  inset: -1px auto -1px 50% !important;
+  width: 100vw !important;
+  max-width: none !important;
+  height: auto !important;
+  transform: translateX(-50%) !important;
+  z-index: -1 !important;
+  background: var(--h2l-bg) !important;
+  opacity: 1 !important;
+  filter: none !important;
+  pointer-events: none;
+}
+html.h2-light:not(#h2l) .h2-product-page .h2pdp > .h2-redo-section::after {
+  background: none !important;
+  box-shadow: none !important;
+}
+
+/* Alternating rhythm: white / #F7F8FA */
+html.h2-light:not(#h2l) .h2-product-page > .pdp::before,
+html.h2-light:not(#h2l) .h2-product-page .h2pdp > .h2-redo-remote::before,
+html.h2-light:not(#h2l) .h2-product-page .h2pdp > .h2-redo-clarity::before,
+html.h2-light:not(#h2l) .h2-product-page .h2pdp > .h2-redo-angles::before,
+html.h2-light:not(#h2l) .h2-product-page .h2pdp > .h2-privacy-usage::before,
+html.h2-light:not(#h2l) .h2-product-page .h2pdp > .h2-buy-section::before {
+  background: var(--h2l-bg-alt) !important;
+}
+html.h2-light:not(#h2l) .h2-product-page > .pdp-section::before {
+  background: var(--h2l-bg) !important;
+}
+html.h2-light:not(#h2l) .h2-product-page > .pdp-section + .pdp-section {
+  border-top: 1px solid var(--h2l-line);
+}
+
+/* ---------- Shared typography on light beds ---------- */
+html.h2-light:not(#h2l) .h2-redo-section .h2-redo-eyebrow,
+html.h2-light:not(#h2l) .h2-quality-night-kicker {
+  color: var(--h2l-accent) !important;
+  text-shadow: none !important;
+}
+html.h2-light:not(#h2l) .h2-redo-section .h2-redo-eyebrow::before,
+html.h2-light:not(#h2l) .h2-redo-section .h2-redo-eyebrow::after {
+  background: var(--h2l-accent) !important;
+  box-shadow: none !important;
+}
+html.h2-light:not(#h2l) .h2-redo-head h3,
+html.h2-light:not(#h2l) .h2-redo-head h3 span,
+html.h2-light:not(#h2l) .h2-aov-hero-copy h3,
+html.h2-light:not(#h2l) .h2-aov-flow-head h3,
+html.h2-light:not(#h2l) .h2-reach-copy h3,
+html.h2-light:not(#h2l) .h2-privacy-explainer h3,
+html.h2-light:not(#h2l) .h2-craft-copy h3,
+html.h2-light:not(#h2l) .h2-craft-copy h3 span,
+html.h2-light:not(#h2l) .h2-buy-wrap h3 {
+  color: var(--h2l-title) !important;
+  -webkit-text-fill-color: currentColor !important;
+  background: none !important;
+  text-shadow: none !important;
+}
+html.h2-light:not(#h2l) .h2-redo-head p,
+html.h2-light:not(#h2l) .h2-aov-hero-copy p,
+html.h2-light:not(#h2l) .h2-aov-flow-head p,
+html.h2-light:not(#h2l) .h2-reach-copy p,
+html.h2-light:not(#h2l) .h2-privacy-explainer p,
+html.h2-light:not(#h2l) .h2-craft-copy p,
+html.h2-light:not(#h2l) .h2-buy-wrap p {
+  color: var(--h2l-text) !important;
+  text-shadow: none !important;
+}
+
+/* ---------- Hero → purchase transition ---------- */
+/* Hero image has a baked-in dark scene: keep the hero dark, end it with a clean edge. */
+html.h2-light:not(#h2l) .h2-product-page > .pdp::before {
+  background: linear-gradient(180deg, var(--h2l-bg-alt) 0, var(--h2l-bg-alt) 100%) !important;
+}
+html.h2-light:not(#h2l) .h2-product-page > .pdp .pdp-gallery,
+html.h2-light:not(#h2l) .h2-product-page > .pdp .pdp-main {
+  background: #fff !important;
+  border: 1px solid var(--h2l-line) !important;
+  box-shadow: 0 1px 2px rgba(23, 36, 54, 0.04), 0 12px 32px rgba(23, 36, 54, 0.06) !important;
+}
+
+/* ---------- Core functions (bento) ---------- */
+/* Bento images are opaque dark artwork: keep the cards dark, only soften their frame. */
+html.h2-light:not(#h2l) .h2-bento-card {
+  border-color: rgba(23, 36, 54, 0.08) !important;
+  box-shadow: 0 1px 2px rgba(23, 36, 54, 0.06), 0 10px 24px rgba(23, 36, 54, 0.08) !important;
+}
+
+/* ---------- 4G Remote Monitoring ---------- */
+html.h2-light:not(#h2l) .h2-remote-live-stage {
+  border-color: transparent !important;
+  box-shadow: 0 1px 2px rgba(23, 36, 54, 0.06), 0 16px 40px rgba(23, 36, 54, 0.10) !important;
+}
+html.h2-light:not(#h2l) .h2-remote-live-feats li {
+  color: var(--h2l-muted) !important;
+}
+html.h2-light:not(#h2l) .h2-remote-live-feats li::before,
+html.h2-light:not(#h2l) .h2-remote-live-feats li::after {
+  background: var(--h2l-line-strong) !important;
+  box-shadow: none !important;
+}
+
+html.h2-light:not(#h2l) .h2-reach-band {
+  background: #fff !important;
+  border: 1px solid var(--h2l-line) !important;
+  box-shadow: 0 1px 2px rgba(23, 36, 54, 0.04) !important;
+}
+html.h2-light:not(#h2l) .h2-reach-band::before,
+html.h2-light:not(#h2l) .h2-reach-band::after {
+  background: none !important;
+  box-shadow: none !important;
+}
+html.h2-light:not(#h2l) .h2-reach-copy .h2-reach-note {
+  color: var(--h2l-muted) !important;
+}
+html.h2-light:not(#h2l) .h2-reach-point {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  color: var(--h2l-text) !important;
+}
+html.h2-light:not(#h2l) .h2-reach-point strong {
+  color: var(--h2l-title) !important;
+}
+html.h2-light:not(#h2l) .h2-reach-point span {
+  color: var(--h2l-muted) !important;
+}
+html.h2-light:not(#h2l) .h2-reach-point svg {
+  color: var(--h2l-muted) !important;
+}
+html.h2-light:not(#h2l) .h2-reach-point.is-active {
+  background: var(--h2l-bg-alt) !important;
+  border-color: var(--h2l-line) !important;
+}
+html.h2-light:not(#h2l) .h2-reach-point.is-active svg {
+  color: var(--h2l-accent) !important;
+}
+html.h2-light:not(#h2l) .h2-reach-point::before,
+html.h2-light:not(#h2l) .h2-reach-point::after {
+  background: var(--h2l-accent) !important;
+  box-shadow: none !important;
+}
+html.h2-light:not(#h2l) .h2-reach-point:not(.is-active)::before,
+html.h2-light:not(#h2l) .h2-reach-point:not(.is-active)::after {
+  background: var(--h2l-line-strong) !important;
+}
+
+/* ---------- AOV Parking Guard ---------- */
+html.h2-light:not(#h2l) .h2-aov-stats span {
+  color: var(--h2l-title) !important;
+  background: var(--h2l-bg-alt) !important;
+  border-color: var(--h2l-line) !important;
+}
+html.h2-light:not(#h2l) .h2-redo-aov article:has(> .h2-aov-step-copy) {
+  background: #fff !important;
+  border-color: var(--h2l-line) !important;
+  box-shadow: 0 1px 2px rgba(23, 36, 54, 0.04) !important;
+}
+html.h2-light:not(#h2l) .h2-aov-step-copy {
+  background: #fff !important;
+}
+html.h2-light:not(#h2l) .h2-aov-step-copy > span {
+  color: var(--h2l-accent) !important;
+}
+html.h2-light:not(#h2l) .h2-aov-step-copy h4 {
+  color: var(--h2l-title) !important;
+}
+html.h2-light:not(#h2l) .h2-aov-step-copy p {
+  color: var(--h2l-text) !important;
+}
+
+/* ---------- Image quality ---------- */
+html.h2-light:not(#h2l) .h2-clarity-player {
+  box-shadow: 0 1px 2px rgba(23, 36, 54, 0.06), 0 16px 40px rgba(23, 36, 54, 0.10) !important;
+}
+html.h2-light:not(#h2l) .h2-clarity-tags span {
+  color: var(--h2l-text) !important;
+  background: #fff !important;
+  border-color: var(--h2l-line) !important;
+}
+html.h2-light:not(#h2l) .h2-night-video-grid {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+html.h2-light:not(#h2l) .h2-night-video-copy strong {
+  color: var(--h2l-title) !important;
+}
+html.h2-light:not(#h2l) .h2-night-video-copy span,
+html.h2-light:not(#h2l) .h2-night-video-note {
+  color: var(--h2l-muted) !important;
+}
+
+/* ---------- Accident evidence ---------- */
+html.h2-light:not(#h2l) .h2-prerecord-cinema-stage {
+  box-shadow: 0 1px 2px rgba(23, 36, 54, 0.06), 0 16px 40px rgba(23, 36, 54, 0.10) !important;
+}
+html.h2-light:not(#h2l) .h2-prerecord-track {
+  background: #fff !important;
+  border: 1px solid var(--h2l-line) !important;
+  border-top: 0 !important;
+  box-shadow: none !important;
+  color: var(--h2l-title) !important;
+}
+html.h2-light:not(#h2l) .h2-prerecord-track::before {
+  background: var(--h2l-line) !important;
+}
+html.h2-light:not(#h2l) .h2-prerecord-track button {
+  color: var(--h2l-muted) !important;
+}
+html.h2-light:not(#h2l) .h2-prerecord-track button.is-active {
+  color: var(--h2l-title) !important;
+}
+html.h2-light:not(#h2l) .h2-prerecord-cinema-line {
+  background: var(--h2l-line-strong) !important;
+}
+html.h2-light:not(#h2l) .h2-prerecord-cinema-fill {
+  background: var(--h2l-accent) !important;
+  box-shadow: none !important;
+}
+html.h2-light:not(#h2l) .h2-prerecord-cinema-node i {
+  background: #fff !important;
+  border: 2px solid var(--h2l-line-strong) !important;
+  box-shadow: none !important;
+}
+html.h2-light:not(#h2l) .h2-prerecord-cinema-node.is-passed i {
+  border-color: var(--h2l-accent) !important;
+}
+html.h2-light:not(#h2l) .h2-prerecord-cinema-node--impact i {
+  background: #e5484d !important;
+  border-color: #e5484d !important;
+  box-shadow: 0 0 0 5px rgba(229, 72, 77, 0.14) !important;
+}
+html.h2-light:not(#h2l) .h2-prerecord-cinema-node.is-active i {
+  background: var(--h2l-accent) !important;
+  border-color: var(--h2l-accent) !important;
+  box-shadow: 0 0 0 5px rgba(23, 105, 224, 0.14) !important;
+}
+html.h2-light:not(#h2l) .h2-prerecord-cinema-save {
+  color: var(--h2l-title) !important;
+  text-shadow: none !important;
+}
+
+/* ---------- Three-channel view ---------- */
+html.h2-light:not(#h2l) .h2-lens-premium-stage,
+html.h2-light:not(#h2l) .h2-lens-coverage-model {
+  box-shadow: 0 1px 2px rgba(23, 36, 54, 0.06), 0 16px 40px rgba(23, 36, 54, 0.10) !important;
+}
+html.h2-light:not(#h2l) .h2-lens-modebar button {
+  color: var(--h2l-title) !important;
+  background: #fff !important;
+  border-color: var(--h2l-line-strong) !important;
+  box-shadow: none !important;
+}
+html.h2-light:not(#h2l) .h2-lens-modebar button.is-active,
+html.h2-light:not(#h2l) .h2-lens-modebar button[aria-pressed="true"],
+html.h2-light:not(#h2l) .h2-lens-modebar button[aria-selected="true"] {
+  color: #fff !important;
+  background: var(--h2l-accent) !important;
+  border-color: var(--h2l-accent) !important;
+}
+
+/* ---------- Privacy ---------- */
+html.h2-light:not(#h2l) .h2-privacy-split {
+  background: #fff !important;
+  border: 1px solid var(--h2l-line) !important;
+  box-shadow: 0 1px 2px rgba(23, 36, 54, 0.04) !important;
+}
+html.h2-light:not(#h2l) .h2-privacy-facts li {
+  background: var(--h2l-bg-alt) !important;
+  border-color: var(--h2l-line) !important;
+}
+html.h2-light:not(#h2l) .h2-privacy-facts li::before {
+  background: var(--h2l-accent) !important;
+  box-shadow: none !important;
+}
+html.h2-light:not(#h2l) .h2-privacy-facts strong {
+  color: var(--h2l-title) !important;
+}
+html.h2-light:not(#h2l) .h2-privacy-facts span {
+  color: var(--h2l-text) !important;
+}
+html.h2-light:not(#h2l) .h2-privacy-demo {
+  box-shadow: 0 1px 2px rgba(23, 36, 54, 0.06), 0 16px 40px rgba(23, 36, 54, 0.10) !important;
+}
+html.h2-light:not(#h2l) .h2-privacy-moments span {
+  color: var(--h2l-muted) !important;
+}
+
+/* ---------- Internal engineering ---------- */
+/* The exploded render is a transparent cutout, so it can sit on the light bed. */
+html.h2-light:not(#h2l) .h2-craft-section *::before,
+html.h2-light:not(#h2l) .h2-craft-stage::before,
+html.h2-light:not(#h2l) .h2-craft-stage::after {
+  box-shadow: none !important;
+}
+html.h2-light:not(#h2l) .h2-craft-exploded-image {
+  filter: drop-shadow(0 18px 28px rgba(23, 36, 54, 0.16)) !important;
+}
+html.h2-light:not(#h2l) .h2-craft-callout::before {
+  background: var(--h2l-accent) !important;
+  box-shadow: 0 0 0 4px rgba(23, 105, 224, 0.12) !important;
+}
+html.h2-light:not(#h2l) .h2-craft-callout::after {
+  background: var(--h2l-line-strong) !important;
+}
+html.h2-light:not(#h2l) .h2-craft-callout > span {
+  color: var(--h2l-accent) !important;
+}
+html.h2-light:not(#h2l) .h2-craft-callout strong {
+  color: var(--h2l-title) !important;
+}
+html.h2-light:not(#h2l) .h2-craft-callout p {
+  color: var(--h2l-text) !important;
+}
+
+/* ---------- Closing CTA ---------- */
+html.h2-light:not(#h2l) .h2-buy-wrap .btn-ghost-light {
+  color: var(--h2l-title) !important;
+  background: #fff !important;
+  border-color: var(--h2l-line-strong) !important;
+}
+
+/* ---------- Specs / FAQ / reviews / related ---------- */
+html.h2-light:not(#h2l) .h2-product-page > .pdp-section h2 {
+  color: var(--h2l-title) !important;
+}
+html.h2-light:not(#h2l) .h2-product-page > .pdp-section p,
+html.h2-light:not(#h2l) .h2-product-page > .pdp-section li {
+  color: var(--h2l-text);
+}
