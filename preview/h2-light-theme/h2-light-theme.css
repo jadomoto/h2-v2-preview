@@ -896,3 +896,94 @@ html.h2-light:not(#h2l) .h2-product-page > .pdp-section p,
 html.h2-light:not(#h2l) .h2-product-page > .pdp-section li {
   color: var(--h2l-text);
 }
+
+/* How AOV works: UI overlays drawn in HTML on top of the step photos */
+html.h2-light:not(#h2l) .h2l-aov-ui {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  font-family: inherit;
+}
+html.h2-light:not(#h2l) .h2l-aov-rec {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(10, 13, 18, 0.62);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  backdrop-filter: blur(6px);
+}
+html.h2-light:not(#h2l) .h2l-aov-rec::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ff453a;
+}
+/* person box, mapped from the 16:9 photo to the 16:10 card crop */
+html.h2-light:not(#h2l) .h2l-aov-box {
+  position: absolute;
+  left: 61%;
+  right: 16%;
+  top: 17%;
+  bottom: 12%;
+  border: 2px solid #ffd60a;
+  border-radius: 6px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+}
+html.h2-light:not(#h2l) .h2l-aov-box b {
+  position: absolute;
+  left: -2px;
+  top: -24px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: #ffd60a;
+  color: #111;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.3;
+}
+html.h2-light:not(#h2l) .h2l-aov-note {
+  position: absolute;
+  top: 7%;
+  left: 5%;
+  max-width: 58%;
+  width: max-content;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px 10px 10px;
+  border-radius: 14px;
+  background: rgba(245, 246, 248, 0.86);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+  color: var(--h2l-title);
+  font-size: 12px;
+  line-height: 1.35;
+}
+html.h2-light:not(#h2l) .h2l-aov-note i {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: var(--h2l-accent);
+}
+html.h2-light:not(#h2l) .h2l-aov-note b {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--h2l-muted);
+}
+@media (max-width: 767px) {
+  html.h2-light:not(#h2l) .h2l-aov-note { font-size: 11px; padding: 8px 10px 8px 8px; gap: 8px; }
+  html.h2-light:not(#h2l) .h2l-aov-note i { width: 22px; height: 22px; }
+}
