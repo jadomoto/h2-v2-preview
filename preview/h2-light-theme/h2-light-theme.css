@@ -122,10 +122,238 @@ html.h2-light:not(#h2l) .h2-product-page > .pdp .pdp-main {
 }
 
 /* ---------- Core functions (bento) ---------- */
-/* Bento images are opaque dark artwork: keep the cards dark, only soften their frame. */
+/* Light bento in the DJI / Insta360 manner: copy sits on a quiet card surface,
+   the artwork fills the lower part of the card, so text never covers the visual.
+   The opening card is a full-width key visual with copy on its dark empty corner. */
+html.h2-light:not(#h2l) .h2-bento-grid {
+  display: grid !important;
+  grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  grid-template-areas:
+    "main main main main main main main main main main main main"
+    "g4 g4 g4 g4 g4 g4 aov aov aov aov aov aov"
+    "wifi wifi wifi wifi wifi wifi wifi wifi ai ai ai ai"
+    "chip chip chip chip gs gs gs gs gs gs gs gs" !important;
+  grid-auto-rows: auto !important;
+  gap: 16px !important;
+  margin-top: 48px !important;
+  height: auto !important;
+}
 html.h2-light:not(#h2l) .h2-bento-card {
-  border-color: rgba(23, 36, 54, 0.08) !important;
-  box-shadow: 0 1px 2px rgba(23, 36, 54, 0.06), 0 10px 24px rgba(23, 36, 54, 0.08) !important;
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  grid-column: auto !important;
+  grid-row: auto !important;
+  min-height: 0 !important;
+  height: auto !important;
+  aspect-ratio: auto !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  isolation: isolate;
+  border: 0 !important;
+  border-radius: 24px !important;
+  background: #f4f5f7 !important;
+  box-shadow: none !important;
+  color: var(--h2l-title) !important;
+}
+html.h2-light:not(#h2l) .h2-bento-card::before,
+html.h2-light:not(#h2l) .h2-bento-card::after {
+  display: none !important;
+  content: none !important;
+}
+html.h2-light:not(#h2l) .h2-bento-card--main { grid-area: main !important; }
+html.h2-light:not(#h2l) .h2-bento-card--4g { grid-area: g4 !important; }
+html.h2-light:not(#h2l) .h2-bento-card--aov { grid-area: aov !important; }
+html.h2-light:not(#h2l) .h2-bento-card--wifi { grid-area: wifi !important; }
+html.h2-light:not(#h2l) .h2-bento-card--ai { grid-area: ai !important; }
+html.h2-light:not(#h2l) .h2-bento-card--chip { grid-area: chip !important; }
+html.h2-light:not(#h2l) .h2-bento-card--gsensor { grid-area: gs !important; }
+
+html.h2-light:not(#h2l) .h2-bento-copy {
+  position: relative !important;
+  inset: auto !important;
+  z-index: 1;
+  width: auto !important;
+  max-width: 460px !important;
+  margin: 0 !important;
+  padding: 32px 32px 0 !important;
+  background: none !important;
+  transform: none !important;
+  text-align: left !important;
+}
+html.h2-light:not(#h2l) .h2-bento-copy span {
+  display: block !important;
+  margin: 0 0 10px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  color: var(--h2l-accent) !important;
+  text-shadow: none !important;
+}
+html.h2-light:not(#h2l) .h2-bento-copy h4 {
+  margin: 0 !important;
+  font-size: 28px !important;
+  font-weight: 600 !important;
+  line-height: 1.15 !important;
+  letter-spacing: -0.01em !important;
+  color: var(--h2l-title) !important;
+  text-shadow: none !important;
+}
+html.h2-light:not(#h2l) .h2-bento-copy p {
+  margin: 8px 0 0 !important;
+  font-size: 16px !important;
+  line-height: 1.45 !important;
+  color: var(--h2l-text) !important;
+  text-shadow: none !important;
+}
+html.h2-light:not(#h2l) .h2-bento-media {
+  position: relative !important;
+  inset: auto !important;
+  display: block !important;
+  width: calc(100% - 20px) !important;
+  max-width: none !important;
+  height: 300px !important;
+  margin: 28px 10px 10px !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  border-radius: 16px !important;
+  opacity: 1 !important;
+  filter: none !important;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+  transform: none;
+  transition: transform 0.6s cubic-bezier(0.2, 0, 0, 1);
+}
+html.h2-light:not(#h2l) .h2-bento-card--4g .h2-bento-media,
+html.h2-light:not(#h2l) .h2-bento-card--aov .h2-bento-media {
+  height: 340px !important;
+}
+html.h2-light:not(#h2l) .h2-bento-card--4g .h2-bento-media { object-position: 50% 62% !important; }
+html.h2-light:not(#h2l) .h2-bento-card--wifi .h2-bento-media { object-position: 50% 40% !important; }
+html.h2-light:not(#h2l) .h2-bento-card--gsensor .h2-bento-media { object-position: 55% 50% !important; }
+@media (hover: hover) {
+  html.h2-light:not(#h2l) .h2-bento-card:hover .h2-bento-media {
+    transform: scale(1.03);
+  }
+}
+
+html.h2-light:not(#h2l) .h2-redo-overview .h2-redo-head h3 {
+  font-size: clamp(30px, 3.2vw, 44px) !important;
+  line-height: 1.1 !important;
+  letter-spacing: -0.015em;
+}
+html.h2-light:not(#h2l) .h2-redo-overview .h2-redo-head p {
+  max-width: 560px;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center;
+  font-size: 17px !important;
+}
+
+/* Key visual: full-bleed render, copy on the dark lower-left corner */
+html.h2-light:not(#h2l) .h2-bento-card--main {
+  height: auto !important;
+  aspect-ratio: 2.13 / 1 !important;
+  background: #0b0d10 !important;
+  justify-content: flex-end !important;
+}
+html.h2-light:not(#h2l) .h2-bento-card--main .h2-bento-media {
+  position: absolute !important;
+  inset: 0 auto 0 0 !important;
+  /* the render has a ~2% black strip on its right edge; push it out of frame */
+  width: 103.5% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  object-position: 50% 38% !important;
+  z-index: 0;
+}
+html.h2-light:not(#h2l) .h2-bento-card--main .h2-bento-copy {
+  padding: 0 56px 56px !important;
+  max-width: 520px !important;
+}
+html.h2-light:not(#h2l) .h2-bento-card--main .h2-bento-copy span {
+  color: #8fb8ff !important;
+}
+html.h2-light:not(#h2l) .h2-bento-card--main .h2-bento-copy h4 {
+  font-size: clamp(32px, 3.3vw, 48px) !important;
+  line-height: 1.05 !important;
+  color: #fff !important;
+}
+html.h2-light:not(#h2l) .h2-bento-card--main .h2-bento-copy p {
+  font-size: 18px !important;
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+
+@media (max-width: 1023px) {
+  html.h2-light:not(#h2l) .h2-bento-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-areas:
+      "main main"
+      "g4 aov"
+      "wifi wifi"
+      "ai chip"
+      "gs gs" !important;
+  }
+  html.h2-light:not(#h2l) .h2-bento-card--main .h2-bento-copy { padding: 0 36px 36px !important; max-width: 340px !important; }
+  html.h2-light:not(#h2l) .h2-bento-card--main .h2-bento-copy h4 { font-size: 28px !important; }
+  html.h2-light:not(#h2l) .h2-bento-media,
+  html.h2-light:not(#h2l) .h2-bento-card--4g .h2-bento-media,
+  html.h2-light:not(#h2l) .h2-bento-card--aov .h2-bento-media {
+    height: 260px !important;
+  }
+}
+@media (max-width: 767px) {
+  html.h2-light:not(#h2l) .h2-bento-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-areas: "main" "g4" "aov" "wifi" "ai" "chip" "gs" !important;
+    gap: 12px !important;
+    margin-top: 32px !important;
+  }
+  html.h2-light:not(#h2l) .h2-bento-card { border-radius: 20px !important; }
+  html.h2-light:not(#h2l) .h2-bento-copy { padding: 24px 24px 0 !important; }
+  html.h2-light:not(#h2l) .h2-bento-copy h4 { font-size: 24px !important; }
+  html.h2-light:not(#h2l) .h2-bento-copy p { font-size: 15px !important; }
+  html.h2-light:not(#h2l) .h2-bento-media,
+  html.h2-light:not(#h2l) .h2-bento-card--4g .h2-bento-media,
+  html.h2-light:not(#h2l) .h2-bento-card--aov .h2-bento-media {
+    height: auto !important;
+    aspect-ratio: 16 / 10 !important;
+    margin: 20px 8px 8px !important;
+    width: calc(100% - 16px) !important;
+    border-radius: 14px !important;
+  }
+  html.h2-light:not(#h2l) .h2-bento-card--gsensor .h2-bento-media { aspect-ratio: 16 / 9 !important; }
+  html.h2-light:not(#h2l) .h2-bento-card--wifi .h2-bento-media { aspect-ratio: 1525 / 668 !important; }
+  /* Key visual stacks: copy on the dark card, render below, cropped to the product */
+  html.h2-light:not(#h2l) .h2-bento-card--main {
+    height: auto !important;
+    aspect-ratio: auto !important;
+    justify-content: flex-start !important;
+  }
+  html.h2-light:not(#h2l) .h2-bento-card--main .h2-bento-copy {
+    order: 0;
+    padding: 28px 24px 0 !important;
+  }
+  html.h2-light:not(#h2l) .h2-bento-card--main .h2-bento-copy h4 { font-size: 28px !important; }
+  html.h2-light:not(#h2l) .h2-bento-card--main .h2-bento-media {
+    position: relative !important;
+    inset: auto !important;
+    order: 1;
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1 !important;
+    object-position: 70% 50% !important;
+    margin: 8px 0 0 !important;
+    border-radius: 0 !important;
+    object-position: 74% 50% !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html.h2-light:not(#h2l) .h2-bento-media { transition: none; }
+  html.h2-light:not(#h2l) .h2-bento-card:hover .h2-bento-media { transform: none; }
 }
 
 /* ---------- 4G Remote Monitoring ---------- */
