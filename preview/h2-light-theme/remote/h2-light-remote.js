@@ -353,18 +353,19 @@
     '<div class="h2l-sen-track" style="--n:' + steps.length + '"><div class="h2l-sen-pin">' +
     '<div class="h2l-sen-visual" aria-hidden="true"><div class="h2l-sen-frame">' +
     ['h2l-sen-person', 'h2l-sen-v2-2-record', 'h2l-sen-v2-3-lock', 'h2l-sen-v2-4-alert', 'h2l-sen-v2-5-backup', 'h2l-sen-v2-6-respond'].map(function (f, i) {
-      return '<img class="h2l-sen-shot" data-i="' + i + '" src="' + base + '/' + f + '-20261104.webp" alt="" decoding="async"' + (i > 1 ? ' loading="lazy"' : '') + '>';
+      return '<img class="h2l-sen-shot2" data-i="' + i + '" src="' + base + '/' + f + '-20261104.webp" alt="" decoding="async"' + (i > 1 ? ' loading="lazy"' : '') + '>';
     }).join('') +
-    '<span class="h2l-sen-box"><em>Person</em></span></div>' +
+    '<span class="h2l-sen-box"><i></i><em>Person · 98%</em></span></div>' +
+    '<div class="h2l-sen-grain"></div>' +
     '<div class="h2l-sen-shade"></div>' +
-    '<div class="h2l-sen-hud"><span class="h2l-sen-mode"><i></i><b class="h2l-sen-aov">AOV · 1 FPS</b><b class="h2l-sen-full">REC · 30 FPS</b></span><span class="h2l-sen-time">PARKED · 02:17:46</span></div>' +
-    '<span class="h2l-sen-lock"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Clip locked</span>' +
+    '<div class="h2l-sen-hud"><span class="h2l-sen-mode"><i></i><b class="h2l-sen-aov">AOV · 1 FPS</b><b class="h2l-sen-full">REC · <em class="h2l-sen-fps">30</em> FPS</b></span><span class="h2l-sen-time">PARKED · <em class="h2l-sen-clock">02:17:46</em></span></div>' +
+    '<span class="h2l-sen-lock"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path class="h2l-sen-shackle" d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Clip locked<small>Protected from loop overwrite</small></span></span>' +
     '<div class="h2l-sen-toast"><span class="h2l-sen-app">H2</span><div><strong>AI Sentinel Alert</strong><span>Person detected near your car</span></div><time>now</time></div>' +
-    '<div class="h2l-sen-upload"><span>Uploading to cloud</span><i><b></b></i></div>' +
+    '<div class="h2l-sen-upload"><span class="h2l-sen-up-label">Uploading to cloud</span><span class="h2l-sen-pct">0%</span><i><b></b></i></div>' +
     '<div class="h2l-sen-actions"><span>Live view</span><span>Talk</span><span>Share</span></div>' +
     '</div>' +
     '<div class="h2l-sen-cap">' + steps.map(function (x, i) {
-      return '<div class="h2l-sen-cap-item" data-i="' + i + '"><span class="h2l-sen-cap-no">0' + (i + 1) + ' <i>/ 0' + steps.length + '</i></span><h4>' + x.t + '</h4><p>' + x.d + '</p></div>';
+      return '<div class="h2l-sen-cap-item" data-i="' + i + '"><span class="h2l-sen-cap-no">0' + (i + 1) + ' <i>/ 0' + steps.length + '</i></span><h4><span>' + x.t + '</span></h4><p>' + x.d + '</p></div>';
     }).join('') + '</div>' +
     '<ol class="h2l-sen-rail" aria-label="AI Sentinel steps">' + steps.map(function (x, i) {
       return '<li><button type="button" data-i="' + i + '" aria-label="' + x.t + '"><span>' + x.t + '</span><i></i></button></li>';
@@ -380,13 +381,43 @@
   var senBtns = Array.prototype.slice.call(sen.querySelectorAll('.h2l-sen-rail button'));
   var caps = Array.prototype.slice.call(sen.querySelectorAll('.h2l-sen-cap-item'));
   var senStep = -1;
-  function senGo(i) {
-    if (i === senStep) return;
+  var shots = Array.prototype.slice.call(sen.querySelectorAll('.h2l-sen-shot2'));
+  var fpsEl = sen.querySelector('.h2l-sen-fps'), clockEl = sen.querySelector('.h2l-sen-clock');
+  var pctEl = sen.querySelector('.h2l-sen-pct'), upLabel = sen.querySelector('.h2l-sen-up-label');
+  var tween = 0;
+  function count(el, from, to, ms, fmt, done) {
+    cancelAnimationFrame(tween);
+    var t0 = performance.now();
+    (function f(now) {
+      var k = Math.min(1, (now - t0) / ms), e = 1 - Math.pow(1 - k, 3);
+      el.textContent = fmt(Math.round(from + (to - from) * e));
+      if (k < 1) tween = requestAnimationFrame(f); else if (done) done();
+    })(t0);
+  }
+  function senGo(i, force) {
+    if (i === senStep && !force) return;
+    var prev = senStep;
     senStep = i;
     sen.setAttribute('data-step', String(i));
+    sen.setAttribute('data-dir', prev > i ? 'up' : 'down');
+    shots.forEach(function (im, j) {
+      im.classList.remove('is-on', 'is-prev');
+      if (j === prev && prev !== i) im.classList.add('is-prev');
+    });
+    void sen.offsetWidth;
+    shots[i].classList.add('is-on');
     senBtns.forEach(function (b, j) { b.classList.toggle('is-on', j === i); b.classList.toggle('is-done', j < i); });
     caps.forEach(function (c, j) { c.classList.toggle('is-on', j === i); });
+    if (reduce) return;
+    if (i === 1) count(fpsEl, 1, 30, 900, String);
+    if (i === 4) { upLabel.textContent = 'Uploading to cloud'; sen.classList.remove('is-saved'); count(pctEl, 0, 100, 1700, function (v) { return v + '%'; }, function () { upLabel.textContent = 'Saved to cloud'; sen.classList.add('is-saved'); }); }
   }
+  var clockS = 17 * 60 + 46, clockT = setInterval(function () {
+    if (!sen.classList.contains('is-visible')) return;
+    clockS++;
+    var m = Math.floor(clockS / 60) % 60, sec = clockS % 60;
+    clockEl.textContent = '02:' + (m < 10 ? '0' : '') + m + ':' + (sec < 10 ? '0' : '') + sec;
+  }, 1000);
   function senMetrics() {
     var r = track.getBoundingClientRect();
     return { r: r, total: Math.max(1, r.height - window.innerHeight) };
@@ -403,7 +434,9 @@
     var p = Math.min(1, Math.max(0, -m.r.top / m.total));
     sen.style.setProperty('--p', p.toFixed(4));
     if (!senAnim) senGo(Math.min(steps.length - 1, Math.floor(p * steps.length)));
-    sen.classList.toggle('is-visible', m.r.top < window.innerHeight && m.r.bottom > 0);
+    var vis = m.r.top < window.innerHeight && m.r.bottom > 0;
+    if (vis && !sen.classList.contains('is-visible')) { sen.classList.add('is-visible'); senGo(senStep < 0 ? 0 : senStep, true); }
+    sen.classList.toggle('is-visible', vis);
     sen.classList.toggle('is-started', p > 0.01 || senStep > 0);
   }
   function senEngaged() {
@@ -426,8 +459,10 @@
   function senStepTo(i) {
     senGo(i);
     sen.classList.add('is-started');
-    senLockUntil = performance.now() + 950;
-    senTo(stepY(i), 700);
+    senLockUntil = performance.now() + 850;
+    var y = stepY(i);
+    if (senEngaged()) { window.scrollTo({ top: y, behavior: 'instant' }); senLastY = window.scrollY; }
+    else senTo(y, 500);
   }
   // returns true when the gesture was used to change step
   function senMove(dir) {

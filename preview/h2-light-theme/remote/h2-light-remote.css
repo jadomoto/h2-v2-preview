@@ -737,3 +737,86 @@ html.h2-light:not(#h2l) .h2l-sen--scrolly[data-step="3"] .h2l-sen-toast { transf
 @media (max-width: 767px) {
   html.h2-light:not(#h2l) .h2l-sen--scrolly[data-step="5"] .h2l-sen-frame { transform: translate(-40%, -50%) !important; }
 }
+
+/* ---------- AI Sentinel v4: cinematic transitions ---------- */
+/* incoming frame wipes in over the previous one, then drifts slowly */
+html.h2-light:not(#h2l) .h2l-sen-shot2 { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; z-index: 0; transform: scale(1.04); backface-visibility: hidden; }
+html.h2-light:not(#h2l) .h2l-sen-shot2.is-prev { opacity: 1; z-index: 1; animation: h2lShotOut 1.1s cubic-bezier(0.65, 0, 0.35, 1) forwards; }
+html.h2-light:not(#h2l) .h2l-sen-shot2.is-on { opacity: 1; z-index: 2; animation: h2lShotIn 1.1s cubic-bezier(0.77, 0, 0.18, 1) both, h2lShotDrift 9s cubic-bezier(0.2, 0.6, 0.3, 1) 1.1s forwards; }
+html.h2-light:not(#h2l) .h2l-sen--scrolly[data-dir="up"] .h2l-sen-shot2.is-on { animation-name: h2lShotInUp, h2lShotDrift; }
+@keyframes h2lShotIn { from { clip-path: inset(0 0 0 100%); transform: scale(1.14) translateX(3%); } to { clip-path: inset(0 0 0 0); transform: scale(1.04); } }
+@keyframes h2lShotInUp { from { clip-path: inset(0 100% 0 0); transform: scale(1.14) translateX(-3%); } to { clip-path: inset(0 0 0 0); transform: scale(1.04); } }
+@keyframes h2lShotOut { from { transform: scale(1.04); filter: brightness(1); } to { transform: scale(1.1) translateX(-2%); filter: brightness(0.45); } }
+@keyframes h2lShotDrift { from { transform: scale(1.04); } to { transform: scale(1); } }
+/* thin light edge riding the wipe */
+html.h2-light:not(#h2l) .h2l-sen-frame::after { content: ""; position: absolute; top: 0; bottom: 0; width: 2px; left: 100%; z-index: 3; background: linear-gradient(180deg, transparent, rgba(143, 186, 255, 0.85), transparent); box-shadow: 0 0 24px 6px rgba(143, 186, 255, 0.35); opacity: 0; pointer-events: none; }
+html.h2-light:not(#h2l) .h2l-sen--scrolly.is-started .h2l-sen-frame::after { animation: h2lWipeEdge 1.1s cubic-bezier(0.77, 0, 0.18, 1); }
+html.h2-light:not(#h2l) .h2l-sen--scrolly[data-dir="up"].is-started .h2l-sen-frame::after { animation-name: h2lWipeEdgeUp; }
+@keyframes h2lWipeEdge { 0% { left: 100%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { left: 0; opacity: 0; } }
+@keyframes h2lWipeEdgeUp { 0% { left: 0; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
+/* film grain + vignette keep all six frames in one look */
+html.h2-light:not(#h2l) .h2l-sen-grain { position: absolute; inset: -50%; z-index: 4; pointer-events: none; opacity: 0.07; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); animation: h2lGrain 0.9s steps(4) infinite; }
+@keyframes h2lGrain { 0% { transform: translate(0, 0); } 25% { transform: translate(-3%, 2%); } 50% { transform: translate(2%, -3%); } 75% { transform: translate(-2%, -1%); } 100% { transform: translate(0, 0); } }
+html.h2-light:not(#h2l) .h2l-sen--scrolly .h2l-sen-shade { z-index: 4; background: radial-gradient(120% 90% at 65% 45%, transparent 40%, rgba(3, 5, 9, 0.55) 100%), linear-gradient(90deg, rgba(3, 5, 9, 0.8) 0%, rgba(3, 5, 9, 0.3) 38%, rgba(3, 5, 9, 0) 60%), linear-gradient(0deg, rgba(3, 5, 9, 0.55) 0%, rgba(3, 5, 9, 0) 28%); }
+html.h2-light:not(#h2l) .h2l-sen--scrolly .h2l-sen-hud, html.h2-light:not(#h2l) .h2l-sen--scrolly .h2l-sen-lock, html.h2-light:not(#h2l) .h2l-sen--scrolly .h2l-sen-toast, html.h2-light:not(#h2l) .h2l-sen--scrolly .h2l-sen-upload, html.h2-light:not(#h2l) .h2l-sen--scrolly .h2l-sen-actions { z-index: 6; }
+html.h2-light:not(#h2l) .h2l-sen-cap, html.h2-light:not(#h2l) .h2l-sen-rail, html.h2-light:not(#h2l) .h2l-sen-hint { z-index: 7; }
+
+/* detection box: corner brackets, scan line, confidence tag */
+html.h2-light:not(#h2l) .h2l-sen--scrolly .h2l-sen-box { z-index: 5; border: 0 !important; border-radius: 0; box-shadow: none !important;
+  background:
+    linear-gradient(#ffcc4d, #ffcc4d) left top / 22px 2px no-repeat, linear-gradient(#ffcc4d, #ffcc4d) left top / 2px 22px no-repeat,
+    linear-gradient(#ffcc4d, #ffcc4d) right top / 22px 2px no-repeat, linear-gradient(#ffcc4d, #ffcc4d) right top / 2px 22px no-repeat,
+    linear-gradient(#ffcc4d, #ffcc4d) left bottom / 22px 2px no-repeat, linear-gradient(#ffcc4d, #ffcc4d) left bottom / 2px 22px no-repeat,
+    linear-gradient(#ffcc4d, #ffcc4d) right bottom / 22px 2px no-repeat, linear-gradient(#ffcc4d, #ffcc4d) right bottom / 2px 22px no-repeat,
+    rgba(255, 204, 77, 0.06); overflow: hidden; }
+html.h2-light:not(#h2l) .h2l-sen--scrolly .h2l-sen-box i { position: absolute; left: 0; right: 0; top: 0; height: 30%; background: linear-gradient(180deg, transparent, rgba(255, 204, 77, 0.22) 85%, rgba(255, 204, 77, 0.8) 100%); animation: h2lScan 2.2s cubic-bezier(0.45, 0, 0.55, 1) infinite; }
+@keyframes h2lScan { 0% { transform: translateY(-100%); } 100% { transform: translateY(340%); } }
+html.h2-light:not(#h2l) .h2l-sen--scrolly .h2l-sen-box em { overflow: visible; }
+html.h2-light:not(#h2l) .h2l-sen--scrolly[data-step="0"] .h2l-sen-box { animation: h2lBoxIn 0.9s cubic-bezier(0.2, 0.9, 0.25, 1.1) 0.7s both; }
+@keyframes h2lBoxIn { 0% { opacity: 0; transform: scale(1.35); } 60% { opacity: 1; } 100% { opacity: 1; transform: none; } }
+
+/* lock: shackle snaps shut */
+html.h2-light:not(#h2l) .h2l-sen--scrolly .h2l-sen-lock { align-items: center; }
+html.h2-light:not(#h2l) .h2l-sen--scrolly .h2l-sen-lock > span { display: grid; gap: 3px; }
+html.h2-light:not(#h2l) .h2l-sen--scrolly .h2l-sen-lock small { color: rgba(255, 255, 255, 0.6); font-size: 12px; font-weight: 500; }
+html.h2-light:not(#h2l) .h2l-sen-shackle { transform-box: fill-box; transform-origin: center bottom; }
+html.h2-light:not(#h2l) .h2l-sen--scrolly[data-step="2"] .h2l-sen-shackle { animation: h2lShackle 0.6s cubic-bezier(0.3, 1.6, 0.5, 1) 0.9s both; }
+@keyframes h2lShackle { from { transform: translateY(-28%); } to { transform: none; } }
+
+/* alert: phone-style double buzz after it lands */
+html.h2-light:not(#h2l) .h2l-sen--scrolly[data-step="3"] .h2l-sen-toast { animation: h2lBuzz 0.5s ease-in-out 1.25s 2; }
+@keyframes h2lBuzz { 0%, 100% { translate: 0 0; } 20% { translate: -5px 0; } 40% { translate: 5px 0; } 60% { translate: -3px 0; } 80% { translate: 3px 0; } }
+
+/* upload: percentage + saved state */
+html.h2-light:not(#h2l) .h2l-sen--scrolly .h2l-sen-upload { display: grid; grid-template-columns: 1fr auto; align-items: center; column-gap: 12px; }
+html.h2-light:not(#h2l) .h2l-sen--scrolly .h2l-sen-upload i { grid-column: 1 / -1; }
+html.h2-light:not(#h2l) .h2l-sen-pct { font: 700 14px/1 ui-monospace, "SF Mono", Menlo, monospace; color: #8fbaff; }
+html.h2-light:not(#h2l) .h2l-sen--scrolly[data-step="4"] .h2l-sen-upload b { transition: transform 1.7s cubic-bezier(0.33, 0, 0.67, 1) 0s !important; }
+html.h2-light:not(#h2l) .h2l-sen.is-saved .h2l-sen-pct { color: #2fd38a; }
+html.h2-light:not(#h2l) .h2l-sen.is-saved .h2l-sen-upload b { background: #2fd38a; }
+
+/* respond: buttons rise one by one, Talk breathes */
+html.h2-light:not(#h2l) .h2l-sen--scrolly .h2l-sen-actions span { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.7s cubic-bezier(0.2, 0.9, 0.25, 1.1); }
+html.h2-light:not(#h2l) .h2l-sen--scrolly[data-step="5"] .h2l-sen-actions span { opacity: 1; transform: none; }
+html.h2-light:not(#h2l) .h2l-sen--scrolly[data-step="5"] .h2l-sen-actions span:nth-child(1) { transition-delay: 0.7s; }
+html.h2-light:not(#h2l) .h2l-sen--scrolly[data-step="5"] .h2l-sen-actions span:nth-child(2) { transition-delay: 0.82s; animation: h2lSeeNudge 2s ease-in-out 2s infinite; }
+html.h2-light:not(#h2l) .h2l-sen--scrolly[data-step="5"] .h2l-sen-actions span:nth-child(3) { transition-delay: 0.94s; }
+
+/* captions: title rises from a mask, copy follows */
+html.h2-light:not(#h2l) .h2l-sen-cap-item h4 { overflow: hidden; padding-bottom: 0.08em; }
+html.h2-light:not(#h2l) .h2l-sen-cap-item h4 span { display: inline-block; transform: translateY(105%); transition: transform 0.4s ease; }
+html.h2-light:not(#h2l) .h2l-sen-cap-item.is-on h4 span { transform: none; transition: transform 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.45s; }
+html.h2-light:not(#h2l) .h2l-sen-cap-item p, html.h2-light:not(#h2l) .h2l-sen-cap-no { opacity: 0; transform: translateY(12px); transition: opacity 0.3s ease, transform 0.3s ease; }
+html.h2-light:not(#h2l) .h2l-sen-cap-item.is-on p { opacity: 1; transform: none; transition: opacity 0.8s ease 0.75s, transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.75s; }
+html.h2-light:not(#h2l) .h2l-sen-cap-item.is-on .h2l-sen-cap-no { opacity: 1; transform: none; transition: opacity 0.6s ease 0.35s, transform 0.8s ease 0.35s; }
+html.h2-light:not(#h2l) .h2l-sen-cap-item, html.h2-light:not(#h2l) .h2l-sen-cap-item.is-on, html.h2-light:not(#h2l) .h2l-sen-cap-item:not(.is-on) { transform: none !important; }
+html.h2-light:not(#h2l) .h2l-sen-cap-item:not(.is-on) { opacity: 0; transition: opacity 0.35s ease; }
+
+/* rail: current segment fills like a timeline */
+html.h2-light:not(#h2l) .h2l-sen-rail button.is-on i::after { transition: transform 1s cubic-bezier(0.65, 0, 0.35, 1) 0.1s; }
+
+@media (prefers-reduced-motion: reduce) {
+  html.h2-light:not(#h2l) .h2l-sen-shot2, html.h2-light:not(#h2l) .h2l-sen-frame::after, html.h2-light:not(#h2l) .h2l-sen-grain, html.h2-light:not(#h2l) .h2l-sen-box i { animation: none !important; }
+}
+html.h2-light:not(#h2l) .h2l-sen--scrolly .h2l-sen-box i { height: 16%; background: linear-gradient(180deg, transparent, rgba(255, 204, 77, 0.12) 80%, rgba(255, 204, 77, 0.65) 100%); }
+@keyframes h2lScan { 0% { transform: translateY(-100%); } 100% { transform: translateY(640%); } }
