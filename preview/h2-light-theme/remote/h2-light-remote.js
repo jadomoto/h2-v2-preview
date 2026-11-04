@@ -352,7 +352,7 @@
     '<p>When something happens around your parked car, H2 records it, protects it, and tells you about it within moments.</p></div></div>' +
     '<div class="h2l-sen-track" style="--n:' + steps.length + '"><div class="h2l-sen-pin">' +
     '<div class="h2l-sen-visual" aria-hidden="true"><div class="h2l-sen-frame">' +
-    ['h2l-sen-person', 'h2l-sen-s2-record', 'h2l-sen-s3-lock', 'h2l-sen-s4-alert', 'h2l-sen-s5-backup', 'h2l-sen-respond'].map(function (f, i) {
+    ['h2l-sen-person', 'h2l-sen-v2-2-record', 'h2l-sen-v2-3-lock', 'h2l-sen-v2-4-alert', 'h2l-sen-v2-5-backup', 'h2l-sen-v2-6-respond'].map(function (f, i) {
       return '<img class="h2l-sen-shot" data-i="' + i + '" src="' + base + '/' + f + '-20261104.webp" alt="" decoding="async"' + (i > 1 ? ' loading="lazy"' : '') + '>';
     }).join('') +
     '<span class="h2l-sen-box"><em>Person</em></span></div>' +
