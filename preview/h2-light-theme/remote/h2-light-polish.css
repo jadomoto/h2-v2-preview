@@ -116,3 +116,8 @@ html.h2-light:not(#h2l) .h2l-act-invite { background: var(--p-blue) !important; 
 
 /* ---------- Lower PDP blocks align with the module grid ---------- */
 html.h2-light:not(#h2l) .h2-product-page > .pdp-section { max-width: 1180px; margin-left: auto !important; margin-right: auto !important; }
+html.h2-light:not(#h2l) .pdp-title,
+html.h2-light:not(#h2l) .pdp-gallery-badge,
+html.h2-light:not(#h2l) .pdp-gallery-badge span,
+html.h2-light:not(#h2l) .pdp-qty button,
+html.h2-light:not(#h2l) .h2-package-desc { color: var(--p-ink) !important; }
