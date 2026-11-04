@@ -46,7 +46,7 @@
     // talk
     '<div class="h2l-act-view" data-v="talk">' +
     '<div class="h2l-act-bar"><span class="h2l-act-live"><i></i>LIVE</span><strong>H2 · Front</strong><span class="h2l-act-chip">4G</span></div>' +
-    '<div class="h2l-act-video"><img src="/assets/day-h2-scene05-night-wide.jpg" alt="" loading="lazy"><span class="h2l-act-ts">PARKED · 23:14:08</span></div>' +
+    '<div class="h2l-act-video"><img src="' + base + '/h2l-act-night-20261104.webp" alt="" loading="lazy"><span class="h2l-act-ts">PARKED · 21:16:42</span></div>' +
     '<div class="h2l-act-call"><span class="h2l-act-call-label">Talking through H2</span><span class="h2l-act-timer">00:00</span>' +
     '<div class="h2l-act-wave">' + bars + '</div>' +
     '<div class="h2l-act-call-btns"><span class="h2l-act-round">' + ico.talk + '</span><span class="h2l-act-round h2l-act-round--end"><svg viewBox="0 0 24 24"><path d="M3 14.5c5-4.6 13-4.6 18 0l-2.4 2.4-3.3-1.5v-2.2a9 9 0 0 0-6.6 0v2.2l-3.3 1.5Z"/></svg></span></div></div>' +
@@ -78,9 +78,9 @@
     '<div class="h2-redo-head center"><span class="h2-redo-eyebrow">Beyond live view</span>' +
     '<h3>Act From Anywhere.</h3>' +
     '<p>H2 does more than show you the car. Speak through it, send a moment to the cloud, and share access with the people who drive it.</p></div>' +
-    '<div class="h2l-act-panel"><div class="h2l-act-copy" role="tablist" aria-label="Remote actions">' +
+    '<div class="h2l-act-panel"><div class="h2l-act-copy" role="tablist" aria-label="Remote actions"><span class="h2l-act-group">Take action · 05–07</span>' +
     acts.map(function (a, i) {
-      return '<button type="button" role="tab" class="h2l-act-item" data-k="' + a.key + '" aria-selected="' + (i ? 'false' : 'true') + '">' +
+      return '<button type="button" role="tab" class="h2l-act-item" data-k="' + a.key + '" data-n="0' + (i + 5) + '" aria-selected="' + (i ? 'false' : 'true') + '">' +
         '<span class="h2l-act-icon">' + a.icon + '</span><span class="h2l-act-text"><strong>' + a.title + '</strong><span>' + a.text + '</span></span>' +
         '<span class="h2l-act-progressbar"><i></i></span></button>';
     }).join('') +
@@ -136,6 +136,139 @@
     inView = true; loopId = requestAnimationFrame(frame);
   }
   setView('talk');
+  act.h2lGo = function (k) { auto = false; act.classList.remove('is-cycling'); setView(k); };
+
+  /* ---------- 1b. Check in: the "Your car is still within sight" panel, rebuilt as the same phone ---------- */
+  var band = page.querySelector('.h2-reach-band');
+  if (band) {
+    var sIco = {
+      live: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5"/><circle cx="12" cy="12" r="2.2"/></svg>',
+      location: '<svg viewBox="0 0 24 24"><path d="M12 21s6.2-6.1 6.2-11.1A6.2 6.2 0 0 0 5.8 9.9C5.8 14.9 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.1"/></svg>',
+      alerts: '<svg viewBox="0 0 24 24"><path d="M6.4 17.2h11.2l-1.1-1.8V10.6a4.5 4.5 0 0 0-9 0v4.8z"/><path d="M10.2 17.2a1.8 1.8 0 0 0 3.6 0"/></svg>',
+      playback: '<svg viewBox="0 0 24 24"><rect x="4.5" y="6" width="15" height="12" rx="2.2"/><path d="M10.2 9.4 15.2 12l-5 2.6z"/></svg>'
+    };
+    var sees = [
+      { key: 'live', title: 'Live View', text: 'Open the app over 4G and watch your car in real time, from anywhere.' },
+      { key: 'location', title: 'Location Check', text: 'See exactly where the car is parked, with live GPS position on the map.' },
+      { key: 'alerts', title: 'Remote Alerts', text: 'Get notified the moment H2 detects a person, a bump or a collision.' },
+      { key: 'playback', title: 'Remote Playback', text: 'Review event clips from the cloud without going back to the car.' }
+    ];
+    var tool = function (d) { return '<span class="h2l-see-tool"><svg viewBox="0 0 24 24">' + d + '</svg></span>'; };
+    var mapSvg = function (cls) {
+      return '<svg class="' + cls + '" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' +
+        '<rect width="300" height="300" fill="#eef1f5"/>' +
+        '<path d="M-10 70 Q120 40 310 95" class="m-road m-road--big"/><path d="M60 -10 L95 310" class="m-road"/><path d="M200 -10 Q185 150 230 310" class="m-road m-road--big"/>' +
+        '<path d="M-10 205 L310 175" class="m-road"/><path d="M-10 255 L120 310" class="m-road m-road--thin"/><path d="M130 -10 L150 120" class="m-road m-road--thin"/>' +
+        '<rect x="108" y="110" width="70" height="52" rx="10" fill="#d8ecd9"/><ellipse cx="258" cy="240" rx="52" ry="34" fill="#cfe3f6"/>' +
+        '<rect x="20" y="100" width="30" height="24" rx="4" class="m-blk"/><rect x="236" y="120" width="40" height="30" rx="4" class="m-blk"/><rect x="118" y="215" width="44" height="30" rx="4" class="m-blk"/>' +
+        '<rect x="12" y="140" width="38" height="52" rx="5" class="m-blk"/><rect x="104" y="20" width="22" height="34" rx="4" class="m-blk"/><rect x="158" y="18" width="34" height="26" rx="4" class="m-blk"/><rect x="242" y="20" width="44" height="40" rx="5" class="m-blk"/>' +
+        '<rect x="70" y="218" width="36" height="28" rx="4" class="m-blk"/><rect x="176" y="228" width="16" height="40" rx="4" class="m-blk"/><rect x="214" y="186" width="30" height="20" rx="4" class="m-blk"/>' +
+        '<path d="M-10 150 L110 140" class="m-road m-road--thin"/><path d="M150 120 L310 140" class="m-road m-road--thin"/><path d="M95 190 L140 310" class="m-road m-road--thin"/>' +
+        '<text x="14" y="64" class="m-txt" transform="rotate(-8 14 64)">OCEAN AVE</text><text x="210" y="168" class="m-txt" transform="rotate(84 210 168)">MAIN ST</text><text x="20" y="200" class="m-txt" transform="rotate(-5 20 200)">5TH ST</text><text x="118" y="140" class="m-txt m-txt--park">PARK</text></svg>';
+    };
+    var sPhone =
+      '<div class="h2l-act-phone" aria-hidden="true"><div class="h2l-act-screen">' +
+      '<div class="h2l-act-status"><span>9:41</span><span class="h2l-act-sig">' + ico.cell + '<b>4G</b></span></div>' +
+      // live
+      '<div class="h2l-act-view" data-v="live">' +
+      '<div class="h2l-act-bar"><span class="h2l-act-live"><i></i>LIVE</span><strong>H2 · Front</strong><span class="h2l-act-chip">4G</span></div>' +
+      '<div class="h2l-act-video h2l-see-video"><img src="' + base + '/h2l-act-garage-20261104.webp" alt="" loading="lazy">' +
+      '<span class="h2l-see-rec"><i></i>REC</span><span class="h2l-see-rate"><b>2259</b> kb/s</span><span class="h2l-act-ts h2l-see-clock">2026-06-22 14:32:08</span></div>' +
+      '<div class="h2l-see-tools">' + tool('<path d="M9 7v10M15 7v10"/>') + tool('<path d="M5 10v4h3l4 3V7L8 10Z"/><path d="M16 9l5 6M21 9l-5 6"/>') + tool('<rect x="4" y="7" width="16" height="12" rx="2.5"/><circle cx="12" cy="13" r="3.2"/><path d="M9 7l1.2-2h3.6L15 7"/>') + tool('<path d="M6 4h3l1.5 4-2 1.3a10 10 0 0 0 6.2 6.2l1.3-2 4 1.5v3a2 2 0 0 1-2 2A16 16 0 0 1 4 6a2 2 0 0 1 2-2Z"/>') + tool('<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>') + '</div>' +
+      '<div class="h2l-see-quick"><span><i>' + ico.wifi + '</i>Direct Connect</span><span><i><svg viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="12" rx="2.5"/><circle cx="12" cy="13" r="3.2"/></svg></i>Screenshot</span><span><i><svg viewBox="0 0 24 24"><rect x="3.5" y="6.5" width="13" height="11" rx="2"/><path d="M16.5 10.5 21 8v8l-4.5-2.5"/></svg></i>Record</span><span><i>' + sIco.playback + '</i>Playback</span></div>' +
+      '<div class="h2l-see-mini">' + mapSvg('h2l-see-map') + '<span class="h2l-see-car"><i></i></span><span class="h2l-see-speed"><b>0</b>MPH</span></div>' +
+      '</div>' +
+      // location
+      '<div class="h2l-act-view h2l-see-locview" data-v="location">' + mapSvg('h2l-see-map h2l-see-map--full') +
+      '<svg class="h2l-see-route" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid slice"><path d="M70 268 Q92 205 140 190 T150 136"/></svg>' +
+      '<span class="h2l-see-me"></span><span class="h2l-see-pin"><i></i><i></i><b></b></span>' +
+      '<div class="h2l-see-sheet"><div class="h2l-see-sheet-top"><span class="h2l-act-dot"></span><div><strong>H2 · Family SUV</strong><span>Parked · Updated just now</span></div></div>' +
+      '<p class="h2l-see-gps">GPS 22.5431° N · 114.0579° E</p><div class="h2l-see-btns"><span>Navigate</span><span class="is-primary">Live view</span></div></div>' +
+      '</div>' +
+      // alerts (lock screen)
+      '<div class="h2l-act-view h2l-see-lock" data-v="alerts">' +
+      '<div class="h2l-see-lock-time"><b>21:16</b><span>Monday, June 22</span></div>' +
+      '<div class="h2l-see-notes">' +
+      '<div class="h2l-see-note h2l-see-note--hero"><div class="h2l-see-note-top"><span class="h2l-sen-app">H2</span><div><strong>AI Sentinel Alert</strong><span>Person detected near your car</span></div><time>now</time></div>' +
+      '<img src="' + base + '/h2l-act-night-20261104.webp" alt="" loading="lazy"><div class="h2l-see-note-btns"><span>Live view</span><button type="button" class="h2l-see-talk">Talk now →</button></div></div>' +
+      '<div class="h2l-see-note"><div class="h2l-see-note-top"><span class="h2l-sen-app">H2</span><div><strong>Vibration Alert</strong><span>Front camera · clip saved</span></div><time>2m</time></div></div>' +
+      '<div class="h2l-see-note"><div class="h2l-see-note-top"><span class="h2l-sen-app">H2</span><div><strong>Collision Alert</strong><span>Clip locked on the card</span></div><time>5m</time></div></div>' +
+      '</div></div>' +
+      // playback
+      '<div class="h2l-act-view" data-v="playback">' +
+      '<div class="h2l-act-title h2l-see-title">Cloud Recording</div>' +
+      '<div class="h2l-act-video h2l-see-play"><img src="' + base + '/h2l-act-night-20261104.webp" alt="" loading="lazy"><span class="h2l-see-playbtn"><svg viewBox="0 0 24 24"><path d="M9 7l8 5-8 5z"/></svg></span>' +
+      '<span class="h2l-see-scrub"><i></i></span><span class="h2l-act-ts">Front · 21:16:42</span></div>' +
+      '<div class="h2l-see-filter"><span class="is-on">All</span><span>AI Sentinel</span><span>Collision</span><em>2026/06/22</em></div>' +
+      '<div class="h2l-see-events">' +
+      '<div class="is-on"><i style="--c:#f5b400"></i><p><b>AI Sentinel Alert</b><span>Front</span></p><time>21:16:42</time></div>' +
+      '<div><i style="--c:#ff8a3d"></i><p><b>Vibration Alert</b><span>Front</span></p><time>21:15:10</time></div>' +
+      '<div><i style="--c:#e5484d"></i><p><b>Collision Alert</b><span>Front</span></p><time>20:58:31</time></div>' +
+      '<div><i style="--c:#f5b400"></i><p><b>AI Sentinel Alert</b><span>Front</span></p><time>20:26:36</time></div>' +
+      '</div></div>' +
+      '</div></div>';
+    var see = el(
+      '<div class="h2l-see"><div class="h2l-act-panel h2l-see-panel"><div class="h2l-act-stage">' + sPhone + '</div>' +
+      '<div class="h2l-act-copy" role="tablist" aria-label="Check on your car"><span class="h2l-act-group">Check in · 01–04</span>' +
+      '<div class="h2l-see-head"><h4>Your car is still within sight.</h4><p>Open the JADO app over 4G to check a live view, confirm where the car is, and review key events from your phone.</p></div>' +
+      sees.map(function (a, i) {
+        return '<button type="button" role="tab" class="h2l-act-item" data-k="' + a.key + '" data-n="0' + (i + 1) + '" aria-selected="' + (i ? 'false' : 'true') + '">' +
+          '<span class="h2l-act-icon">' + sIco[a.key] + '</span><span class="h2l-act-text"><strong>' + a.title + '</strong><span>' + a.text + '</span></span>' +
+          '<span class="h2l-act-progressbar"><i></i></span></button>';
+      }).join('') +
+      '<p class="h2l-act-note">Remote features require an active 4G plan and network coverage.</p></div></div>' +
+      '<div class="h2l-link" aria-hidden="true"><span class="h2l-link-line"><i></i></span><span class="h2l-link-label">Seen something? Act on it.</span></div></div>'
+    );
+    band.style.display = 'none';
+    band.after(see);
+
+    var sItems = Array.prototype.slice.call(see.querySelectorAll('.h2l-act-item'));
+    var sClock = see.querySelector('.h2l-see-clock'), sRate = see.querySelector('.h2l-see-rate b');
+    var sCur = 'live', sT0 = 0, sAuto = true, sIn = false, sLoop = 0, sLastRate = 0;
+    function sSet(k) {
+      sCur = k;
+      see.setAttribute('data-view', k);
+      sItems.forEach(function (b) {
+        var on = b.getAttribute('data-k') === k;
+        b.setAttribute('aria-selected', on ? 'true' : 'false');
+        b.classList.toggle('is-on', on);
+      });
+      sT0 = performance.now();
+      see.classList.remove('is-cycling', 'is-fresh');
+      void see.offsetWidth;
+      see.classList.add('is-fresh');
+      if (sAuto && sIn && !reduce) see.classList.add('is-cycling');
+    }
+    sItems.forEach(function (b) {
+      b.addEventListener('click', function () { sAuto = false; see.classList.remove('is-cycling'); sSet(b.getAttribute('data-k')); });
+    });
+    see.querySelector('.h2l-see-talk').addEventListener('click', function () {
+      act.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+      setTimeout(function () { act.h2lGo('talk'); }, reduce ? 0 : 500);
+    });
+    var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+    function sFrame(now) {
+      var el2 = now - sT0;
+      if (sCur === 'live') {
+        var sec = 8 + Math.floor(el2 / 1000);
+        sClock.textContent = '2026-06-22 14:32:' + pad(sec % 60);
+        if (now - sLastRate > 700) { sLastRate = now; sRate.textContent = String(2180 + Math.floor(Math.random() * 140)); }
+      }
+      if (sAuto && sIn && !reduce && el2 > DWELL) {
+        var i = (sees.map(function (a) { return a.key; }).indexOf(sCur) + 1) % sees.length;
+        sSet(sees[i].key);
+      }
+      sLoop = sIn ? requestAnimationFrame(sFrame) : 0;
+    }
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (list) {
+        sIn = list[0].isIntersecting;
+        see.classList.toggle('is-visible', sIn);
+        if (sIn && !sLoop) { sSet(sCur); sLoop = requestAnimationFrame(sFrame); }
+      }, { threshold: 0.35 }).observe(see.querySelector('.h2l-see-panel'));
+    } else { sIn = true; sLoop = requestAnimationFrame(sFrame); }
+    sSet('live');
+  }
 
   /* ---------- 2. Connected out of the box ---------- */
   var plans = document.querySelector('#lte-plans') || document.querySelector('.h2l-lte');
