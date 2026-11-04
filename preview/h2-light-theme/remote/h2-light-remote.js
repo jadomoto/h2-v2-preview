@@ -268,6 +268,30 @@
     net.classList.add('is-visible'); sen.classList.add('is-visible');
   }
 
+  /* ---------- 4. Internal engineering: sharp exploded view on black ---------- */
+  var craftStage = document.querySelector('.h2-craft-section .h2-craft-stage');
+  if (craftStage) {
+    var pts = [
+      { side: 'left', x: 32.2, y: 32.8, n: '01', t: 'Dual cooling', d: 'Helps keep temperatures stable during long runs.' },
+      { side: 'right', x: 87.9, y: 48.8, n: '02', t: 'Supercapacitor', d: 'Built for high cabin temperatures.' },
+      { side: 'right', x: 88.6, y: 81.9, n: '03', t: 'Button cell', d: 'Maintains system time and basic state.' }
+    ];
+    craftStage.classList.add('h2l-craft');
+    craftStage.innerHTML = '<div class="h2l-craft-figure"><img src="' + base + '/h2l-craft-exploded-20261104.webp" alt="JADO H2 exploded internal engineering view" loading="lazy" decoding="async">' +
+      pts.map(function (p, i) {
+        return '<div class="h2l-craft-pt h2l-craft-pt--' + p.side + '" style="--x:' + p.x + '%;--y:' + p.y + '%;--d:' + (300 + i * 180) + 'ms"><i></i><span class="h2l-craft-line"></span>' +
+          '<div class="h2l-craft-label"><span>' + p.n + '</span><strong>' + p.t + '</strong><p>' + p.d + '</p></div></div>';
+      }).join('') + '</div>' +
+      '<ol class="h2l-craft-list">' + pts.map(function (p) { return '<li><span>' + p.n + '</span><strong>' + p.t + '</strong><p>' + p.d + '</p></li>'; }).join('') + '</ol>';
+    var craftSec = craftStage.closest('section');
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (list, o) {
+        if (!list[0].isIntersecting) return;
+        craftSec.classList.add('h2l-craft-in'); o.disconnect();
+      }, { threshold: 0.25 }).observe(craftStage);
+    } else { craftSec.classList.add('h2l-craft-in'); }
+  }
+
   /* ---------- 4. Reorder: Accident Evidence right after the Sentinel flow ---------- */
   var evidence = document.querySelector('.h2-prerecord-section');
   var anchor = document.querySelector('.h2l-sen') || document.querySelector('.h2-redo-aov');
