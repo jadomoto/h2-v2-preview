@@ -1274,3 +1274,8 @@ html.h2-light:not(#h2l) .h2l-compare th, html.h2-light:not(#h2l) .h2l-compare td
   text-transform: none !important; letter-spacing: normal !important; font-family: inherit !important;
 }
 html.h2-light:not(#h2l) .h2l-compare tbody th { font-size: 14px !important; }
+html.h2-light:not(#h2l) .h2l-plan__price { margin-bottom: 6px; }
+html.h2-light:not(#h2l) .h2l-plan__price span { font-size: 13px; letter-spacing: 0.01em; }
+html.h2-light:not(#h2l) .h2l-plan__eq { margin: 0; font-size: 13px; color: var(--h2l-accent); }
+html.h2-light:not(#h2l) .h2l-plan ul { margin-top: 18px; }
+html.h2-light:not(#h2l) .h2l-plan:not(:has(.h2l-plan__eq)) .h2l-plan__price { margin-bottom: 25px; }
