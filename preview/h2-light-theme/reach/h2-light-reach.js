@@ -19,7 +19,7 @@
   var features = {
     live: 'https://jadomoto.github.io/h2-v2-preview/preview/h2-light-theme/reach/h2l-reach-live-bg-20261103.webp',
     liveBg: 'https://jadomoto.github.io/h2-v2-preview/preview/h2-light-theme/reach/h2l-reach-live-bg-20261103.webp',
-    liveApp: 'https://jadomoto.github.io/h2-v2-preview/preview/h2-light-theme/reach/h2l-reach-live-app-20261103.webp',
+    liveApp: 'https://jadomoto.github.io/h2-v2-preview/preview/h2-light-theme/reach/h2l-reach-live-app-20261104.webp',
     location: '/assets/h2-reach-location-20260821v4.jpg',
     locationBg: 'https://jadomoto.github.io/h2-v2-preview/preview/h2-light-theme/reach/h2l-reach-location-bg-20261103.webp',
     locationApp: 'https://jadomoto.github.io/h2-v2-preview/preview/h2-light-theme/reach/h2l-reach-location-app-20261103.webp',
