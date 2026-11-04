@@ -352,7 +352,9 @@
     '<p>When something happens around your parked car, H2 records it, protects it, and tells you about it within moments.</p></div></div>' +
     '<div class="h2l-sen-track" style="--n:' + steps.length + '"><div class="h2l-sen-pin">' +
     '<div class="h2l-sen-visual" aria-hidden="true"><div class="h2l-sen-frame">' +
-    '<img src="' + base + '/h2l-sen-person-20261104.webp" alt="" decoding="async"><img class="h2l-sen-img2" src="' + base + '/h2l-sen-respond-20261104.webp" alt="" loading="lazy" decoding="async">' +
+    ['h2l-sen-person', 'h2l-sen-s2-record', 'h2l-sen-s3-lock', 'h2l-sen-s4-alert', 'h2l-sen-s5-backup', 'h2l-sen-respond'].map(function (f, i) {
+      return '<img class="h2l-sen-shot" data-i="' + i + '" src="' + base + '/' + f + '-20261104.webp" alt="" decoding="async"' + (i > 1 ? ' loading="lazy"' : '') + '>';
+    }).join('') +
     '<span class="h2l-sen-box"><em>Person</em></span></div>' +
     '<div class="h2l-sen-shade"></div>' +
     '<div class="h2l-sen-hud"><span class="h2l-sen-mode"><i></i><b class="h2l-sen-aov">AOV · 1 FPS</b><b class="h2l-sen-full">REC · 30 FPS</b></span><span class="h2l-sen-time">PARKED · 02:17:46</span></div>' +
@@ -389,23 +391,94 @@
     var r = track.getBoundingClientRect();
     return { r: r, total: Math.max(1, r.height - window.innerHeight) };
   }
-  var senTick = 0;
+  // One wheel / swipe / key gesture = one step. Native scrolling resumes past the first and last step.
+  var senTick = 0, senAnim = 0, senLockUntil = 0, senLastWheel = 0, senConsumed = false;
+  function stepY(i) {
+    var m = senMetrics();
+    return window.scrollY + m.r.top + ((i + 0.5) / steps.length) * m.total;
+  }
   function senScroll() {
     senTick = 0;
     var m = senMetrics();
     var p = Math.min(1, Math.max(0, -m.r.top / m.total));
     sen.style.setProperty('--p', p.toFixed(4));
-    senGo(Math.min(steps.length - 1, Math.floor(p * steps.length)));
+    if (!senAnim) senGo(Math.min(steps.length - 1, Math.floor(p * steps.length)));
     sen.classList.toggle('is-visible', m.r.top < window.innerHeight && m.r.bottom > 0);
-    sen.classList.toggle('is-started', p > 0.01);
+    sen.classList.toggle('is-started', p > 0.01 || senStep > 0);
   }
+  function senEngaged() {
+    var r = track.getBoundingClientRect();
+    return r.top <= 2 && r.bottom >= window.innerHeight - 2;
+  }
+  function senTo(y, ms, done) {
+    cancelAnimationFrame(senAnim);
+    var y0 = window.scrollY, dy = y - y0, t0 = performance.now();
+    if (reduce || Math.abs(dy) < 2) { window.scrollTo(0, y); senAnim = 0; if (done) done(); return; }
+    (function f(now) {
+      var k = Math.min(1, (now - t0) / ms);
+      var e = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+      window.scrollTo(0, y0 + dy * e);
+      if (k < 1) senAnim = requestAnimationFrame(f);
+      else { senAnim = 0; if (done) done(); }
+    })(t0);
+    senAnim = senAnim || 1;
+  }
+  function senStepTo(i) {
+    senGo(i);
+    sen.classList.add('is-started');
+    senLockUntil = performance.now() + 950;
+    senTo(stepY(i), 700);
+  }
+  // returns true when the gesture was used to change step
+  function senMove(dir) {
+    var next = senStep + dir;
+    if (next < 0 || next >= steps.length) return false;
+    senStepTo(next);
+    return true;
+  }
+  window.addEventListener('wheel', function (e) {
+    var now = performance.now();
+    var gap = now - senLastWheel;
+    senLastWheel = now;
+    if (!senEngaged()) {
+      // catch the scene on the way in, so a fast flick stops on the first (or last) step
+      var r = track.getBoundingClientRect(), vh = window.innerHeight;
+      if (senAnim || now < senLockUntil) { if (r.top < vh && r.bottom > 0) e.preventDefault(); return; }
+      if (e.deltaY > 0 && r.top > 2 && r.top < vh && r.top - e.deltaY <= 2) {
+        e.preventDefault(); senGo(0); senConsumed = true; senLockUntil = now + 700; senTo(window.scrollY + r.top, 420);
+      } else if (e.deltaY < 0 && r.bottom < vh - 2 && r.bottom > 0 && r.bottom - e.deltaY >= vh - 2) {
+        e.preventDefault(); senGo(steps.length - 1); senConsumed = true; senLockUntil = now + 700; senTo(window.scrollY + r.bottom - vh, 420);
+      }
+      return;
+    }
+    if (senAnim || now < senLockUntil) { e.preventDefault(); return; }
+    if (senConsumed && gap < 160) { e.preventDefault(); return; }   // still the same trackpad flick
+    if (Math.abs(e.deltaY) < 3) return;
+    var dir = e.deltaY > 0 ? 1 : -1;
+    if (senMove(dir)) { e.preventDefault(); senConsumed = true; } else { senConsumed = false; }
+  }, { passive: false });
+  var touchY = null;
+  window.addEventListener('touchstart', function (e) { touchY = senEngaged() ? e.touches[0].clientY : null; }, { passive: true });
+  window.addEventListener('touchmove', function (e) { if (touchY !== null && senEngaged()) e.preventDefault(); }, { passive: false });
+  window.addEventListener('touchend', function (e) {
+    if (touchY === null) return;
+    var dy = touchY - e.changedTouches[0].clientY; touchY = null;
+    if (Math.abs(dy) < 36 || senAnim) return;
+    var dir = dy > 0 ? 1 : -1;
+    if (!senMove(dir)) {
+      var m = senMetrics();
+      senTo(dir > 0 ? window.scrollY + m.r.bottom - window.innerHeight + 4 : window.scrollY + m.r.top - 4, 600);
+    }
+  }, { passive: true });
+  window.addEventListener('keydown', function (e) {
+    if (!senEngaged() || senAnim) return;
+    var k = e.key, dir = (k === 'ArrowDown' || k === 'PageDown' || (k === ' ' && !e.shiftKey)) ? 1 : (k === 'ArrowUp' || k === 'PageUp' || (k === ' ' && e.shiftKey)) ? -1 : 0;
+    if (dir && senMove(dir)) e.preventDefault();
+  });
   window.addEventListener('scroll', function () { if (!senTick) senTick = requestAnimationFrame(senScroll); }, { passive: true });
   window.addEventListener('resize', senScroll);
   senBtns.forEach(function (b, i) {
-    b.addEventListener('click', function () {
-      var m = senMetrics();
-      window.scrollTo({ top: window.scrollY + m.r.top + ((i + 0.5) / steps.length) * m.total, behavior: reduce ? 'auto' : 'smooth' });
-    });
+    b.addEventListener('click', function () { senStepTo(i); });
   });
   senGo(0);
   senScroll();
