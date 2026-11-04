@@ -475,7 +475,20 @@
     var k = e.key, dir = (k === 'ArrowDown' || k === 'PageDown' || (k === ' ' && !e.shiftKey)) ? 1 : (k === 'ArrowUp' || k === 'PageUp' || (k === ' ' && e.shiftKey)) ? -1 : 0;
     if (dir && senMove(dir)) e.preventDefault();
   });
-  window.addEventListener('scroll', function () { if (!senTick) senTick = requestAnimationFrame(senScroll); }, { passive: true });
+  // any other way into the scene (fling, keyboard, scrollbar) is caught on the first or last step
+  var senWas = senEngaged(), senLastY = window.scrollY;
+  window.addEventListener('scroll', function () {
+    var y = window.scrollY, dir = y > senLastY ? 1 : -1, eng = senEngaged();
+    senLastY = y;
+    if (eng && !senWas && !senAnim && performance.now() >= senLockUntil && touchY === null) {
+      var m = senMetrics();
+      senGo(dir > 0 ? 0 : steps.length - 1);
+      senLockUntil = performance.now() + 700;
+      senTo(dir > 0 ? y + m.r.top : y + m.r.bottom - window.innerHeight, 260);
+    }
+    senWas = eng;
+    if (!senTick) senTick = requestAnimationFrame(senScroll);
+  }, { passive: true });
   window.addEventListener('resize', senScroll);
   senBtns.forEach(function (b, i) {
     b.addEventListener('click', function () { senStepTo(i); });
