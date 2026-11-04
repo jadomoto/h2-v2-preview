@@ -324,8 +324,12 @@ html.h2-light:not(#h2l) .h2l-sen .h2-redo-head { text-align: center; max-width: 
 html.h2-light:not(#h2l) .h2l-sen .h2-redo-head h3 { margin: 14px 0 16px; color: var(--ink); font-size: clamp(32px, 3.6vw, 52px); line-height: 1.08; font-weight: 800; letter-spacing: -0.02em; }
 html.h2-light:not(#h2l) .h2l-sen .h2-redo-head p { color: var(--text); font-size: 18px; line-height: 1.55; margin: 0 auto; max-width: 640px; }
 html.h2-light:not(#h2l) .h2l-sen-panel { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 40px; align-items: center; }
-html.h2-light:not(#h2l) .h2l-sen-visual { position: relative; overflow: hidden; aspect-ratio: 4 / 3; border-radius: 26px; background: #05080c; box-shadow: 0 30px 60px rgba(15, 27, 45, 0.16); }
-html.h2-light:not(#h2l) .h2l-sen-visual > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 72% 50%; filter: saturate(0.8); }
+html.h2-light:not(#h2l) .h2l-sen-visual { position: relative; overflow: hidden; aspect-ratio: 16 / 9; border-radius: 26px; background: #05080c; box-shadow: 0 30px 60px rgba(15, 27, 45, 0.16); }
+html.h2-light:not(#h2l) .h2l-sen-visual > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; transition: opacity 0.9s ease, transform 6s ease-out; }
+html.h2-light:not(#h2l) .h2l-sen-visual > .h2l-sen-img2 { opacity: 0; transform: scale(1.04); }
+html.h2-light:not(#h2l) .h2l-sen[data-step="5"] .h2l-sen-visual > .h2l-sen-img2 { opacity: 1; transform: none; }
+html.h2-light:not(#h2l) .h2l-sen:not([data-step="5"]).is-visible .h2l-sen-visual > img:first-child { transform: scale(1.035); }
+html.h2-light:not(#h2l) .h2l-sen[data-step="5"] .h2l-sen-box { opacity: 0 !important; }
 html.h2-light:not(#h2l) .h2l-sen-hud { position: absolute; top: 18px; left: 18px; right: 18px; display: flex; justify-content: space-between; font: 700 11px/1 ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: 0.12em; color: rgba(255, 255, 255, 0.85); }
 html.h2-light:not(#h2l) .h2l-sen-mode { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; background: rgba(5, 8, 12, 0.55); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
 html.h2-light:not(#h2l) .h2l-sen-mode i { width: 7px; height: 7px; border-radius: 50%; background: #7fb6ff; }
@@ -334,12 +338,12 @@ html.h2-light:not(#h2l) .h2l-sen:not([data-step="0"]) .h2l-sen-aov { display: no
 html.h2-light:not(#h2l) .h2l-sen:not([data-step="0"]) .h2l-sen-full { display: inline; color: #ff6b6f; }
 html.h2-light:not(#h2l) .h2l-sen:not([data-step="0"]) .h2l-sen-mode i { background: #ff4d52; animation: h2lActBlink 1s ease-in-out infinite; }
 html.h2-light:not(#h2l) .h2l-sen-time { padding: 8px 12px; border-radius: 999px; background: rgba(5, 8, 12, 0.55); }
-html.h2-light:not(#h2l) .h2l-sen-box { position: absolute; left: 82.6%; top: 19%; width: 5%; height: 11.5%; border: 1.5px solid #ffcc4d; border-radius: 6px; box-shadow: 0 0 0 4px rgba(255, 204, 77, 0.14), 0 0 24px rgba(255, 204, 77, 0.3); opacity: 0; transform: scale(1.3); transition: opacity 0.5s, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+html.h2-light:not(#h2l) .h2l-sen-box { position: absolute; left: 60%; top: 17.5%; width: 21%; height: 54%; border: 1.5px solid #ffcc4d; border-radius: 6px; box-shadow: 0 0 0 4px rgba(255, 204, 77, 0.14), 0 0 24px rgba(255, 204, 77, 0.3); opacity: 0; transform: scale(1.3); transition: opacity 0.5s, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
 html.h2-light:not(#h2l) .h2l-sen-box em { position: absolute; right: -1.5px; bottom: calc(100% + 6px); padding: 3px 7px; border-radius: 5px; background: #ffcc4d; color: #1a1300; font: 700 10px/1.2 ui-monospace, Menlo, monospace; font-style: normal; letter-spacing: 0.06em; white-space: nowrap; }
 html.h2-light:not(#h2l) .h2l-sen.is-visible .h2l-sen-box { opacity: 1; transform: none; }
 html.h2-light:not(#h2l) .h2l-sen-lock { position: absolute; left: 18px; bottom: 18px; display: inline-flex; align-items: center; gap: 7px; padding: 9px 13px; border-radius: 12px; background: rgba(5, 8, 12, 0.6); color: #fff; font-size: 13px; font-weight: 600; opacity: 0; transform: translateY(8px); transition: opacity 0.5s, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
 html.h2-light:not(#h2l) .h2l-sen-lock svg { width: 16px; height: 16px; fill: none; stroke: #ffcc4d; stroke-width: 2; }
-html.h2-light:not(#h2l) .h2l-sen-toast { position: absolute; top: 64px; left: 42%; display: grid; grid-template-columns: 38px 1fr auto; gap: 12px; align-items: center; width: min(78%, 400px); padding: 14px 16px; border-radius: 20px; background: rgba(250, 251, 253, 0.94); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35); color: var(--ink); opacity: 0; transform: translate(-50%, -24px) scale(0.96); transition: opacity 0.5s, transform 0.7s cubic-bezier(0.2, 0.9, 0.25, 1.15); }
+html.h2-light:not(#h2l) .h2l-sen-toast { position: absolute; top: 58px; left: 18px; display: grid; grid-template-columns: 38px 1fr auto; gap: 12px; align-items: center; width: min(50%, 360px); padding: 14px 16px; border-radius: 20px; background: rgba(250, 251, 253, 0.94); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35); color: var(--ink); opacity: 0; transform: translateY(-24px) scale(0.96); transition: opacity 0.5s, transform 0.7s cubic-bezier(0.2, 0.9, 0.25, 1.15); }
 html.h2-light:not(#h2l) .h2l-sen-app { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(160deg, #2a7bf0, #1250b8); color: #fff; font-weight: 800; font-size: 13px; }
 html.h2-light:not(#h2l) .h2l-sen-toast strong { display: block; font-size: 14px; }
 html.h2-light:not(#h2l) .h2l-sen-toast div span { color: var(--text); font-size: 13px; }
@@ -351,7 +355,7 @@ html.h2-light:not(#h2l) .h2l-sen-actions { position: absolute; left: 50%; bottom
 html.h2-light:not(#h2l) .h2l-sen-actions span { padding: 10px 16px; border-radius: 999px; background: rgba(250, 251, 253, 0.94); color: var(--ink); font-size: 13px; font-weight: 700; }
 html.h2-light:not(#h2l) .h2l-sen-actions span:first-child { background: var(--blue); color: #fff; }
 html.h2-light:not(#h2l) .h2l-sen:is([data-step="2"], [data-step="3"], [data-step="4"]) .h2l-sen-lock { opacity: 1; transform: none; }
-html.h2-light:not(#h2l) .h2l-sen:is([data-step="3"], [data-step="4"], [data-step="5"]) .h2l-sen-toast { opacity: 1; transform: translate(-50%, 0) scale(1); }
+html.h2-light:not(#h2l) .h2l-sen:is([data-step="3"], [data-step="4"]) .h2l-sen-toast { opacity: 1; transform: none; }
 html.h2-light:not(#h2l) .h2l-sen[data-step="4"] .h2l-sen-upload { opacity: 1; transform: none; }
 html.h2-light:not(#h2l) .h2l-sen[data-step="4"] .h2l-sen-upload b { transform: scaleX(1); }
 html.h2-light:not(#h2l) .h2l-sen[data-step="5"] .h2l-sen-actions { opacity: 1; transform: translate(-50%, 0); }
@@ -398,7 +402,7 @@ html.h2-light:not(#h2l) .h2l-sen-note { margin: 28px 0 0; text-align: center; co
   html.h2-light:not(#h2l) .h2l-sen-visual { border-radius: 20px; }
   html.h2-light:not(#h2l) .h2l-sen-hud { top: 12px; left: 12px; right: 12px; font-size: 9px; }
   html.h2-light:not(#h2l) .h2l-sen-mode, html.h2-light:not(#h2l) .h2l-sen-time { padding: 6px 9px; }
-  html.h2-light:not(#h2l) .h2l-sen-toast { top: 40%; left: 50%; width: 88%; padding: 10px 12px; grid-template-columns: 30px 1fr auto; gap: 9px; border-radius: 16px; }
+  html.h2-light:not(#h2l) .h2l-sen-toast { top: 22%; left: 3%; width: 54%; padding: 10px 12px; grid-template-columns: 30px 1fr auto; gap: 9px; border-radius: 16px; }
   html.h2-light:not(#h2l) .h2l-sen-app { width: 30px; height: 30px; font-size: 11px; border-radius: 8px; }
   html.h2-light:not(#h2l) .h2l-sen-toast strong { font-size: 12px; }
   html.h2-light:not(#h2l) .h2l-sen-toast div span { font-size: 11px; }
@@ -565,3 +569,5 @@ html.h2-light:not(#h2l) .h2l-act { padding-top: 64px !important; }
 @media (prefers-reduced-motion: reduce) {
   html.h2-light:not(#h2l) .h2l-see *, html.h2-light:not(#h2l) .h2l-link * { animation: none !important; }
 }
+html.h2-light:not(#h2l) .h2l-sen-hud { transition: opacity 0.6s ease; }
+html.h2-light:not(#h2l) .h2l-sen[data-step="5"] .h2l-sen-hud { opacity: 0; }

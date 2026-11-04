@@ -350,7 +350,7 @@
     '<h3>From Motion to Your Phone.</h3>' +
     '<p>When something happens around your parked car, H2 records it, protects it, and tells you about it within moments.</p></div>' +
     '<div class="h2l-sen-panel">' +
-    '<div class="h2l-sen-visual" aria-hidden="true"><img src="/assets/day-h2-scene05-night-wide.jpg" alt="" loading="lazy">' +
+    '<div class="h2l-sen-visual" aria-hidden="true"><img src="' + base + '/h2l-sen-person-20261104.webp" alt="" loading="lazy"><img class="h2l-sen-img2" src="' + base + '/h2l-sen-respond-20261104.webp" alt="" loading="lazy">' +
     '<div class="h2l-sen-hud"><span class="h2l-sen-mode"><i></i><b class="h2l-sen-aov">AOV · 1 FPS</b><b class="h2l-sen-full">REC · 30 FPS</b></span><span class="h2l-sen-time">PARKED · 02:17:46</span></div>' +
     '<span class="h2l-sen-box"><em>Person</em></span>' +
     '<span class="h2l-sen-lock"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Clip locked</span>' +
