@@ -611,53 +611,173 @@ html.h2-light:not(#h2l) .h2-night-video-note {
 }
 
 /* ---------- Accident evidence ---------- */
-html.h2-light:not(#h2l) .h2-prerecord-cinema-stage {
-  box-shadow: 0 1px 2px rgba(23, 36, 54, 0.06), 0 16px 40px rgba(23, 36, 54, 0.10) !important;
+/* Video untouched. Head, timeline and playback tag are rebuilt as one card:
+   video on top, a clean 3-step progress row below, a 4G playback tag as footer. */
+html.h2-light:not(#h2l) .h2-prerecord-head {
+  max-width: 760px !important;
+  margin: 0 auto !important;
 }
-html.h2-light:not(#h2l) .h2-prerecord-track {
-  background: #fff !important;
-  border: 1px solid var(--h2l-line) !important;
-  border-top: 0 !important;
+html.h2-light:not(#h2l) .h2-prerecord-head h3 {
+  font-size: clamp(30px, 3.4vw, 46px) !important;
+  line-height: 1.08 !important;
+  letter-spacing: -0.02em !important;
+}
+html.h2-light:not(#h2l) .h2-prerecord-head h3 span { display: block; }
+html.h2-light:not(#h2l) .h2-prerecord-head p {
+  max-width: 620px !important;
+  margin: 18px auto 0 !important;
+  font-size: 17px !important;
+  line-height: 1.6 !important;
+}
+html.h2-light:not(#h2l) .h2-prerecord-panel--cinema {
+  margin-top: 48px !important;
+  background: none !important;
+  border: 0 !important;
   box-shadow: none !important;
-  color: var(--h2l-title) !important;
+  padding: 0 !important;
 }
-html.h2-light:not(#h2l) .h2-prerecord-track::before {
-  background: var(--h2l-line) !important;
+html.h2-light:not(#h2l) .h2-prerecord-cinema {
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 10px !important;
+  border-radius: 28px !important;
+  background: #f4f5f7 !important;
+  box-shadow: none !important;
 }
-html.h2-light:not(#h2l) .h2-prerecord-track button {
+html.h2-light:not(#h2l) .h2-prerecord-cinema-stage {
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+html.h2-light:not(#h2l) .h2-prerecord-cinema-shade { opacity: 0.6; }
+
+/* timeline: rail on row 1, the three labels on row 2 under their nodes */
+html.h2-light:not(#h2l) .h2-prerecord-track {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  row-gap: 10px !important;
+  width: 100% !important;
+  max-width: 760px !important;
+  margin: 28px auto 0 !important;
+  padding: 0 !important;
+  background: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+html.h2-light:not(#h2l) .h2-prerecord-track::before,
+html.h2-light:not(#h2l) .h2-prerecord-track::after { display: none !important; content: none !important; }
+html.h2-light:not(#h2l) .h2-prerecord-track-top,
+html.h2-light:not(#h2l) .h2-prerecord-track-bottom { display: contents !important; }
+html.h2-light:not(#h2l) .h2-prerecord-track-top > span,
+html.h2-light:not(#h2l) .h2-prerecord-track-bottom > span { display: none !important; }
+html.h2-light:not(#h2l) .h2-prerecord-track-rail {
+  grid-column: 1 / -1 !important;
+  grid-row: 1 !important;
+  width: 100% !important;
+  height: 28px !important;
+}
+html.h2-light:not(#h2l) .h2-prerecord-track-top > button,
+html.h2-light:not(#h2l) .h2-prerecord-track-bottom > button {
+  grid-row: 2 !important;
+  justify-self: center !important;
+  margin: 0 !important;
+  padding: 4px 2px !important;
+  background: none !important;
+  border: 0 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
   color: var(--h2l-muted) !important;
+  cursor: pointer;
+  transition: color 0.25s;
 }
-html.h2-light:not(#h2l) .h2-prerecord-track button.is-active {
+html.h2-light:not(#h2l) .h2-prerecord-track-top > button { grid-column: 1 !important; }
+html.h2-light:not(#h2l) .h2-prerecord-track-bottom > button:nth-of-type(1) { grid-column: 2 !important; }
+html.h2-light:not(#h2l) .h2-prerecord-track-bottom > button:nth-of-type(2) { grid-column: 3 !important; }
+html.h2-light:not(#h2l) .h2-prerecord-track-top > button.is-active,
+html.h2-light:not(#h2l) .h2-prerecord-track-bottom > button.is-active {
   color: var(--h2l-title) !important;
+}
+html.h2-light:not(#h2l) .h2-prerecord-track-bottom > button:nth-of-type(1).is-active {
+  color: #d92d36 !important;
 }
 html.h2-light:not(#h2l) .h2-prerecord-cinema-line {
-  background: var(--h2l-line-strong) !important;
+  left: calc(100% / 6) !important;
+  right: calc(100% / 6) !important;
+  top: 50% !important;
+  height: 4px !important;
+  transform: translateY(-50%) !important;
+  border-radius: 999px !important;
+  background: #dde1e7 !important;
+  overflow: hidden !important;
 }
 html.h2-light:not(#h2l) .h2-prerecord-cinema-fill {
   background: var(--h2l-accent) !important;
-  box-shadow: none !important;
+  border-radius: 999px !important;
 }
 html.h2-light:not(#h2l) .h2-prerecord-cinema-node i {
+  width: 14px !important;
+  height: 14px !important;
   background: #fff !important;
-  border: 2px solid var(--h2l-line-strong) !important;
+  border: 3px solid #c9d0d9 !important;
   box-shadow: none !important;
+  transform: none !important;
 }
-html.h2-light:not(#h2l) .h2-prerecord-cinema-node.is-passed i {
+html.h2-light:not(#h2l) .h2-prerecord-cinema-node.is-passed i,
+html.h2-light:not(#h2l) .h2-prerecord-cinema-node.is-active i {
   border-color: var(--h2l-accent) !important;
-}
-html.h2-light:not(#h2l) .h2-prerecord-cinema-node--impact i {
-  background: #e5484d !important;
-  border-color: #e5484d !important;
-  box-shadow: 0 0 0 5px rgba(229, 72, 77, 0.14) !important;
 }
 html.h2-light:not(#h2l) .h2-prerecord-cinema-node.is-active i {
   background: var(--h2l-accent) !important;
-  border-color: var(--h2l-accent) !important;
-  box-shadow: 0 0 0 5px rgba(23, 105, 224, 0.14) !important;
+  box-shadow: 0 0 0 6px rgba(23, 105, 224, 0.14) !important;
 }
+html.h2-light:not(#h2l) .h2-prerecord-cinema-node--impact i,
+html.h2-light:not(#h2l) .h2-prerecord-cinema-node--impact.is-passed i {
+  background: #fff !important;
+  border-color: #e5484d !important;
+}
+html.h2-light:not(#h2l) .h2-prerecord-cinema-node--impact.is-active i {
+  background: #e5484d !important;
+  border-color: #e5484d !important;
+  box-shadow: 0 0 0 6px rgba(229, 72, 77, 0.16) !important;
+}
+
+/* footer tag */
 html.h2-light:not(#h2l) .h2-prerecord-cinema-save {
+  align-self: center !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin: 22px auto 18px !important;
+  padding: 8px 16px 8px 12px !important;
+  border-radius: 999px !important;
+  background: #fff !important;
+  border: 1px solid var(--h2l-line) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+  text-transform: none !important;
   color: var(--h2l-title) !important;
   text-shadow: none !important;
+}
+html.h2-light:not(#h2l) .h2-prerecord-cinema-save::before {
+  content: "";
+  width: 18px;
+  height: 18px;
+  background: var(--h2l-accent);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='6' y='2' width='12' height='20' rx='2.5'/%3E%3Cpath d='M10.5 9.5v5l4-2.5z' fill='black'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='6' y='2' width='12' height='20' rx='2.5'/%3E%3Cpath d='M10.5 9.5v5l4-2.5z' fill='black'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+@media (max-width: 767px) {
+  html.h2-light:not(#h2l) .h2-prerecord-panel--cinema { margin-top: 32px !important; }
+  html.h2-light:not(#h2l) .h2-prerecord-cinema { padding: 8px !important; border-radius: 22px !important; }
+  html.h2-light:not(#h2l) .h2-prerecord-cinema-stage { border-radius: 16px !important; }
+  html.h2-light:not(#h2l) .h2-prerecord-track { margin-top: 20px !important; }
+  html.h2-light:not(#h2l) .h2-prerecord-track-top > button,
+  html.h2-light:not(#h2l) .h2-prerecord-track-bottom > button { font-size: 10px !important; letter-spacing: 0.08em !important; }
+  html.h2-light:not(#h2l) .h2-prerecord-cinema-save { margin: 16px auto 12px !important; }
 }
 
 /* ---------- Three-channel view ---------- */
@@ -1010,4 +1130,16 @@ html.h2-light:not(#h2l) .h2-reach-hero > img:first-child {
     width: 100% !important;
     height: auto !important;
   }
+}
+html.h2-light:not(#h2l) .h2-prerecord-panel--cinema::before,
+html.h2-light:not(#h2l) .h2-prerecord-panel--cinema::after,
+html.h2-light:not(#h2l) .h2-prerecord-cinema::before,
+html.h2-light:not(#h2l) .h2-prerecord-cinema::after,
+html.h2-light:not(#h2l) .h2-prerecord-cinema-stage::before,
+html.h2-light:not(#h2l) .h2-prerecord-cinema-stage::after {
+  display: none !important;
+  content: none !important;
+}
+@media (max-width: 767px) {
+  html.h2-light:not(#h2l) .h2-prerecord-head h3 { font-size: 26px !important; }
 }
