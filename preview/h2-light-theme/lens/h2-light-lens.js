@@ -16,15 +16,15 @@
     var me = document.currentScript && document.currentScript.src;
     base = me ? me.replace(/\/[^\/]*$/, '') : '/assets';
   }
-  var car = base + '/h2l-lens-car-20261104b.webp';
+  var car = base + '/h2l-lens-car-20261104c.webp';
   var NS = 'http://www.w3.org/2000/svg';
 
-  // 1600 x 800 viewBox. Car box: x 420-1180, y 211.5-588.5.
-  var CAR = { x: 420, y: 211.5, w: 760, h: 377 };
+  // 1600 x 800 viewBox. Car box: x 400-1200, y 214-586.
+  var CAR = { x: 400, y: 214, w: 800, h: 372 };
   var zones = [
-    { key: 'front', o: [716, 400], r: 620, dir: 180, half: 68, label: [250, 400], text: 'FRONT 136°' },
-    { key: 'cabin', o: [724, 400], r: 480, dir: 0, half: 69, label: [930, 178], text: 'CABIN 138°' },
-    { key: 'rear', o: [1131, 400], r: 430, dir: 0, half: 66, label: [1450, 400], text: 'REAR 132°' }
+    { key: 'front', o: [714, 400], r: 620, dir: 180, half: 68, label: [250, 400], text: 'FRONT 136°' },
+    { key: 'cabin', o: [722, 400], r: 480, dir: 0, half: 69, label: [930, 178], text: 'CABIN 138°' },
+    { key: 'rear', o: [1066, 400], r: 460, dir: 0, half: 66, label: [1450, 400], text: 'REAR 132°' }
   ];
 
   function pt(o, r, deg) {
