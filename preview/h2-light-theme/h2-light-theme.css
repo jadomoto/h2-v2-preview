@@ -987,3 +987,27 @@ html.h2-light:not(#h2l) .h2l-aov-note b {
   html.h2-light:not(#h2l) .h2l-aov-note { font-size: 11px; padding: 8px 10px 8px 8px; gap: 8px; }
   html.h2-light:not(#h2l) .h2l-aov-note i { width: 22px; height: 22px; }
 }
+
+/* Remote check: owner-side backgrounds keep their left foreground in view;
+   on phones the stage turns portrait so the whole app screenshot shows. */
+html.h2-light:not(#h2l) .h2-reach-hero > img:first-child {
+  object-position: 22% 50% !important;
+}
+@media (max-width: 767px) {
+  html.h2-light:not(#h2l) .h2-reach-stage {
+    aspect-ratio: 4 / 5 !important;
+    height: auto !important;
+  }
+  html.h2-light:not(#h2l) .h2-reach-hero {
+    height: 100% !important;
+  }
+  html.h2-light:not(#h2l) .h2-reach-phone {
+    width: 50% !important;
+    max-width: none !important;
+    height: auto !important;
+  }
+  html.h2-light:not(#h2l) .h2-reach-phone img {
+    width: 100% !important;
+    height: auto !important;
+  }
+}
