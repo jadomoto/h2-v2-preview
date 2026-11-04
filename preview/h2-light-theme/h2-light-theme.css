@@ -1279,3 +1279,13 @@ html.h2-light:not(#h2l) .h2l-plan__price span { font-size: 13px; letter-spacing:
 html.h2-light:not(#h2l) .h2l-plan__eq { margin: 0; font-size: 13px; color: var(--h2l-accent); }
 html.h2-light:not(#h2l) .h2l-plan ul { margin-top: 18px; }
 html.h2-light:not(#h2l) .h2l-plan:not(:has(.h2l-plan__eq)) .h2l-plan__price { margin-bottom: 25px; }
+html.h2-light:not(#h2l) .h2l-trial__renew {
+  grid-column: 1 / -1; position: relative; margin: 0; padding: 12px 16px 12px 40px;
+  border-radius: 12px; background: #fff; border: 1px solid #d6e4fb;
+  font-size: 14px; line-height: 1.5; color: var(--h2l-text);
+}
+html.h2-light:not(#h2l) .h2l-trial__renew b { color: var(--h2l-title); font-weight: 600; }
+html.h2-light:not(#h2l) .h2l-trial__renew::before {
+  content: ""; position: absolute; left: 17px; top: 17px; width: 10px; height: 6px;
+  border-left: 2px solid #1f9d55; border-bottom: 2px solid #1f9d55; transform: rotate(-45deg);
+}
