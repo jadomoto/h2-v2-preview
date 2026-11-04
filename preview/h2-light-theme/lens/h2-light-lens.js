@@ -19,12 +19,12 @@
   var car = base + '/h2l-lens-car-20261104c.webp';
   var NS = 'http://www.w3.org/2000/svg';
 
-  // 1600 x 800 viewBox. Car box: x 400-1200, y 214-586.
-  var CAR = { x: 400, y: 214, w: 800, h: 372 };
+  // 1600 x 800 viewBox. Car box: x 290-1310, y 162.8-637.2.
+  var CAR = { x: 290, y: 162.8, w: 1020, h: 474.4 };
   var zones = [
-    { key: 'front', o: [714, 400], r: 620, dir: 180, half: 68, label: [250, 400], text: 'FRONT 136°' },
-    { key: 'cabin', o: [722, 400], r: 480, dir: 0, half: 69, label: [930, 178], text: 'CABIN 138°' },
-    { key: 'rear', o: [1066, 400], r: 460, dir: 0, half: 66, label: [1450, 400], text: 'REAR 132°' }
+    { key: 'front', o: [691, 400], r: 640, dir: 180, half: 68, label: [150, 400], text: 'FRONT 136°' },
+    { key: 'cabin', o: [700, 400], r: 600, dir: 0, half: 69, label: [940, 128], text: 'CABIN 138°' },
+    { key: 'rear', o: [1139, 400], r: 460, dir: 0, half: 66, label: [1490, 400], text: 'REAR 132°' }
   ];
 
   function pt(o, r, deg) {
@@ -79,8 +79,8 @@
 
   var under = '<svg class="h2l-lens-layer" viewBox="0 0 1600 800" aria-hidden="true" focusable="false">' + defs +
     '<g mask="url(#h2lFadeMask)"><rect width="1600" height="800" fill="url(#h2lDots)" opacity=".5"/>' +
-    '<circle class="h2l-ring" cx="800" cy="400" r="330"/><circle class="h2l-ring h2l-ring--ticks" cx="800" cy="400" r="410"/><circle class="h2l-ring" cx="800" cy="400" r="500"/></g>' +
-    '<ellipse cx="800" cy="410" rx="440" ry="215" fill="url(#h2lShadow)"/>' +
+    '<circle class="h2l-ring" cx="800" cy="400" r="420"/><circle class="h2l-ring h2l-ring--ticks" cx="800" cy="400" r="520"/><circle class="h2l-ring" cx="800" cy="400" r="630"/></g>' +
+    '<ellipse cx="800" cy="412" rx="560" ry="270" fill="url(#h2lShadow)"/>' +
     '<g mask="url(#h2lEdgeMask)">' + zone(zones[0]) + zone(zones[2]) + '</g></svg>';
   var over = '<svg class="h2l-lens-layer h2l-lens-layer--over" viewBox="0 0 1600 800" aria-hidden="true" focusable="false">' +
     '<g mask="url(#h2lCarMask)">' + zone(zones[1]) + '</g>' +
