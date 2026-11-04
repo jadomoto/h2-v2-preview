@@ -344,42 +344,71 @@
     { k: 'backup', t: 'Back up', d: 'The clip uploads to encrypted cloud storage, so a copy survives even if the card is lost.' },
     { k: 'act', t: 'Respond', d: 'Open live view, speak through H2, or share the clip with family.' }
   ];
+  // Scroll-driven: the scene pins full screen and each stretch of scrolling moves to the next step.
   var sen = el(
-    '<section class="h2-redo-section h2l-sen" data-step="0"><div class="h2-redo-wrap">' +
+    '<section class="h2-redo-section h2l-sen h2l-sen--scrolly" data-step="0"><div class="h2-redo-wrap">' +
     '<div class="h2-redo-head center"><span class="h2-redo-eyebrow">AI Sentinel · 4G alerts</span>' +
     '<h3>From Motion to Your Phone.</h3>' +
-    '<p>When something happens around your parked car, H2 records it, protects it, and tells you about it within moments.</p></div>' +
-    '<div class="h2l-sen-panel">' +
-    '<div class="h2l-sen-visual" aria-hidden="true"><img src="' + base + '/h2l-sen-person-20261104.webp" alt="" loading="lazy"><img class="h2l-sen-img2" src="' + base + '/h2l-sen-respond-20261104.webp" alt="" loading="lazy">' +
+    '<p>When something happens around your parked car, H2 records it, protects it, and tells you about it within moments.</p></div></div>' +
+    '<div class="h2l-sen-track" style="--n:' + steps.length + '"><div class="h2l-sen-pin">' +
+    '<div class="h2l-sen-visual" aria-hidden="true"><div class="h2l-sen-frame">' +
+    '<img src="' + base + '/h2l-sen-person-20261104.webp" alt="" decoding="async"><img class="h2l-sen-img2" src="' + base + '/h2l-sen-respond-20261104.webp" alt="" loading="lazy" decoding="async">' +
+    '<span class="h2l-sen-box"><em>Person</em></span></div>' +
+    '<div class="h2l-sen-shade"></div>' +
     '<div class="h2l-sen-hud"><span class="h2l-sen-mode"><i></i><b class="h2l-sen-aov">AOV · 1 FPS</b><b class="h2l-sen-full">REC · 30 FPS</b></span><span class="h2l-sen-time">PARKED · 02:17:46</span></div>' +
-    '<span class="h2l-sen-box"><em>Person</em></span>' +
     '<span class="h2l-sen-lock"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Clip locked</span>' +
     '<div class="h2l-sen-toast"><span class="h2l-sen-app">H2</span><div><strong>AI Sentinel Alert</strong><span>Person detected near your car</span></div><time>now</time></div>' +
     '<div class="h2l-sen-upload"><span>Uploading to cloud</span><i><b></b></i></div>' +
     '<div class="h2l-sen-actions"><span>Live view</span><span>Talk</span><span>Share</span></div>' +
     '</div>' +
-    '<ol class="h2l-sen-steps">' + steps.map(function (x, i) {
-      return '<li><button type="button" data-i="' + i + '"><span class="h2l-sen-no">0' + (i + 1) + '</span><span><strong>' + x.t + '</strong><span>' + x.d + '</span></span></button></li>';
-    }).join('') + '</ol></div>' +
+    '<div class="h2l-sen-cap">' + steps.map(function (x, i) {
+      return '<div class="h2l-sen-cap-item" data-i="' + i + '"><span class="h2l-sen-cap-no">0' + (i + 1) + ' <i>/ 0' + steps.length + '</i></span><h4>' + x.t + '</h4><p>' + x.d + '</p></div>';
+    }).join('') + '</div>' +
+    '<ol class="h2l-sen-rail" aria-label="AI Sentinel steps">' + steps.map(function (x, i) {
+      return '<li><button type="button" data-i="' + i + '" aria-label="' + x.t + '"><span>' + x.t + '</span><i></i></button></li>';
+    }).join('') + '</ol>' +
+    '<div class="h2l-sen-hint" aria-hidden="true"><span></span>Scroll</div>' +
+    '</div></div>' +
     '<p class="h2l-sen-note">Requires parking monitoring with the hardwire kit. Alerts need an active 4G plan; cloud backup is included from the Standard plan.</p>' +
-    '</div></section>'
+    '</section>'
   );
   var aovSec = document.querySelector('.h2-redo-aov');
   if (aovSec) aovSec.after(sen);
-  var senBtns = Array.prototype.slice.call(sen.querySelectorAll('.h2l-sen-steps button'));
-  var senStep = 0, senAuto = true, senTimer = 0;
+  var track = sen.querySelector('.h2l-sen-track');
+  var senBtns = Array.prototype.slice.call(sen.querySelectorAll('.h2l-sen-rail button'));
+  var caps = Array.prototype.slice.call(sen.querySelectorAll('.h2l-sen-cap-item'));
+  var senStep = -1;
   function senGo(i) {
+    if (i === senStep) return;
     senStep = i;
     sen.setAttribute('data-step', String(i));
-    senBtns.forEach(function (b, j) {
-      b.classList.toggle('is-on', j === i);
-      b.classList.toggle('is-done', j < i);
-    });
+    senBtns.forEach(function (b, j) { b.classList.toggle('is-on', j === i); b.classList.toggle('is-done', j < i); });
+    caps.forEach(function (c, j) { c.classList.toggle('is-on', j === i); });
   }
+  function senMetrics() {
+    var r = track.getBoundingClientRect();
+    return { r: r, total: Math.max(1, r.height - window.innerHeight) };
+  }
+  var senTick = 0;
+  function senScroll() {
+    senTick = 0;
+    var m = senMetrics();
+    var p = Math.min(1, Math.max(0, -m.r.top / m.total));
+    sen.style.setProperty('--p', p.toFixed(4));
+    senGo(Math.min(steps.length - 1, Math.floor(p * steps.length)));
+    sen.classList.toggle('is-visible', m.r.top < window.innerHeight && m.r.bottom > 0);
+    sen.classList.toggle('is-started', p > 0.01);
+  }
+  window.addEventListener('scroll', function () { if (!senTick) senTick = requestAnimationFrame(senScroll); }, { passive: true });
+  window.addEventListener('resize', senScroll);
   senBtns.forEach(function (b, i) {
-    b.addEventListener('click', function () { senAuto = false; clearInterval(senTimer); senGo(i); });
+    b.addEventListener('click', function () {
+      var m = senMetrics();
+      window.scrollTo({ top: window.scrollY + m.r.top + ((i + 0.5) / steps.length) * m.total, behavior: reduce ? 'auto' : 'smooth' });
+    });
   });
   senGo(0);
+  senScroll();
 
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(function (list) {
@@ -388,17 +417,8 @@
       clearInterval(pkTimer);
       if (on && !reduce) pkTimer = setInterval(nextPacket, 2400);
     }, { threshold: 0.2 }).observe(net);
-    new IntersectionObserver(function (list) {
-      var on = list[0].isIntersecting;
-      sen.classList.toggle('is-visible', on);
-      clearInterval(senTimer);
-      if (on && senAuto && !reduce) {
-        senGo(0);
-        senTimer = setInterval(function () { senGo((senStep + 1) % steps.length); }, 2300);
-      }
-    }, { threshold: 0.35 }).observe(sen.querySelector('.h2l-sen-panel'));
   } else {
-    net.classList.add('is-visible'); sen.classList.add('is-visible');
+    net.classList.add('is-visible');
   }
 
   /* ---------- 4. Internal engineering: sharp exploded view on black ---------- */
