@@ -1145,7 +1145,8 @@ html.h2-light:not(#h2l) .h2-prerecord-cinema-stage::after {
 }
 
 /* ---------- LTE Plans & Pricing ---------- */
-html.h2-light:not(#h2l) .h2-product-page .h2pdp > .h2l-lte::before { background: var(--h2l-bg-alt) !important; }
+html.h2-light:not(#h2l) .h2-product-page .h2pdp > .h2l-lte::before { background: var(--h2l-bg) !important; }
+html.h2-light:not(#h2l) .h2-product-page .h2pdp > .h2-redo-craft::before { background: var(--h2l-bg-alt) !important; }
 html.h2-light:not(#h2l) .h2-product-page .h2pdp > .h2-buy-section::before { background: var(--h2l-bg) !important; }
 html.h2-light:not(#h2l) .h2l-lte { padding: 96px 0 !important; color: var(--h2l-title); }
 html.h2-light:not(#h2l) .h2l-lte-wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }

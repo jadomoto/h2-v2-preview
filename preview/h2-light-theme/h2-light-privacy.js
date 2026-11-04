@@ -29,13 +29,14 @@
   });
 })();
 
-/* H2 light preview: LTE plans section — keep it right before the closing CTA
-   (the reach script reorders sections) and drive the "View All Features" toggle. */
+/* H2 light preview: LTE plans section — keep it between the privacy usage and
+   internal engineering sections (the reach script reorders sections) and drive
+   the "View All Features" toggle. */
 (function () {
   var lte = document.getElementById('lte-plans');
   if (!lte) return;
-  var cta = document.querySelector('.h2-buy-section');
-  if (cta && lte.nextElementSibling !== cta) cta.parentNode.insertBefore(lte, cta);
+  var usage = document.querySelector('.h2-privacy-usage');
+  if (usage && usage.nextElementSibling !== lte) usage.parentNode.insertBefore(lte, usage.nextElementSibling);
   var btn = lte.querySelector('.h2l-compare__toggle');
   var more = document.getElementById('h2l-compare-more');
   if (!btn || !more) return;
