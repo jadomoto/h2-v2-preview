@@ -36,7 +36,7 @@
   var acts = [
     { key: 'talk', icon: ico.talk, title: 'Two-way Talk', text: 'Start a voice call from the live view. Ask someone to step away from the car, or check in with the driver.' },
     { key: 'shot', icon: ico.shot, title: 'One-touch Cloud Shot', text: 'Short-press the power button and H2 captures a highlight clip and uploads it straight to the cloud.' },
-    { key: 'share', icon: ico.share, title: 'Family Sharing', text: 'Share device access with family from the app, and keep up to 5 cloud dash cams on one account.' }
+    { key: 'share', icon: ico.share, title: 'Family Sharing', text: 'Share live view and playback with up to 10 family members, and keep up to 5 cloud dash cams on one account.' }
   ];
   var bars = '';
   for (var i = 0; i < 26; i++) bars += '<i style="animation-delay:' + (-((i * 37) % 100) / 100).toFixed(2) + 's"></i>';
@@ -69,7 +69,7 @@
     '<div><span class="h2l-act-av" style="--c:#e08a17">L</span><p><b>Leo</b><span>Live view · Playback</span></p></div>' +
     '</div>' +
     '<div class="h2l-act-invite">+ Invite family</div>' +
-    '<div class="h2l-act-quota">Cloud dash cams on this account <b>2 / 5</b></div>' +
+    '<div class="h2l-act-quota">Shared users <b>2 / 10</b></div>' +
     '</div>' +
     '</div></div>';
 
@@ -84,7 +84,7 @@
         '<span class="h2l-act-icon">' + a.icon + '</span><span class="h2l-act-text"><strong>' + a.title + '</strong><span>' + a.text + '</span></span>' +
         '<span class="h2l-act-progressbar"><i></i></span></button>';
     }).join('') +
-    '<p class="h2l-act-note">Two-way talk and remote access need an active 4G plan. Cloud Shot uses cloud storage, included from the Standard plan. Shared users depend on the plan.</p>' +
+    '<p class="h2l-act-note">Two-way talk and remote access need an active 4G plan. Cloud Shot uses cloud storage, included from the Standard plan. Shared-user limits vary by plan.</p>' +
     '</div><div class="h2l-act-stage">' + phone + '</div></div></div></section>'
   );
   page.after(act);
@@ -139,22 +139,50 @@
 
   /* ---------- 2. Connected out of the box ---------- */
   var plans = document.querySelector('#lte-plans') || document.querySelector('.h2l-lte');
+  var nodeIco = {
+    cam: '<svg viewBox="0 0 32 32"><rect x="4" y="9" width="24" height="14" rx="4"/><circle cx="11" cy="16" r="3.6"/><path d="M18 14h6M18 18h4"/></svg>',
+    tower: '<svg viewBox="0 0 32 32"><path d="M16 12v16M11 28l5-16 5 16M12.6 22h6.8"/><circle cx="16" cy="10" r="1.6"/><path d="M10.5 5.5a8 8 0 0 0 0 9M21.5 5.5a8 8 0 0 1 0 9M7.5 3a12 12 0 0 0 0 14M24.5 3a12 12 0 0 1 0 14"/></svg>',
+    cloud: '<svg viewBox="0 0 32 32"><path d="M9.5 24h13a5.5 5.5 0 0 0 .8-10.94A8 8 0 0 0 8.2 12.4 5.8 5.8 0 0 0 9.5 24Z"/><rect x="13" y="16" width="6" height="5" rx="1"/><path d="M14.5 16v-1.6a1.5 1.5 0 0 1 3 0V16"/></svg>',
+    phone: '<svg viewBox="0 0 32 32"><rect x="9" y="3" width="14" height="26" rx="3.5"/><path d="M14 25h4"/><path d="M12.5 13l2.5 2.5 4.5-5"/></svg>'
+  };
+  var nodes = [
+    { i: nodeIco.cam, t: 'H2', d: 'Built-in eSIM' },
+    { i: nodeIco.tower, t: '4G LTE network', d: 'Best carrier, picked automatically' },
+    { i: nodeIco.cloud, t: 'Encrypted cloud', d: 'Event clips and GPS history' },
+    { i: nodeIco.phone, t: 'Your phone', d: 'AIDOVID app, anywhere' }
+  ];
+  var packets = ['AI Sentinel alert', 'Live view', 'Event clip', 'GPS location', 'Two-way talk'];
+  var stats = [
+    { n: '24', u: 'LTE bands', d: '19 FDD + 5 TDD bands for wide carrier support' },
+    { n: '10', u: 'Mbps peak', d: 'Downlink, with up to 5 Mbps uplink for live view and uploads' },
+    { n: '~3', u: 'min setup', d: 'Pick and activate a plan in the app, no store visit' },
+    { n: '0', u: 'SIM cards', d: 'The eSIM is built in and activates over the air' }
+  ];
   var tiles = [
     { img: 'h2l-net-4g', k: '4G LTE', t: 'Online wherever it’s parked', d: 'A built-in 4G module keeps H2 reachable for live view, alerts and cloud backup.' },
-    { img: 'h2l-net-esim', k: 'Built-in eSIM', t: 'No SIM card to buy or insert', d: 'H2 activates in the app and selects the carrier network automatically.' },
+    { img: 'h2l-net-esim', k: 'Built-in eSIM', t: 'Smart network selection', d: 'H2 chooses the strongest available network and switches to a local carrier when you travel.' },
     { img: 'h2l-net-wifi6', k: 'Wi-Fi 6', t: 'Fast local transfer', d: 'Dual-band 2.4 / 5 GHz hotspot for HD downloads next to the car, with no cellular data used.' },
-    { img: 'h2l-net-gnss', k: 'Multi-GNSS', t: 'Five satellite systems', d: 'GPS, GLONASS, Galileo, BDS and QZSS with A-GPS for steadier location and route history.' }
+    { img: 'h2l-net-gnss', k: 'Multi-GNSS', t: 'Five satellite systems', d: 'GPS, GLONASS, Galileo, BDS and QZSS with A-GPS: about 10 s hot start, 33 s cold start.' }
   ];
   var modes = [
     { icon: ico.cell, k: 'Away from the car', t: '4G', d: 'Live view, playback, alerts and two-way talk from anywhere with coverage.' },
     { icon: ico.wifi, k: 'Next to the car', t: 'Wi-Fi 6', d: 'Download full-quality clips over the device hotspot to save your 4G data.' },
-    { icon: ico.key, k: 'Engine on', t: 'BLE quick connect', d: 'After first pairing, your phone reconnects to the H2 hotspot automatically.' }
+    { icon: ico.key, k: 'Engine on', t: 'BLE quick connect', d: 'After first pairing, your phone reconnects to the H2 hotspot automatically.' },
+    { icon: '<svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.34-5.66M20 4v4.5h-4.5"/><path d="M12 8v4l2.5 2"/></svg>', k: 'Anytime', t: 'OTA updates', d: 'New firmware arrives through the AIDOVID app. No cables, no computer.' }
   ];
   var net = el(
     '<section class="h2-redo-section h2l-net"><div class="h2-redo-wrap">' +
-    '<div class="h2-redo-head center"><span class="h2-redo-eyebrow">Connectivity, built in</span>' +
+    '<div class="h2-redo-head center"><span class="h2-redo-eyebrow">4G connectivity, built in</span>' +
     '<h3>Connected Out of the Box.</h3>' +
-    '<p>4G, Wi-Fi 6, BLE and multi-system GNSS work together, so H2 stays reachable, transfers fast, and always knows where it is.</p></div>' +
+    '<p>A global 4G module, built-in eSIM, Wi-Fi 6, BLE and five satellite systems work together, so H2 stays reachable, transfers fast, and always knows where it is.</p></div>' +
+    '<div class="h2l-net-path"><div class="h2l-net-path-head"><span class="h2l-net-live"><i></i>Live over 4G</span><span class="h2l-net-packet" aria-live="off">' + packets[0] + '</span></div>' +
+    '<div class="h2l-net-nodes">' + nodes.map(function (n, i) {
+      return (i ? '<div class="h2l-net-link" aria-hidden="true"><i></i><i></i><i></i></div>' : '') +
+        '<div class="h2l-net-node" style="--d:' + (i * 120) + 'ms"><span class="h2l-net-node-ico">' + n.i + '</span><strong>' + n.t + '</strong><span>' + n.d + '</span></div>';
+    }).join('') + '</div></div>' +
+    '<div class="h2l-net-stats">' + stats.map(function (x) {
+      return '<div class="h2l-net-stat"><strong><b>' + x.n + '</b> ' + x.u + '</strong><span>' + x.d + '</span></div>';
+    }).join('') + '</div>' +
     '<div class="h2l-net-grid">' + tiles.map(function (x, i) {
       return '<article class="h2l-net-tile" style="--d:' + (i * 90) + 'ms"><img src="' + base + '/' + x.img + '-20261104.webp" alt="" loading="lazy">' +
         '<div class="h2l-net-copy"><span>' + x.k + '</span><strong>' + x.t + '</strong><p>' + x.d + '</p></div></article>';
@@ -163,19 +191,85 @@
     '<div class="h2l-net-mode-row">' + modes.map(function (m) {
       return '<div class="h2l-net-mode"><span class="h2l-net-mode-ico">' + m.icon + '</span><span class="h2l-net-mode-k">' + m.k + '</span><strong>' + m.t + '</strong><p>' + m.d + '</p></div>';
     }).join('') + '</div></div>' +
-    '<p class="h2l-net-note">4G coverage and bands vary by region. Remote features require an active H2 4G plan.</p>' +
+    '<p class="h2l-net-note">Coverage, bands and speeds vary by region and network. Remote features require an active H2 4G plan.</p>' +
     '</div></section>'
   );
   if (plans) plans.before(net);
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver(function (list, o) {
-      if (!list[0].isIntersecting) return;
-      net.classList.add('is-visible'); o.disconnect();
-    }, { threshold: 0.2 }).observe(net);
-  } else { net.classList.add('is-visible'); }
+  var packetEl = net.querySelector('.h2l-net-packet'), pk = 0, pkTimer = 0;
+  function nextPacket() {
+    pk = (pk + 1) % packets.length;
+    packetEl.classList.add('is-out');
+    setTimeout(function () { packetEl.textContent = packets[pk]; packetEl.classList.remove('is-out'); }, 280);
+  }
 
-  /* ---------- 3. Reorder: Accident Evidence right after AOV ---------- */
-  var aov = document.querySelector('.h2-redo-aov');
+  /* ---------- 3. AI Sentinel: from motion to your phone ---------- */
+  var steps = [
+    { k: 'detect', t: 'Detect', d: 'AI spots a person near the car, or the G-sensor feels an impact.' },
+    { k: 'record', t: 'Record', d: 'AOV low-frame recording switches to full frame rate.' },
+    { k: 'lock', t: 'Lock', d: 'The event clip is locked on the card so loop recording can’t overwrite it.' },
+    { k: 'alert', t: 'Alert', d: 'A real-time alert reaches your phone over 4G, wherever you are.' },
+    { k: 'backup', t: 'Back up', d: 'The clip uploads to encrypted cloud storage, so a copy survives even if the card is lost.' },
+    { k: 'act', t: 'Respond', d: 'Open live view, speak through H2, or share the clip with family.' }
+  ];
+  var sen = el(
+    '<section class="h2-redo-section h2l-sen" data-step="0"><div class="h2-redo-wrap">' +
+    '<div class="h2-redo-head center"><span class="h2-redo-eyebrow">AI Sentinel · 4G alerts</span>' +
+    '<h3>From Motion to Your Phone.</h3>' +
+    '<p>When something happens around your parked car, H2 records it, protects it, and tells you about it within moments.</p></div>' +
+    '<div class="h2l-sen-panel">' +
+    '<div class="h2l-sen-visual" aria-hidden="true"><img src="/assets/day-h2-scene05-night-wide.jpg" alt="" loading="lazy">' +
+    '<div class="h2l-sen-hud"><span class="h2l-sen-mode"><i></i><b class="h2l-sen-aov">AOV · 1 FPS</b><b class="h2l-sen-full">REC · 30 FPS</b></span><span class="h2l-sen-time">PARKED · 02:17:46</span></div>' +
+    '<span class="h2l-sen-box"><em>Person</em></span>' +
+    '<span class="h2l-sen-lock"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Clip locked</span>' +
+    '<div class="h2l-sen-toast"><span class="h2l-sen-app">H2</span><div><strong>AI Sentinel Alert</strong><span>Person detected near your car</span></div><time>now</time></div>' +
+    '<div class="h2l-sen-upload"><span>Uploading to cloud</span><i><b></b></i></div>' +
+    '<div class="h2l-sen-actions"><span>Live view</span><span>Talk</span><span>Share</span></div>' +
+    '</div>' +
+    '<ol class="h2l-sen-steps">' + steps.map(function (x, i) {
+      return '<li><button type="button" data-i="' + i + '"><span class="h2l-sen-no">0' + (i + 1) + '</span><span><strong>' + x.t + '</strong><span>' + x.d + '</span></span></button></li>';
+    }).join('') + '</ol></div>' +
+    '<p class="h2l-sen-note">Requires parking monitoring with the hardwire kit. Alerts need an active 4G plan; cloud backup is included from the Standard plan.</p>' +
+    '</div></section>'
+  );
+  var aovSec = document.querySelector('.h2-redo-aov');
+  if (aovSec) aovSec.after(sen);
+  var senBtns = Array.prototype.slice.call(sen.querySelectorAll('.h2l-sen-steps button'));
+  var senStep = 0, senAuto = true, senTimer = 0;
+  function senGo(i) {
+    senStep = i;
+    sen.setAttribute('data-step', String(i));
+    senBtns.forEach(function (b, j) {
+      b.classList.toggle('is-on', j === i);
+      b.classList.toggle('is-done', j < i);
+    });
+  }
+  senBtns.forEach(function (b, i) {
+    b.addEventListener('click', function () { senAuto = false; clearInterval(senTimer); senGo(i); });
+  });
+  senGo(0);
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (list) {
+      var on = list[0].isIntersecting;
+      net.classList.toggle('is-visible', on || net.classList.contains('is-visible'));
+      clearInterval(pkTimer);
+      if (on && !reduce) pkTimer = setInterval(nextPacket, 2400);
+    }, { threshold: 0.2 }).observe(net);
+    new IntersectionObserver(function (list) {
+      var on = list[0].isIntersecting;
+      sen.classList.toggle('is-visible', on);
+      clearInterval(senTimer);
+      if (on && senAuto && !reduce) {
+        senGo(0);
+        senTimer = setInterval(function () { senGo((senStep + 1) % steps.length); }, 2300);
+      }
+    }, { threshold: 0.35 }).observe(sen.querySelector('.h2l-sen-panel'));
+  } else {
+    net.classList.add('is-visible'); sen.classList.add('is-visible');
+  }
+
+  /* ---------- 4. Reorder: Accident Evidence right after the Sentinel flow ---------- */
   var evidence = document.querySelector('.h2-prerecord-section');
-  if (aov && evidence && aov.nextElementSibling !== evidence) aov.after(evidence);
+  var anchor = document.querySelector('.h2l-sen') || document.querySelector('.h2-redo-aov');
+  if (anchor && evidence && anchor.nextElementSibling !== evidence) anchor.after(evidence);
 })();
