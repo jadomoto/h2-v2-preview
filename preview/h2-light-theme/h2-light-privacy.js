@@ -28,3 +28,21 @@
     });
   });
 })();
+
+/* H2 light preview: LTE plans section — keep it right before the closing CTA
+   (the reach script reorders sections) and drive the "View All Features" toggle. */
+(function () {
+  var lte = document.getElementById('lte-plans');
+  if (!lte) return;
+  var cta = document.querySelector('.h2-buy-section');
+  if (cta && lte.nextElementSibling !== cta) cta.parentNode.insertBefore(lte, cta);
+  var btn = lte.querySelector('.h2l-compare__toggle');
+  var more = document.getElementById('h2l-compare-more');
+  if (!btn || !more) return;
+  btn.addEventListener('click', function () {
+    var open = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+    more.hidden = open;
+    btn.textContent = open ? 'View All Features' : 'Show Fewer Features';
+  });
+})();
