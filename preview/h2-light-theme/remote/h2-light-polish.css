@@ -1,0 +1,118 @@
+/*
+ * H2 light preview: page-wide polish. One ink, one accent blue, one grey,
+ * no amber/orange/teal UI accents, one heading scale, and a fixed
+ * white / grey section rhythm that matches the current module order.
+ */
+html.h2-light:not(#h2l) {
+  --p-ink: #0f1b2d;
+  --p-text: #556274;
+  --p-muted: #8a95a6;
+  --p-blue: #1769e0;
+  --p-grey: #f5f6f8;
+  --p-line: #e4e7ec;
+}
+
+/* ---------- Section rhythm ---------- */
+html.h2-light:not(#h2l) .h2-product-page .h2pdp > .h2-redo-section:not(.h2-redo-hero)::before { background: #fff !important; }
+html.h2-light:not(#h2l) .h2-product-page .h2pdp > .h2-redo-section:not(.h2-redo-hero):is(.h2-redo-remote, .h2-redo-aov, .h2-prerecord-section, .h2-redo-angles, .h2-privacy-usage, .h2l-lte, .h2-buy-section)::before { background: var(--p-grey) !important; }
+html.h2-light:not(#h2l) .h2l-act,
+html.h2-light:not(#h2l) .h2l-sen,
+html.h2-light:not(#h2l) .h2l-net { background: transparent !important; }
+/* cards that sit on a grey band turn white so they still read as cards */
+html.h2-light:not(#h2l) .h2-redo-aov .h2-aov-flow article,
+html.h2-light:not(#h2l) .h2-prerecord-section .h2-prerecord-panel,
+html.h2-light:not(#h2l) .h2-prerecord-section .h2-prerecord-cinema { background: #fff !important; }
+
+/* ---------- One heading scale ---------- */
+html.h2-light:not(#h2l) .h2pdp > .h2-redo-section:not(.h2-redo-hero) .h2-redo-head h3,
+html.h2-light:not(#h2l) .h2pdp > .h2-redo-section:not(.h2-redo-hero) > .h2-redo-wrap > .h2-redo-head h3 {
+  color: var(--p-ink) !important;
+  font-size: clamp(32px, 3.3vw, 50px) !important;
+  font-weight: 700 !important;
+  line-height: 1.08 !important;
+  letter-spacing: -0.025em !important;
+}
+html.h2-light:not(#h2l) .h2pdp > .h2-redo-section:not(.h2-redo-hero) .h2-redo-head h3 span { font: inherit !important; letter-spacing: inherit !important; }
+html.h2-light:not(#h2l) .h2pdp > .h2-redo-section:not(.h2-redo-hero) .h2-redo-head > p {
+  color: var(--p-text) !important;
+  font-size: 18px !important;
+  line-height: 1.55 !important;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+html.h2-light:not(#h2l) .h2pdp > .h2-redo-craft .h2-redo-head h3,
+html.h2-light:not(#h2l) .h2pdp > .h2-redo-craft h3 { font-size: clamp(30px, 2.8vw, 42px) !important; }
+html.h2-light:not(#h2l) .h2pdp > .h2-buy-section h3 { font-size: clamp(36px, 4vw, 58px) !important; font-weight: 700 !important; letter-spacing: -0.03em !important; color: var(--p-ink) !important; }
+html.h2-light:not(#h2l) .h2-redo-section:not(.h2-redo-hero) .h2-redo-eyebrow { color: var(--p-blue) !important; }
+html.h2-light:not(#h2l) .h2-product-page .pdp-section h2 { color: var(--p-ink) !important; font-weight: 700 !important; letter-spacing: -0.02em !important; }
+
+/* ---------- Hero on dark ---------- */
+html.h2-light:not(#h2l) .h2-hero-dji-live .h2-redo-eyebrow { color: rgba(255, 255, 255, 0.72) !important; }
+html.h2-light:not(#h2l) .h2-hero-dji-live .h2-redo-eyebrow::before { background: rgba(255, 255, 255, 0.5) !important; }
+html.h2-light:not(#h2l) .h2-hero-dji-live a.btn.btn-accent {
+  background: #fff !important;
+  border-color: #fff !important;
+  color: var(--p-ink) !important;
+  box-shadow: none !important;
+}
+html.h2-light:not(#h2l) .h2-hero-dji-live a.btn.btn-accent:hover { background: #e9eef6 !important; border-color: #e9eef6 !important; }
+
+/* ---------- Buttons: ink primary, no amber ---------- */
+html.h2-light:not(#h2l) .h2-product-page :is(a, button).btn.btn-accent:not(.h2-hero-dji-live *),
+html.h2-light:not(#h2l) .product-card :is(a, button).btn.btn-accent,
+html.h2-light:not(#h2l) .h2-product-page .btn.btn-primary {
+  background: var(--p-ink) !important;
+  border-color: var(--p-ink) !important;
+  color: #fff !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+html.h2-light:not(#h2l) .h2-product-page :is(a, button).btn.btn-accent:not(.h2-hero-dji-live *):hover,
+html.h2-light:not(#h2l) .product-card :is(a, button).btn.btn-accent:hover,
+html.h2-light:not(#h2l) .h2-product-page .btn.btn-primary:hover { background: #1d2d45 !important; border-color: #1d2d45 !important; }
+html.h2-light:not(#h2l) .h2-product-page .btn.btn-outline { border-color: var(--p-line) !important; color: var(--p-ink) !important; }
+html.h2-light:not(#h2l) .h2-product-page .btn.btn-outline:hover { border-color: var(--p-ink) !important; }
+
+/* ---------- Buy box ---------- */
+html.h2-light:not(#h2l) .pdp-price { color: var(--p-ink) !important; }
+html.h2-light:not(#h2l) .pdp-main strong,
+html.h2-light:not(#h2l) .pdp-gallery-feats strong { color: var(--p-ink) !important; }
+html.h2-light:not(#h2l) .pdp-gallery-badge { border-color: var(--p-line) !important; }
+html.h2-light:not(#h2l) .pdp-gallery-badge-ico { background: var(--p-blue) !important; background-image: none !important; }
+html.h2-light:not(#h2l) .pdp-gallery button.active,
+html.h2-light:not(#h2l) .pdp-thumbs button.active { border-color: var(--p-ink) !important; }
+html.h2-light:not(#h2l) .h2-package-row.is-selected { border-color: var(--p-ink) !important; box-shadow: 0 0 0 1px var(--p-ink) inset !important; }
+html.h2-light:not(#h2l) .h2-package-badge {
+  background: transparent !important;
+  color: var(--p-muted) !important;
+  border: 1px solid var(--p-line) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em;
+}
+html.h2-light:not(#h2l) .h2-storage-promo-kicker,
+html.h2-light:not(#h2l) .h2-storage-promo b { color: var(--p-ink) !important; }
+
+/* ---------- Media overlays: neutral, no teal / amber ---------- */
+html.h2-light:not(#h2l) .h2-remote-live-gps span,
+html.h2-light:not(#h2l) .h2-clarity-gps-ui span { color: #8fbaff !important; }
+html.h2-light:not(#h2l) .h2-clarity-film-label span { color: rgba(255, 255, 255, 0.62) !important; }
+html.h2-light:not(#h2l) .h2-night-video-badge { color: rgba(255, 255, 255, 0.86) !important; border-color: rgba(255, 255, 255, 0.22) !important; }
+html.h2-light:not(#h2l) .h2-clarity-rec { background: rgba(229, 72, 77, 0.9) !important; }
+
+/* ---------- Recommendation cards ---------- */
+html.h2-light:not(#h2l) .product-card { border-color: var(--p-line) !important; border-radius: 20px !important; box-shadow: none !important; }
+html.h2-light:not(#h2l) .product-card-tag { color: var(--p-muted) !important; }
+html.h2-light:not(#h2l) .product-card li::before { background: #c5ccd6 !important; }
+
+/* ---------- Footer ---------- */
+html.h2-light:not(#h2l) .site-footer { background: #0b111b !important; }
+html.h2-light:not(#h2l) .site-footer button[type="submit"],
+html.h2-light:not(#h2l) .site-footer form button { background: #fff !important; color: var(--p-ink) !important; border-color: #fff !important; }
+
+/* ---------- New modules: match the heading weight ---------- */
+html.h2-light:not(#h2l) .h2l-act-item.is-on .h2l-act-icon,
+html.h2-light:not(#h2l) .h2l-act-invite { background: var(--p-blue) !important; }
+
+/* ---------- Lower PDP blocks align with the module grid ---------- */
+html.h2-light:not(#h2l) .h2-product-page > .pdp-section { max-width: 1180px; margin-left: auto !important; margin-right: auto !important; }
