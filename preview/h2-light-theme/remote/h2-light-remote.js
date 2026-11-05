@@ -576,7 +576,7 @@
   var boxSec = sectionByHeading(/what.?s in the box/i);
   if (boxSec) {
     var list = boxSec.querySelector('ul, ol');
-    var items = [
+    var boxItems = [
       'H2 main unit (front + in-cabin cameras, sliding display) with adhesive mounting bracket',
       'Rear camera + rear extension cable',
       'Type-C hardwire kit (fuse tap: B+, ACC, GND)',
@@ -586,7 +586,7 @@
       'User manual / quick start guide',
       'Memory card: none in H2 3-Ch Bundle · 64GB in Bundle + 64G · 128GB in Pro Kit'
     ];
-    if (list) list.innerHTML = items.map(function (t) { return '<li>' + t + '</li>'; }).join('');
+    if (list) list.innerHTML = boxItems.map(function (t) { return '<li>' + t + '</li>'; }).join('');
   }
   var faqFix = [
     [/fit my car/i, 'H2 mounts on the windshield behind the rear-view mirror with the included 3M adhesive bracket, and works with most passenger vehicles with a 12–24V electrical system. The rear camera connects to the H2 with the included extension cable.'],
@@ -604,8 +604,17 @@
   });
   // privacy mode wording in the long description: manual says the cabin camera is off while the vehicle is on
   Array.prototype.slice.call(document.querySelectorAll('.pdp-section p, .pdp-section li')).forEach(function (n) {
-    if (n.children.length > 3 || !/switches off by itself while parked/.test(n.textContent)) return;
-    n.innerHTML = n.innerHTML.replace(/Choose On, Off, or Auto-Privacy[^.]*\./, 'Choose Open, Close, or Auto Privacy (the cabin camera turns off while the vehicle is on and back on after you park).');
+    if (n.children.length > 12 || !/switches off by itself while parked/.test(n.textContent)) return;
+    var w = document.createTreeWalker(n, NodeFilter.SHOW_TEXT), t;
+    while ((t = w.nextNode())) {
+      var v = t.nodeValue;
+      if (/switches off by itself while parked/.test(v)) v = v.replace('(the cabin camera switches off by itself while parked)', '(the cabin camera turns off while the vehicle is on and back on after you park)');
+      if (v.trim() === 'On') v = v.replace('On', 'Open');
+      else if (v.trim() === 'Off') v = v.replace('Off', 'Close');
+      else if (v.trim() === 'Auto-Privacy') v = v.replace('Auto-Privacy', 'Auto Privacy');
+      v = v.replace('Choose On, Off, or Auto-Privacy', 'Choose Open, Close, or Auto Privacy');
+      if (v !== t.nodeValue) t.nodeValue = v;
+    }
   });
   // plans: Standard includes up to 10 shared users (manual 18.3 / 18.4)
   var lte = document.querySelector('.h2l-lte');
