@@ -355,7 +355,7 @@
     ['h2l-sen-person', 'h2l-sen-v2-2-record', 'h2l-sen-v2-3-lock', 'h2l-sen-v2-4-alert', 'h2l-sen-v2-5-backup', 'h2l-sen-v2-6-respond'].map(function (f, i) {
       return '<img class="h2l-sen-shot2" data-i="' + i + '" src="' + base + '/' + f + '-20261104.webp" alt="" decoding="async"' + (i > 1 ? ' loading="lazy"' : '') + '>';
     }).join('') +
-    '<span class="h2l-sen-box"><i></i><em>Person · 98%</em></span></div>' +
+    '<span class="h2l-sen-box"><i></i><em>Person</em></span></div>' +
     '<div class="h2l-sen-grain"></div>' +
     '<div class="h2l-sen-shade"></div>' +
     '<div class="h2l-sen-hud"><span class="h2l-sen-mode"><i></i><b class="h2l-sen-aov">AOV · 1 FPS</b><b class="h2l-sen-full">REC · <em class="h2l-sen-fps">30</em> FPS</b></span><span class="h2l-sen-time">PARKED · <em class="h2l-sen-clock">02:17:46</em></span></div>' +
@@ -565,6 +565,128 @@
       }, { threshold: 0.25 }).observe(craftStage);
     } else { craftSec.classList.add('h2l-craft-in'); }
   }
+
+  /* ---------- 5. Facts from the H2 user manual (box, FAQ, privacy mode, shared users) ---------- */
+  function sectionByHeading(re) {
+    return Array.prototype.slice.call(document.querySelectorAll('.pdp-section')).filter(function (sct) {
+      var h = sct.querySelector('h2, h3');
+      return h && re.test(h.textContent);
+    })[0];
+  }
+  var boxSec = sectionByHeading(/what.?s in the box/i);
+  if (boxSec) {
+    var list = boxSec.querySelector('ul, ol');
+    var items = [
+      'H2 main unit (front + in-cabin cameras, sliding display) with adhesive mounting bracket',
+      'Rear camera + rear extension cable',
+      'Type-C hardwire kit (fuse tap: B+, ACC, GND)',
+      'Spare 3M adhesive pad',
+      'Electrostatic film',
+      'Cleaning cloth',
+      'User manual / quick start guide',
+      'Memory card: none in H2 3-Ch Bundle · 64GB in Bundle + 64G · 128GB in Pro Kit'
+    ];
+    if (list) list.innerHTML = items.map(function (t) { return '<li>' + t + '</li>'; }).join('');
+  }
+  var faqFix = [
+    [/fit my car/i, 'H2 mounts on the windshield behind the rear-view mirror with the included 3M adhesive bracket, and works with most passenger vehicles with a 12–24V electrical system. The rear camera connects to the H2 with the included extension cable.'],
+    [/hardwire/i, 'Yes. Every H2 bundle includes a Type-C hardwire kit (fuse tap: B+, ACC, GND). It powers the camera from the vehicle and is required for parking monitoring and low-voltage protection.'],
+    [/sd card|memory card/i, 'Use a U3 / V30 or faster microSD card, up to 256GB. The H2 3-Ch Bundle has no card, Bundle + 64G includes a 64GB card, and the Pro Kit includes 128GB. Format the card on the device or in the AIDOVID app before first use.']
+  ];
+  Array.prototype.slice.call(document.querySelectorAll('.pdp-faq details, .pdp-faq [class*="faq-item"]')).forEach(function (it) {
+    var q = it.querySelector('summary, button, h3, h4');
+    if (!q) return;
+    faqFix.forEach(function (f) {
+      if (!f[0].test(q.textContent)) return;
+      var a = Array.prototype.slice.call(it.querySelectorAll('p, div')).filter(function (n) { return !n.contains(q) && n.textContent.trim().length > 20; }).pop();
+      if (a) a.textContent = f[1];
+    });
+  });
+  // privacy mode wording in the long description: manual says the cabin camera is off while the vehicle is on
+  Array.prototype.slice.call(document.querySelectorAll('.pdp-section p, .pdp-section li')).forEach(function (n) {
+    if (n.children.length > 3 || !/switches off by itself while parked/.test(n.textContent)) return;
+    n.innerHTML = n.innerHTML.replace(/Choose On, Off, or Auto-Privacy[^.]*\./, 'Choose Open, Close, or Auto Privacy (the cabin camera turns off while the vehicle is on and back on after you park).');
+  });
+  // plans: Standard includes up to 10 shared users (manual 18.3 / 18.4)
+  var lte = document.querySelector('.h2l-lte');
+  if (lte) {
+    Array.prototype.slice.call(lte.querySelectorAll('.h2l-plan--standard li')).forEach(function (li) {
+      if (/Up to 5 shared users/.test(li.textContent)) li.textContent = li.textContent.replace('Up to 5 shared users', 'Up to 10 shared users');
+    });
+    var table = lte.querySelector('table');
+    if (table) {
+      var heads = Array.prototype.slice.call(table.querySelectorAll('thead th')).map(function (th) { return th.textContent.trim(); });
+      var col = heads.indexOf('Standard');
+      Array.prototype.slice.call(table.querySelectorAll('tbody tr')).forEach(function (tr) {
+        var cells = tr.children;
+        if (col > 0 && cells[0] && /shared users/i.test(cells[0].textContent) && cells[col] && cells[col].textContent.trim() === '5') cells[col].textContent = '10';
+      });
+    }
+  }
+
+  /* ---------- 6. One heading style: sentence case, always a full stop ---------- */
+  var headFix = {
+    'See Your Vehicle Anytime.': 'See your vehicle anytime.',
+    'Act From Anywhere.': 'Act from anywhere.',
+    'Protection does not stop when you park': 'Protection does not stop when you park.',
+    'From engine-off to phone alert — one complete guard chain': 'From engine-off to phone alert, one complete guard chain.',
+    'From Motion to Your Phone.': 'From motion to your phone.',
+    'When Accidents Happen,Your Evidence Is Ready.': 'When accidents happen, your evidence is ready.',
+    'When Accidents Happen, Your Evidence Is Ready.': 'When accidents happen, your evidence is ready.',
+    'Three views: front, cabin, and rear': 'Three views: front, cabin, and rear.',
+    'Privacy, On Your Terms.': 'Privacy, on your terms.',
+    'Connected Out of the Box.': 'Connected out of the box.',
+    'Stay Connected. Choose Your Plan.': 'Stay connected. Choose your plan.',
+    'Stableperformancestarts inside.': 'Stable performance starts inside.'
+  };
+  Array.prototype.slice.call(document.querySelectorAll('.h2pdp > section h3')).forEach(function (h) {
+    var key = h.textContent.replace(/\s+/g, ' ').trim(), key2 = h.textContent.trim();
+    var v = headFix[key] || headFix[key2];
+    if (v && !h.closest('.h2-redo-craft')) h.textContent = v;
+  });
+
+  /* ---------- 7. Hide the reviews block until there are reviews ---------- */
+  var rev = document.querySelector('.pdp-reviews');
+  if (rev && /appear here after they are approved/i.test(rev.textContent) && !rev.querySelector('[class*="review-item"], [class*="review-card"], article')) rev.style.display = 'none';
+
+  /* ---------- 8. Section nav (top) + buy bar (bottom) ---------- */
+  var navDefs = [
+    ['Overview', '.h2-redo-overview'], ['Remote', '.h2-remote-connect-section'], ['Parking guard', '.h2-redo-aov'],
+    ['Privacy', '.h2l-privacy, .h2-redo-privacy'], ['Plans', '#lte-plans, .h2l-lte'], ['Specs', '.pdp-section']
+  ].map(function (d) { return { t: d[0], el: document.querySelector(d[1]) }; }).filter(function (d) { return d.el; });
+  var priceEl = document.querySelector('.pdp-price');
+  var buyBox = document.querySelector('.pdp-main') || document.querySelector('.pdp');
+  var nav = el('<nav class="h2l-secnav" aria-label="H2 sections"><div class="h2l-secnav-in"><strong>JADO H2</strong><div class="h2l-secnav-links">' +
+    navDefs.map(function (d, i) { return '<button type="button" data-i="' + i + '">' + d.t + '</button>'; }).join('') +
+    '</div><button type="button" class="h2l-secnav-buy">Buy</button></div></nav>');
+  var bar = el('<div class="h2l-buybar" role="region" aria-label="Buy JADO H2"><div class="h2l-buybar-in"><div class="h2l-buybar-copy"><strong>JADO H2</strong><span>4G connected 3-channel dash cam</span></div>' +
+    '<span class="h2l-buybar-price">' + (priceEl ? priceEl.textContent.trim() : '') + '</span><button type="button" class="h2l-buybar-btn">Buy now</button></div></div>');
+  document.body.appendChild(nav);
+  document.body.appendChild(bar);
+  var navBtns = Array.prototype.slice.call(nav.querySelectorAll('.h2l-secnav-links button'));
+  navBtns.forEach(function (b, i) {
+    b.addEventListener('click', function () { window.scrollTo({ top: navDefs[i].el.getBoundingClientRect().top + window.scrollY - 52, behavior: reduce ? 'auto' : 'smooth' }); });
+  });
+  function goBuy() { if (buyBox) window.scrollTo({ top: buyBox.getBoundingClientRect().top + window.scrollY - 80, behavior: reduce ? 'auto' : 'smooth' }); }
+  nav.querySelector('.h2l-secnav-buy').addEventListener('click', goBuy);
+  bar.querySelector('.h2l-buybar-btn').addEventListener('click', goBuy);
+  var chromeTick = 0;
+  function chrome() {
+    chromeTick = 0;
+    var vh = window.innerHeight;
+    var pastBuy = buyBox ? buyBox.getBoundingClientRect().bottom < 0 : window.scrollY > vh;
+    var buySec = document.querySelector('.h2-buy-section'), foot = document.querySelector('.site-footer');
+    var nearEnd = (buySec && buySec.getBoundingClientRect().top < vh) || (foot && foot.getBoundingClientRect().top < vh);
+    var pinned = typeof senEngaged === 'function' && senEngaged();
+    nav.classList.toggle('is-on', pastBuy && !pinned);
+    bar.classList.toggle('is-on', pastBuy && !nearEnd && !pinned);
+    var cur = -1;
+    navDefs.forEach(function (d, i) { if (d.el.getBoundingClientRect().top < vh * 0.35) cur = i; });
+    navBtns.forEach(function (b, i) { b.classList.toggle('is-on', i === cur); });
+  }
+  window.addEventListener('scroll', function () { if (!chromeTick) chromeTick = requestAnimationFrame(chrome); }, { passive: true });
+  window.addEventListener('resize', chrome);
+  chrome();
 
   /* ---------- 4. Reorder: Accident Evidence right after the Sentinel flow ---------- */
   var evidence = document.querySelector('.h2-prerecord-section');
