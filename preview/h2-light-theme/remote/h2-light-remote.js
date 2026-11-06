@@ -696,8 +696,13 @@
     if (e && e.preventDefault) e.preventDefault();
     if (buyBox) jumpTo(function () { return buyBox.getBoundingClientRect().top + window.scrollY - 80; });
   }
-  // in-page "#buy" links (e.g. hero Buy Now) would otherwise follow <base> to the live site
-  Array.prototype.forEach.call(document.querySelectorAll('a[href="#buy"]'), function (a) { a.addEventListener('click', goBuy); });
+  // in-page "#buy" links (hero Buy Now, closing "/products/<h2>#buy") would otherwise follow <base> to the live site
+  document.addEventListener('click', function (e) {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    var a = e.target.closest && e.target.closest('a[href]');
+    var href = a && a.getAttribute('href');
+    if (href && /^(?:#buy|\/products\/h2-4g-connected-3-channel-dash-cam-esim-privacy\/?#buy)$/.test(href)) goBuy(e);
+  }, true);
   nav.querySelector('.h2l-secnav-buy').addEventListener('click', goBuy);
   bar.querySelector('.h2l-buybar-btn').addEventListener('click', goBuy);
   var chromeTick = 0;
@@ -706,9 +711,13 @@
     var vh = window.innerHeight;
     var pastBuy = buyBox ? buyBox.getBoundingClientRect().bottom < 0 : window.scrollY > vh;
     var buySec = document.querySelector('.h2-buy-section'), foot = document.querySelector('.site-footer');
-    var nearEnd = (buySec && buySec.getBoundingClientRect().top < vh) || (foot && foot.getBoundingClientRect().top < vh);
+    // hide the bar only while the closing Buy section (it has its own button) or the footer is on screen
+    var buyR = buySec && buySec.getBoundingClientRect();
+    var nearEnd = (buyR && buyR.top < vh && buyR.bottom > 0) || (foot && foot.getBoundingClientRect().top < vh);
     var pinned = typeof senEngaged === 'function' && senEngaged();
-    nav.classList.toggle('is-on', pastBuy && !pinned);
+    // the nav stays over the pinned scene so Buy is reachable from every step; the bar would cover the rail
+    nav.classList.toggle('is-on', pastBuy);
+    nav.classList.toggle('is-pinned', pinned);
     bar.classList.toggle('is-on', pastBuy && !nearEnd && !pinned);
     var cur = -1;
     navDefs.forEach(function (d, i) { if (d.el.getBoundingClientRect().top < vh * 0.35) cur = i; });

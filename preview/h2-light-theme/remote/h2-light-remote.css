@@ -853,3 +853,7 @@ html.h2-light:not(#h2l) .h2l-buybar-btn:hover { background: #e9eef6; }
   html.h2-light:not(#h2l) .h2l-buybar-btn { padding: 11px 18px; }
 }
 @media (max-width: 767px) { html.h2-light:not(#h2l) .h2l-secnav-buy { display: none; } }
+/* native #buy jumps land below the section nav, same offset as the JS jump */
+html.h2-light:not(#h2l) #buy, html.h2-light:not(#h2l) .pdp-main { scroll-margin-top: 80px; }
+/* phones: the bar is hidden over the pinned AI Sentinel scene, so the nav carries Buy there */
+@media (max-width: 767px) { html.h2-light:not(#h2l) .h2l-secnav.is-pinned .h2l-secnav-buy { display: inline-block; flex: none; } }
