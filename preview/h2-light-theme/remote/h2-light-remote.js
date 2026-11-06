@@ -443,14 +443,17 @@
     var r = track.getBoundingClientRect();
     return r.top <= 2 && r.bottom >= window.innerHeight - 2;
   }
+  // the page sets html { scroll-behavior: smooth }; frame-by-frame scrolling must bypass it,
+  // otherwise each frame starts its own smooth scroll and the position lags behind the animation
+  function scrollNow(y) { window.scrollTo({ top: y, behavior: 'instant' }); }
   function senTo(y, ms, done) {
     cancelAnimationFrame(senAnim);
     var y0 = window.scrollY, dy = y - y0, t0 = performance.now();
-    if (reduce || Math.abs(dy) < 2) { window.scrollTo(0, y); senAnim = 0; if (done) done(); return; }
+    if (reduce || Math.abs(dy) < 2) { scrollNow(y); senAnim = 0; if (done) done(); return; }
     (function f(now) {
       var k = Math.min(1, (now - t0) / ms);
       var e = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
-      window.scrollTo(0, y0 + dy * e);
+      scrollNow(y0 + dy * e);
       if (k < 1) senAnim = requestAnimationFrame(f);
       else { senAnim = 0; if (done) done(); }
     })(t0);
@@ -674,9 +677,27 @@
   document.body.appendChild(bar);
   var navBtns = Array.prototype.slice.call(nav.querySelectorAll('.h2l-secnav-links button'));
   navBtns.forEach(function (b, i) {
-    b.addEventListener('click', function () { window.scrollTo({ top: navDefs[i].el.getBoundingClientRect().top + window.scrollY - 52, behavior: reduce ? 'auto' : 'smooth' }); });
+    b.addEventListener('click', function () { jumpTo(function () { return navDefs[i].el.getBoundingClientRect().top + window.scrollY - 52; }); });
   });
-  function goBuy() { if (buyBox) window.scrollTo({ top: buyBox.getBoundingClientRect().top + window.scrollY - 80, behavior: reduce ? 'auto' : 'smooth' }); }
+  // Section jumps (nav, Buy) run on the scene's own animator, so the AI Sentinel scene
+  // never catches them on the way through; the target is re-measured on arrival.
+  function jumpTo(target) {
+    var maxY = function () { return document.documentElement.scrollHeight - window.innerHeight; };
+    var y = Math.max(0, Math.min(target(), maxY()));
+    senLockUntil = 0; senConsumed = false; touchY = null;
+    senTo(y, Math.min(1100, 350 + Math.abs(y - window.scrollY) / 6), function () {
+      var y2 = Math.max(0, Math.min(target(), maxY()));
+      if (Math.abs(y2 - window.scrollY) > 4) scrollNow(y2);
+      senWas = senEngaged(); senLastY = window.scrollY;
+      senScroll();
+    });
+  }
+  function goBuy(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    if (buyBox) jumpTo(function () { return buyBox.getBoundingClientRect().top + window.scrollY - 80; });
+  }
+  // in-page "#buy" links (e.g. hero Buy Now) would otherwise follow <base> to the live site
+  Array.prototype.forEach.call(document.querySelectorAll('a[href="#buy"]'), function (a) { a.addEventListener('click', goBuy); });
   nav.querySelector('.h2l-secnav-buy').addEventListener('click', goBuy);
   bar.querySelector('.h2l-buybar-btn').addEventListener('click', goBuy);
   var chromeTick = 0;
