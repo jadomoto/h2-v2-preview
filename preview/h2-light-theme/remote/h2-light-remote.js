@@ -694,7 +694,18 @@
   }
   function goBuy(e) {
     if (e && e.preventDefault) e.preventDefault();
-    if (buyBox) jumpTo(function () { return buyBox.getBoundingClientRect().top + window.scrollY - 80; });
+    if (buyBox) jumpTo(buyY);
+  }
+  // Land with Add to Cart fully in view (24px above the bottom); a short module still lands on its top,
+  // and on a short screen the "Choose your package" heading never scrolls off the top.
+  // Nav and bar are both hidden on arrival, so no extra offset is needed.
+  function buyY() {
+    var sy = window.scrollY, top = buyBox.getBoundingClientRect().top + sy;
+    var cta = buyBox.querySelector('.pdp-cta'), pick = buyBox.querySelector('.h2-package-picker');
+    if (!cta) return top - 80;
+    var y = Math.max(cta.getBoundingClientRect().bottom + sy - window.innerHeight + 24, top - 16);
+    if (pick) y = Math.min(y, pick.getBoundingClientRect().top + sy - 16);
+    return y;
   }
   // in-page "#buy" links (hero Buy Now, closing "/products/<h2>#buy") would otherwise follow <base> to the live site
   document.addEventListener('click', function (e) {
