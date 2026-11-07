@@ -733,7 +733,23 @@
     var cur = -1;
     navDefs.forEach(function (d, i) { if (d.el.getBoundingClientRect().top < vh * 0.35) cur = i; });
     navBtns.forEach(function (b, i) { b.classList.toggle('is-on', i === cur); });
+    // phones: the link row scrolls sideways; keep the current section's link in view
+    if (cur !== navCur) {
+      navCur = cur;
+      var lb = navBtns[cur];
+      if (lb && navLinks.scrollWidth > navLinks.clientWidth + 1) {
+        navLinks.scrollTo({ left: lb.offsetLeft - navLinks.offsetLeft - (navLinks.clientWidth - lb.offsetWidth) / 2, behavior: reduce ? 'auto' : 'smooth' });
+      }
+    }
+    navEdges();
   }
+  var navLinks = nav.querySelector('.h2l-secnav-links'), navCur = -2;
+  function navEdges() {
+    var max = navLinks.scrollWidth - navLinks.clientWidth;
+    navLinks.classList.toggle('has-more-l', max > 1 && navLinks.scrollLeft > 1);
+    navLinks.classList.toggle('has-more-r', max > 1 && navLinks.scrollLeft < max - 1);
+  }
+  navLinks.addEventListener('scroll', navEdges, { passive: true });
   window.addEventListener('scroll', function () { if (!chromeTick) chromeTick = requestAnimationFrame(chrome); }, { passive: true });
   window.addEventListener('resize', chrome);
   chrome();
