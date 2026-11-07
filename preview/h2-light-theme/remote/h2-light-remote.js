@@ -694,10 +694,26 @@
   }
   function goBuy(e) {
     if (e && e.preventDefault) e.preventDefault();
-    if (buyBox) jumpTo(function () { return buyBox.getBoundingClientRect().top + window.scrollY - 80; });
+    if (buyBox) jumpTo(buyY);
   }
-  // in-page "#buy" links (e.g. hero Buy Now) would otherwise follow <base> to the live site
-  Array.prototype.forEach.call(document.querySelectorAll('a[href="#buy"]'), function (a) { a.addEventListener('click', goBuy); });
+  // Land with Add to Cart fully in view (24px above the bottom); a short module still lands on its top,
+  // and on a short screen the "Choose your package" heading never scrolls off the top.
+  // Nav and bar are both hidden on arrival, so no extra offset is needed.
+  function buyY() {
+    var sy = window.scrollY, top = buyBox.getBoundingClientRect().top + sy;
+    var cta = buyBox.querySelector('.pdp-cta'), pick = buyBox.querySelector('.h2-package-picker');
+    if (!cta) return top - 80;
+    var y = Math.max(cta.getBoundingClientRect().bottom + sy - window.innerHeight + 24, top - 16);
+    if (pick) y = Math.min(y, pick.getBoundingClientRect().top + sy - 16);
+    return y;
+  }
+  // in-page "#buy" links (hero Buy Now, closing "/products/<h2>#buy") would otherwise follow <base> to the live site
+  document.addEventListener('click', function (e) {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    var a = e.target.closest && e.target.closest('a[href]');
+    var href = a && a.getAttribute('href');
+    if (href && /^(?:#buy|\/products\/h2-4g-connected-3-channel-dash-cam-esim-privacy\/?#buy)$/.test(href)) goBuy(e);
+  }, true);
   nav.querySelector('.h2l-secnav-buy').addEventListener('click', goBuy);
   bar.querySelector('.h2l-buybar-btn').addEventListener('click', goBuy);
   var chromeTick = 0;
@@ -706,14 +722,34 @@
     var vh = window.innerHeight;
     var pastBuy = buyBox ? buyBox.getBoundingClientRect().bottom < 0 : window.scrollY > vh;
     var buySec = document.querySelector('.h2-buy-section'), foot = document.querySelector('.site-footer');
-    var nearEnd = (buySec && buySec.getBoundingClientRect().top < vh) || (foot && foot.getBoundingClientRect().top < vh);
+    // hide the bar only while the closing Buy section (it has its own button) or the footer is on screen
+    var buyR = buySec && buySec.getBoundingClientRect();
+    var nearEnd = (buyR && buyR.top < vh && buyR.bottom > 0) || (foot && foot.getBoundingClientRect().top < vh);
     var pinned = typeof senEngaged === 'function' && senEngaged();
-    nav.classList.toggle('is-on', pastBuy && !pinned);
+    // the nav stays over the pinned scene so Buy is reachable from every step; the bar would cover the rail
+    nav.classList.toggle('is-on', pastBuy);
+    nav.classList.toggle('is-pinned', pinned);
     bar.classList.toggle('is-on', pastBuy && !nearEnd && !pinned);
     var cur = -1;
     navDefs.forEach(function (d, i) { if (d.el.getBoundingClientRect().top < vh * 0.35) cur = i; });
     navBtns.forEach(function (b, i) { b.classList.toggle('is-on', i === cur); });
+    // phones: the link row scrolls sideways; keep the current section's link in view
+    if (cur !== navCur) {
+      navCur = cur;
+      var lb = navBtns[cur];
+      if (lb && navLinks.scrollWidth > navLinks.clientWidth + 1) {
+        navLinks.scrollTo({ left: lb.offsetLeft - navLinks.offsetLeft - (navLinks.clientWidth - lb.offsetWidth) / 2, behavior: reduce ? 'auto' : 'smooth' });
+      }
+    }
+    navEdges();
   }
+  var navLinks = nav.querySelector('.h2l-secnav-links'), navCur = -2;
+  function navEdges() {
+    var max = navLinks.scrollWidth - navLinks.clientWidth;
+    navLinks.classList.toggle('has-more-l', max > 1 && navLinks.scrollLeft > 1);
+    navLinks.classList.toggle('has-more-r', max > 1 && navLinks.scrollLeft < max - 1);
+  }
+  navLinks.addEventListener('scroll', navEdges, { passive: true });
   window.addEventListener('scroll', function () { if (!chromeTick) chromeTick = requestAnimationFrame(chrome); }, { passive: true });
   window.addEventListener('resize', chrome);
   chrome();

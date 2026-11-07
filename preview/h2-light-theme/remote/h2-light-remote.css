@@ -852,4 +852,17 @@ html.h2-light:not(#h2l) .h2l-buybar-btn:hover { background: #e9eef6; }
   html.h2-light:not(#h2l) .h2l-buybar-copy span { display: none; }
   html.h2-light:not(#h2l) .h2l-buybar-btn { padding: 11px 18px; }
 }
-@media (max-width: 767px) { html.h2-light:not(#h2l) .h2l-secnav-buy { display: none; } }
+/* phones: Buy keeps its slot so the link row never reflows; it only shows over the pinned
+   AI Sentinel scene, where the bottom bar is hidden */
+@media (max-width: 767px) {
+  html.h2-light:not(#h2l) .h2l-secnav-buy { flex: none; visibility: hidden; opacity: 0; pointer-events: none; transition: opacity 0.25s ease, visibility 0s linear 0.25s; }
+  html.h2-light:not(#h2l) .h2l-secnav.is-pinned .h2l-secnav-buy { visibility: visible; opacity: 1; pointer-events: auto; transition: opacity 0.25s ease; }
+  html.h2-light:not(#h2l) .h2l-secnav-links { gap: 2px; }
+  html.h2-light:not(#h2l) .h2l-secnav-links button { padding: 6px 9px; }
+  /* the row scrolls sideways; fade the edge that has more links behind it */
+  html.h2-light:not(#h2l) .h2l-secnav-links.has-more-r { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); }
+  html.h2-light:not(#h2l) .h2l-secnav-links.has-more-l { -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(to left, #000 calc(100% - 28px), transparent); }
+  html.h2-light:not(#h2l) .h2l-secnav-links.has-more-l.has-more-r { -webkit-mask-image: linear-gradient(to right, transparent, #000 28px, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(to right, transparent, #000 28px, #000 calc(100% - 28px), transparent); }
+}
+/* native #buy jumps land below the section nav, same offset as the JS jump */
+html.h2-light:not(#h2l) #buy, html.h2-light:not(#h2l) .pdp-main { scroll-margin-top: 80px; }
